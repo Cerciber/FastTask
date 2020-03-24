@@ -35,7 +35,8 @@ public class ViewController {
             Runner runner = getRunner(files[i]);                        // Obtener runner del lenguaje detectado
             String content = fileController.loadContent(files[i]);      // Obtener codido contenido
             Object[] codeInfo = runner.info(content);                   // Obtener infromación del codigo
-            objects[i] = new Object[]{fileController.getName(files[i]), // Obtener información del archivo y del codigo
+            objects[i] = new Object[]{files[i],                         // Obtener información del archivo y del codigo
+                fileController.getName(files[i]), 
                                         codeInfo[0], 
                                         codeInfo[2], 
                                         codeInfo[1]};

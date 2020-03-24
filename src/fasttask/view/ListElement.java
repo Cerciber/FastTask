@@ -2,16 +2,24 @@
 package fasttask.view;
 
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Toolkit;
+import java.io.File;
 import java.util.Arrays;
+import java.util.Random;
+import javax.swing.JFrame;
 
 public class ListElement extends javax.swing.JPanel {
 
-    public ListElement(String name, String description, String languaje, String[] parameters) {
+    File direction;
+    
+    public ListElement(File dir, String name, String description, String languaje, String[] parameters) {
         initComponents();
         String params = Arrays.toString(parameters);
         jLabel1.setText(name + " (" + params.substring(1, params.length() - 1) + ")");
         jLabel4.setText(languaje);
         jLabel3.setText(description);
+        direction = dir;
     }
 
     @SuppressWarnings("unchecked")
@@ -89,7 +97,19 @@ public class ListElement extends javax.swing.JPanel {
 
     private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
         
+        // Crear frame de la función seleccionada
+        JFrame frame = new RunClass(direction, jLabel1.getText(), jLabel4.getText(), jLabel3.getText());
+        frame.setResizable(true);
+        frame.setVisible(true);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         
+        // Asignar posición aleatoria en pantalla
+        Random random = new Random();
+        Toolkit toolkit = Toolkit.getDefaultToolkit();
+        Dimension dimension = toolkit.getScreenSize();
+        int x = random.nextInt(dimension.width - frame.getWidth());
+        int y = random.nextInt(dimension.height - frame.getHeight());
+        frame.setLocation(x, y);
         
     }//GEN-LAST:event_formMouseClicked
 
