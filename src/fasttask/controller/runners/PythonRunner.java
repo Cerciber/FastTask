@@ -60,10 +60,13 @@ public class PythonRunner implements Runner {
         FileController fileController = new FileController();
         fileController.savedContent(new File("Data/Generated/PythonGenerated.py"), generatedCode);
         
-        // Ejecutar clase
         try {
+            
+            // Ejecutar clase
             String command = "C:\\Users\\acer\\AppData\\Local\\Programs\\Python\\Python37-32\\python.exe \"" + new File("Data/Generated/PythonGenerated.py").getAbsoluteFile().toString() + "\"";
             Process proc = Runtime.getRuntime().exec(command);
+            
+            // Obtener resultado
             BufferedReader stdInput = new BufferedReader(new InputStreamReader(proc.getInputStream(), "ISO-8859-1"));
             String aux = stdInput.readLine();
             String result1 = "";

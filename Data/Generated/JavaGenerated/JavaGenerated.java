@@ -1,12 +1,9 @@
 
-// Sumar dos valores reales
+// Restar dos valores reales
 class Clase {
-    
-    public Clase (double val1, double val2){
-        System.out.println(val1 + val2);
+    constructor(val1, val2) {
+        console.log(val1 + val2);
     }
-    
 }
 
-
- class __Main {public static void main(String[] args) { new Clase (45, 3);}}
+new Clase (4, 5);

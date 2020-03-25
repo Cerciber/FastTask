@@ -64,8 +64,9 @@ public class JavaRunner implements Runner {
         fileController.createFile(new File("Data/Generated/JavaGenerated/JavaGenerated.java"));
         fileController.savedContent(new File("Data/Generated/JavaGenerated/JavaGenerated.java"), generatedCode);
         
-        // Ejecutar clase
         try {
+            
+            // Ejecutar clase
             String command = "pushd C:\\Program Files\\Java\\jdk1.8.0_221\\bin "
                     + "&& javac \"C:\\Users\\acer\\Google Drive\\CESAR\\6. PORTAFOLIO\\FastTask\\FastTask\\Data\\Generated\\JavaGenerated\\JavaGenerated.java\" "
                     + "&& pushd \"C:\\Users\\acer\\Google Drive\\CESAR\\6. PORTAFOLIO\\FastTask\\FastTask\\Data\\Generated\\JavaGenerated\""
@@ -73,6 +74,8 @@ public class JavaRunner implements Runner {
             ProcessBuilder processBuilder = new ProcessBuilder("cmd.exe", "/C", command);
             processBuilder.environment().put(code, code);
             Process proc = processBuilder.start();
+            
+            // Obtener resultados
             BufferedReader stdInput = new BufferedReader(new InputStreamReader(proc.getInputStream(), "ISO-8859-1"));
             String aux = stdInput.readLine();
             String result1 = "";
@@ -88,6 +91,7 @@ public class JavaRunner implements Runner {
                 aux = stdInput2.readLine();
             }
             return new String[]{result1, result2};
+            
         } catch (IOException e) {
             System.out.println(e);
         }

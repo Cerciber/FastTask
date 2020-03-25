@@ -263,8 +263,8 @@ public class RunClass extends javax.swing.JFrame {
         String[] returns = viewController.runClass(direction, parameters);
         
         // ASignar retornos
-        jTextArea1.setText(returns[0]);
-        jTextArea2.setText(returns[1]);
+        jTextArea1.setText(returns[0].trim());
+        jTextArea2.setText(returns[1].trim());
         
         
     }//GEN-LAST:event_jButton1ActionPerformed

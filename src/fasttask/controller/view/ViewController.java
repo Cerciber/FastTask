@@ -69,4 +69,9 @@ public class ViewController {
         return returns;
     }
     
+    // Añadir clase a la lista
+    public void addClass(File dir){
+        
+    }
+    
 }
