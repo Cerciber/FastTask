@@ -8,3 +8,5 @@ class Clase {
     
 }
 
+
+ class __Main {public static void main(String[] args) { new Clase (45, 3);}}

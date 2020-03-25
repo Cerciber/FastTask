@@ -6,6 +6,8 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class FileController {
 
@@ -85,6 +87,23 @@ public class FileController {
             return dir.getCanonicalPath().substring(index + 1);
         } catch (IOException ex) {
             return "";
+        }
+    }
+    
+    // Crear archivo
+    public void createFile(File dir){
+        try {
+            dir.createNewFile();
+        } catch (IOException ex) {
+            System.out.println(ex);
+        }
+    }
+    
+    // Borrar archivos en un directorio
+    public void deleteFilesInFolder(File dir){
+        File[] files = dir.listFiles();
+        for (File file : files) {
+            file.delete();
         }
     }
 
