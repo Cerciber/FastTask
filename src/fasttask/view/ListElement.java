@@ -1,6 +1,7 @@
 
 package fasttask.view;
 
+import fasttask.controller.view.ViewController;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;
@@ -11,15 +12,26 @@ import javax.swing.JFrame;
 
 public class ListElement extends javax.swing.JPanel {
 
-    File direction;
+    ViewController viewController;
     
-    public ListElement(File dir, String name, String description, String languaje, String[] parameters) {
+    File direction;
+    String name;
+    String description;
+    String languaje;
+    String[] parameters;
+    
+    public ListElement(ViewController viewController, File dir, String name, String description, String languaje, String[] parameters) {
         initComponents();
         String params = Arrays.toString(parameters);
         jLabel1.setText(name + " (" + params.substring(1, params.length() - 1) + ")");
         jLabel4.setText(languaje);
         jLabel3.setText(description);
+        this.viewController = viewController;
         direction = dir;
+        this.name = name;
+        this.description = description;
+        this.languaje = languaje;
+        this.parameters = parameters;
     }
 
     @SuppressWarnings("unchecked")
@@ -98,7 +110,7 @@ public class ListElement extends javax.swing.JPanel {
     private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
         
         // Crear frame de la función seleccionada
-        JFrame frame = new RunClass(direction, jLabel1.getText(), jLabel4.getText(), jLabel3.getText());
+        JFrame frame = new RunClass(viewController, direction, name, description, languaje, parameters);
         frame.setResizable(true);
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);

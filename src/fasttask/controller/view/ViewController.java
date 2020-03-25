@@ -18,13 +18,13 @@ public class ViewController {
         
     }
     
-    // Obtener lista de funciones (Devuelve el nombre, la descripción, el lenguaje y el nombre de los parametros)
+    // Obtener lista de clases (Devuelve el nombre, la descripción, el lenguaje y el nombre de los parametros)
     // Retorna una lista dode cada elemento es:
     // - Nombre (Nombre del archivo)
     // - Descripción (Comentarios anteriores a la función) 
     // - Lenguaje (Extención del archivo)
     // - Nombres de las entradas (Nombres de los parametros de la función)
-    public Object[][] getFunctionList(){
+    public Object[][] getClassList(){
         
         File[] files = new File("Data/Saved").listFiles();  // Listar archivos
         Object[][] objects = new Object[files.length][4];   // Crear objectos de retorno para cada archivo
@@ -57,6 +57,16 @@ public class ViewController {
                 return new JavaScriptRunner();
         }
         return null;
+    }
+    
+    // Ejecutar clase y obtener retornos
+    public String[] runClass(File dir, String[] parameters){
+        
+        Runner runner = getRunner(dir);                             // Obtener runner del lenguaje detectado
+        String content = fileController.loadContent(dir);           // Obtener codido contenido
+        String[] returns = runner.run(content, parameters);         // Obtener infromación del codigo
+        
+        return returns;
     }
     
 }

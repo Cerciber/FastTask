@@ -1,20 +1,46 @@
 
 package fasttask.view;
 
+import fasttask.controller.view.ViewController;
 import java.awt.Color;
+import java.awt.Component;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class RunClass extends javax.swing.JFrame {
 
-    File direction;
+    ViewController viewController;
     
-    public RunClass(File dir, String sign, String languaje, String desciption) {
+    File direction;
+    String name;
+    String description;
+    String languaje;
+    String[] parameters;
+    
+    public RunClass(ViewController viewController, File dir, String name, String description, String languaje, String[] parameters) {
+        
         initComponents();
         getContentPane().setBackground(Color.white);
-        direction = dir;
-        jLabel2.setText(sign);
+        String params = Arrays.toString(parameters);
+        jLabel2.setText(name + " (" + params.substring(1, params.length() - 1) + ")");
         jLabel4.setText(languaje);
-        jLabel3.setText(desciption);
+        jLabel3.setText(description);
+        
+        this.viewController = viewController;
+        direction = dir;   
+        this.name = name;
+        this.description = description;
+        this.languaje = languaje;
+        this.parameters = parameters;
+        setParametersList();
+    }
+    
+    // Asignar lista de funciones
+    public void setParametersList(){
+        for (int i = 0; i < parameters.length; i++) {
+            jPanel4.add(new ParameterElement(parameters[i]));
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -47,18 +73,7 @@ public class RunClass extends javax.swing.JFrame {
         jScrollPane3.setOpaque(false);
 
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
-
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 228, Short.MAX_VALUE)
-        );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 73, Short.MAX_VALUE)
-        );
-
+        jPanel4.setLayout(new javax.swing.BoxLayout(jPanel4, javax.swing.BoxLayout.X_AXIS));
         jScrollPane3.setViewportView(jPanel4);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -69,10 +84,17 @@ public class RunClass extends javax.swing.JFrame {
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane3)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         jButton1.setText("Ejecutar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
@@ -87,7 +109,7 @@ public class RunClass extends javax.swing.JFrame {
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 244, Short.MAX_VALUE)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -99,6 +121,7 @@ public class RunClass extends javax.swing.JFrame {
         jScrollPane2.setBorder(null);
 
         jTextArea2.setColumns(20);
+        jTextArea2.setForeground(new java.awt.Color(255, 0, 0));
         jTextArea2.setRows(1);
         jTextArea2.setTabSize(1);
         jScrollPane2.setViewportView(jTextArea2);
@@ -222,6 +245,29 @@ public class RunClass extends javax.swing.JFrame {
     private void jPanel5formMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel5formMouseExited
 
     }//GEN-LAST:event_jPanel5formMouseExited
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+       
+        Component[] component = jPanel4.getComponents();
+        String[] parameters = new String[component.length];
+        
+        // Obtener parametros
+        for (int i = 0; i < parameters.length; i++) {
+            if (((ParameterElement) component[i]).isEmpty()) {
+                return;
+            }
+            parameters[i] = ((ParameterElement) component[i]).getValue();
+        }
+        
+        // Ejecutar función
+        String[] returns = viewController.runClass(direction, parameters);
+        
+        // ASignar retornos
+        jTextArea1.setText(returns[0]);
+        jTextArea2.setText(returns[1]);
+        
+        
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;

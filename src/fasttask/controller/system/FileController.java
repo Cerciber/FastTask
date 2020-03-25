@@ -1,8 +1,10 @@
 package fasttask.controller.system;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 
 public class FileController {
@@ -41,6 +43,29 @@ public class FileController {
         return content;
     }
 
+    // Guardar contenido
+    public void savedContent(File dir, String code){
+        
+        // Escribir en un archivo
+        try {
+
+            // Crear objeto de escritura
+            FileWriter writer = new FileWriter(dir);
+            
+            // Crear objeto de escritura directa
+            BufferedWriter br = new BufferedWriter(writer);
+            
+            // Escribir texto
+            br.write(code);
+            
+            // Cerrar objeto escritura
+            br.close();
+
+        } catch (IOException ex) {
+        }
+        
+    }
+    
     // Obtener nombre de un archivo
     public String getName(File dir) {
         int index = dir.getName().lastIndexOf(".");

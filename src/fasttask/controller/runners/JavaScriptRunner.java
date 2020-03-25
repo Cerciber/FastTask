@@ -22,16 +22,16 @@ public class JavaScriptRunner implements Runner {
         } 
         
         // Leer parametros
-        pattern = Pattern.compile(".*?constructor[ ]*?[(](.*?)(?:,(.*?))[)]", Pattern.DOTALL);
+        pattern = Pattern.compile(".*?constructor[ ]*?[(](.*?)[)]", Pattern.DOTALL);
         matcher = pattern.matcher(code);
-        ArrayList<String> parameters = new ArrayList<>();
+        String[] parameters;
         if (matcher.find()) {
-            for (int i = 1; i <= matcher.groupCount(); i++) {
-                parameters.add(matcher.group(i).trim());
-            }
+            parameters = matcher.group(1).split(",");
+        } else {
+            parameters = new String[]{};
         }
         
-        return new Object[]{description, (String[]) parameters.toArray(new String[parameters.size()]), "JavaScript"};
+        return new Object[]{description, parameters, "JavaScript"};
         
     }
     
