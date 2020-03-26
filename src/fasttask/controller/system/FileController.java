@@ -88,7 +88,7 @@ public class FileController {
         if (index == -1) {
             return "";
         }
-        return file.getName().substring(index + 1);
+        return file.getName().substring(index + 1); 
     }
 
     // Crear archivo
