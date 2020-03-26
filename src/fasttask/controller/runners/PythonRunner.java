@@ -58,7 +58,7 @@ public class PythonRunner implements Runner {
         
         // Generar ejecutable
         FileController fileController = new FileController();
-        fileController.savedContent(new File("Data/Generated/PythonGenerated.py"), generatedCode);
+        fileController.savedContent("Data/Generated/PythonGenerated.py", generatedCode);
         
         try {
             

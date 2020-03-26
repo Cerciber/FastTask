@@ -16,7 +16,7 @@ import java.util.logging.Logger;
 public class FileController {
 
     // Cargar contenido de un archivo
-    public String loadContent(File dir) {
+    public String loadContent(String dir) {
 
         String content = "";
 
@@ -24,7 +24,7 @@ public class FileController {
         try {
 
             // Crear objeto de lectura
-            FileReader reader = new FileReader(dir);
+            FileReader reader = new FileReader(new File(dir));
 
             // Crear objeto de lectura directa
             BufferedReader br = new BufferedReader(reader);
@@ -45,18 +45,17 @@ public class FileController {
 
         } catch (IOException ex) {
         }
-
         return content;
     }
 
     // Guardar contenido
-    public void savedContent(File dir, String code) {
+    public void savedContent(String dir, String code) {
 
         // Escribir en un archivo
         try {
 
             // Crear objeto de escritura
-            FileWriter writer = new FileWriter(dir);
+            FileWriter writer = new FileWriter(new File(dir));
 
             // Crear objeto de escritura directa
             BufferedWriter br = new BufferedWriter(writer);
@@ -73,53 +72,55 @@ public class FileController {
     }
 
     // Obtener nombre de un archivo
-    public String getName(File dir) {
-        int index = dir.getName().lastIndexOf(".");
+    public String getName(String dir) {
+        File file = new File(dir);
+        int index = file.getName().lastIndexOf(".");
         if (index == -1) {
-            return dir.getName();
+            return file.getName();
         }
-        return dir.getName().substring(0, index);
+        return file.getName().substring(0, index);
     }
 
     // Obtener extensión de un archivo
-    public String getExtension(File dir) {
-        try {
-            int index = dir.getCanonicalPath().lastIndexOf(".");
-            if (index == -1) {
-                return "";
-            }
-            return dir.getCanonicalPath().substring(index + 1);
-        } catch (IOException ex) {
+    public String getExtension(String dir) {
+        File file = new File(dir);
+        int index = file.getName().lastIndexOf(".");
+        if (index == -1) {
             return "";
         }
+        return file.getName().substring(index + 1);
     }
 
     // Crear archivo
-    public void createFile(File dir) {
+    public void createFile(String dir) {
         try {
-            dir.createNewFile();
+            new File(dir).createNewFile();
         } catch (IOException ex) {
             System.out.println(ex);
         }
     }
 
     // Borrar archivos en un directorio
-    public void deleteFilesInFolder(File dir) {
-        File[] files = dir.listFiles();
+    public void deleteFilesInFolder(String dir) {
+        File[] files = new File(dir).listFiles();
         for (File file : files) {
             file.delete();
         }
     }
 
     // Copiar archivo
-    public void copyFile(File dir1, File dir2) {
+    public void copyFile(String dir1, String dir2) {
         createFile(dir2);
         savedContent(dir2, loadContent(dir1));
     }
 
     // Eliminar archivo
-    public void deleteFile(File dir) {
-        //FileDeleteStrategy.FORCE.delete(dir);
+    public void deleteFile(String dir) {
+        try {
+            org.apache.commons.io.FileDeleteStrategy.FORCE.delete(new File(dir));
+        } catch (IOException ex) {
+            System.out.println(ex.getMessage());
+        }
     }
 
 }

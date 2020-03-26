@@ -14,13 +14,13 @@ public class ListElement extends javax.swing.JPanel {
 
     ViewController viewController;
     
-    File direction;
+    String direction;
     String name;
     String description;
     String languaje;
     String[] parameters;
     
-    public ListElement(ViewController viewController, File dir, String name, String description, String languaje, String[] parameters) {
+    public ListElement(ViewController viewController, String dir, String name, String description, String languaje, String[] parameters) {
         initComponents();
         String params = Arrays.toString(parameters);
         jLabel1.setText(name + " (" + params.substring(1, params.length() - 1) + ")");
@@ -32,6 +32,7 @@ public class ListElement extends javax.swing.JPanel {
         this.description = description;
         this.languaje = languaje;
         this.parameters = parameters;
+        
     }
 
     @SuppressWarnings("unchecked")

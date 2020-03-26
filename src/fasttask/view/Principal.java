@@ -21,7 +21,7 @@ public final class Principal extends javax.swing.JFrame {
         
         viewController = new ViewController();
         
-        setFunctionList();
+        setFunctionList("");
         
     }
     
@@ -35,11 +35,11 @@ public final class Principal extends javax.swing.JFrame {
     }
     
     // Asignar lista de funciones
-    public void setFunctionList(){
+    public void setFunctionList(String filter){
         jPanel2.removeAll();
-        Object[][] list = viewController.getClassList();
+        Object[][] list = viewController.getClassList(filter);
         for (int i = 0; i < list.length; i++) {
-            jPanel2.add(new ListElement(viewController, (File) list[i][0], (String) list[i][1], (String) list[i][2], (String) list[i][3], (String[]) list[i][4]));
+            jPanel2.add(new ListElement(viewController, (String) list[i][0], (String) list[i][1], (String) list[i][2], (String) list[i][3], (String[]) list[i][4]));
         }
     }
 
@@ -88,6 +88,17 @@ public final class Principal extends javax.swing.JFrame {
         jTextField2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField2ActionPerformed(evt);
+            }
+        });
+        jTextField2.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTextField2KeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextField2KeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTextField2KeyTyped(evt);
             }
         });
 
@@ -167,11 +178,30 @@ public final class Principal extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         
-        viewController.addClass(new File(jTextField1.getText()));
-        setFunctionList();
-        revalidate();
+        viewController.addClass(jTextField1.getText());
+        setFunctionList(jTextField2.getText().trim());
+        jPanel2.updateUI();
         
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jTextField2KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField2KeyTyped
+        
+        
+        
+        
+    }//GEN-LAST:event_jTextField2KeyTyped
+
+    private void jTextField2KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField2KeyPressed
+        
+        
+    }//GEN-LAST:event_jTextField2KeyPressed
+
+    private void jTextField2KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField2KeyReleased
+        
+        setFunctionList(jTextField2.getText().trim());
+        jPanel2.updateUI();
+        
+    }//GEN-LAST:event_jTextField2KeyReleased
 
     /**
      * @param args the command line arguments

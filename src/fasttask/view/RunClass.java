@@ -5,6 +5,7 @@ import fasttask.controller.view.ViewController;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Desktop;
+import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
@@ -17,13 +18,13 @@ public class RunClass extends javax.swing.JFrame {
 
     ViewController viewController;
     
-    File direction;
+    String direction;
     String name;
     String description;
     String languaje;
     String[] parameters;
     
-    public RunClass(ViewController viewController, File dir, String name, String description, String languaje, String[] parameters) {
+    public RunClass(ViewController viewController, String dir, String name, String description, String languaje, String[] parameters) {
         
         initComponents();
         getContentPane().setBackground(Color.white);
@@ -43,8 +44,42 @@ public class RunClass extends javax.swing.JFrame {
     
     // Asignar lista de funciones
     public void setParametersList(){
-        for (int i = 0; i < parameters.length; i++) {
-            jPanel4.add(new ParameterElement(parameters[i]));
+        jPanel4.removeAll();
+        if(parameters.length == 0) {
+            jPanel1.setVisible(false);
+        } else {
+            jPanel1.setVisible(true);
+            for (int i = 0; i < parameters.length - 1; i++) {
+                
+                ParameterElement parameterElement = new ParameterElement(parameters[i]);
+                jPanel4.add(parameterElement);
+                
+                // Asignar salto de foco a los elementos
+                parameterElement.getField().addKeyListener(new java.awt.event.KeyAdapter() {
+                    @Override
+                    public void keyPressed(java.awt.event.KeyEvent evt) {
+                        if (evt.getKeyCode() ==  KeyEvent.VK_ENTER) {
+                            parameterElement.getField().transferFocus();
+                        } 
+                    }
+                });
+                
+            }
+            
+            ParameterElement ParameterElement = new ParameterElement(parameters[parameters.length - 1]);
+            jPanel4.add(ParameterElement);
+
+            // Asignar ejecución al ultimo elemento
+            ParameterElement.getField().addKeyListener(new java.awt.event.KeyAdapter() {
+                @Override
+                public void keyReleased(java.awt.event.KeyEvent evt) {
+                    if (evt.getKeyCode() ==  KeyEvent.VK_ENTER) {
+                        jButton1ActionPerformed(null);
+                    } 
+                }
+            });
+            
+            
         }
     }
 
@@ -296,7 +331,7 @@ public class RunClass extends javax.swing.JFrame {
         // Abirir archivo con sublime text 3
         try {
             String command = "pushd C:\\Program Files\\Sublime Text 3 "
-                    + "&& sublime_text \"" + direction.getAbsolutePath() + "\"";
+                    + "&& sublime_text \"" + direction + "\"";
             ProcessBuilder processBuilder = new ProcessBuilder("cmd.exe", "/C", command);
             Process proc = processBuilder.start();
         } catch (IOException ex) {

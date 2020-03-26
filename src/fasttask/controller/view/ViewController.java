@@ -1,4 +1,3 @@
-
 package fasttask.controller.view;
 
 import fasttask.controller.runners.JavaRunner;
@@ -7,47 +6,52 @@ import fasttask.controller.runners.PythonRunner;
 import fasttask.controller.runners.Runner;
 import fasttask.controller.system.FileController;
 import java.io.File;
+import java.io.FilenameFilter;
 
 public class ViewController {
-    
+
     FileController fileController;
-    
+
     public ViewController() {
-        
+
         fileController = new FileController();
-        
+
     }
-    
+
     // Obtener lista de clases (Devuelve el nombre, la descripción, el lenguaje y el nombre de los parametros)
     // Retorna una lista dode cada elemento es:
     // - Nombre (Nombre del archivo)
     // - Descripción (Comentarios anteriores a la función) 
     // - Lenguaje (Extención del archivo)
     // - Nombres de las entradas (Nombres de los parametros de la función)
-    public Object[][] getClassList(){
-        
-        File[] files = new File("Data/Saved").listFiles();  // Listar archivos
-        Object[][] objects = new Object[files.length][4];   // Crear objectos de retorno para cada archivo
-       
+    public Object[][] getClassList(String filter) {
+
+        File[] files = new File("Data/Saved").listFiles(new FilenameFilter() {  // Listar archivos que cumplan el filtro
+            public boolean accept(File dir, String name) {
+                return name.toLowerCase().contains(filter.toLowerCase());
+            }
+        });  
+        Object[][] objects = new Object[files.length][4];         // Crear objectos de retorno para cada archivo
+
         // Para cada archivo
         for (int i = 0; i < objects.length; i++) {
-            
-            Runner runner = getRunner(files[i]);                        // Obtener runner del lenguaje detectado
-            String content = fileController.loadContent(files[i]);      // Obtener codido contenido
+
+            Runner runner = getRunner(files[i].getAbsolutePath());                        // Obtener runner del lenguaje detectado
+            String content = fileController.loadContent(files[i].getAbsolutePath());      // Obtener codido contenido
             Object[] codeInfo = runner.info(content);                   // Obtener infromación del codigo
-            objects[i] = new Object[]{files[i],                         // Obtener información del archivo y del codigo
-                fileController.getName(files[i]), 
-                                        codeInfo[0], 
-                                        codeInfo[2], 
-                                        codeInfo[1]};
-            
+            objects[i] = new Object[]{files[i].getAbsolutePath(), // Obtener información del archivo y del codigo
+                fileController.getName(files[i].getAbsolutePath()),
+                codeInfo[0],
+                codeInfo[2],
+                codeInfo[1]};
+
         }
-        
+
         return objects;
     }
-    
+
     // Obtener runner del lenguaje del archivo
-    public Runner getRunner(File dir){
+    public Runner getRunner(String dir) {
         switch (fileController.getExtension(dir)) {
             case "java":
                 return new JavaRunner();
@@ -58,25 +62,25 @@ public class ViewController {
         }
         return null;
     }
-    
+
     // Ejecutar clase y obtener retornos
-    public String[] runClass(File dir, String[] parameters){
-        
+    public String[] runClass(String dir, String[] parameters) {
+
         Runner runner = getRunner(dir);                             // Obtener runner del lenguaje detectado
         String content = fileController.loadContent(dir);           // Obtener codido contenido
         String[] returns = runner.run(content, parameters);         // Obtener infromación del codigo
-        
+
         return returns;
     }
-    
+
     // Añadir clase a la lista
-    public void addClass(File dir){
-        fileController.copyFile(dir, new File("Data/Saved/" + dir.getName()));
+    public void addClass(String dir) {
+        fileController.copyFile(dir, "Data/Saved/" + fileController.getName(dir) + "." + fileController.getExtension(dir));
     }
-    
+
     // Eliminar clase de la lista
-    public void removeClass(File dir){
+    public void removeClass(String dir) {
         fileController.deleteFile(dir);
     }
-    
+
 }

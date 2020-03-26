@@ -1,6 +1,8 @@
 
 package fasttask.view;
 
+import javax.swing.JTextField;
+
 public class ParameterElement extends javax.swing.JPanel {
 
     public ParameterElement(String name) {
@@ -14,6 +16,10 @@ public class ParameterElement extends javax.swing.JPanel {
     
     public boolean isEmpty(){
         return jTextField1.getText().trim().equals("");
+    }
+    
+    public JTextField getField(){
+        return jTextField1;
     }
 
     @SuppressWarnings("unchecked")

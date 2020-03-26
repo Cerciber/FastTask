@@ -59,7 +59,7 @@ public class JavaScriptRunner implements Runner {
         
         // Generar ejecutable
         FileController fileController = new FileController();
-        fileController.savedContent(new File("Data/Generated/JavaScriptGenerated.js"), generatedCode);
+        fileController.savedContent("Data/Generated/JavaScriptGenerated.js", generatedCode);
         
         try {
             

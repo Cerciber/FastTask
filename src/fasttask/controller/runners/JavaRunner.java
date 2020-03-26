@@ -60,9 +60,9 @@ public class JavaRunner implements Runner {
         
         // Generar ejecutable
         FileController fileController = new FileController();
-        fileController.deleteFilesInFolder(new File("Data/Generated/JavaGenerated"));
-        fileController.createFile(new File("Data/Generated/JavaGenerated/JavaGenerated.java"));
-        fileController.savedContent(new File("Data/Generated/JavaGenerated/JavaGenerated.java"), generatedCode);
+        fileController.deleteFilesInFolder("Data/Generated/JavaGenerated");
+        fileController.createFile("Data/Generated/JavaGenerated/JavaGenerated.java");
+        fileController.savedContent("Data/Generated/JavaGenerated/JavaGenerated.java", generatedCode);
         
         try {
             
