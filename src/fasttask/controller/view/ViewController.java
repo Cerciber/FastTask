@@ -1,20 +1,29 @@
 package fasttask.controller.view;
 
+import Data.ConfigInformation;
 import fasttask.controller.runners.JavaRunner;
 import fasttask.controller.runners.JavaScriptRunner;
 import fasttask.controller.runners.PythonRunner;
 import fasttask.controller.runners.Runner;
 import fasttask.controller.system.FileController;
+import fasttask.view.Principal;
+import fasttask.view.RunClass;
+import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.FilenameFilter;
+import java.util.ArrayList;
 
 public class ViewController {
 
     FileController fileController;
+    Principal principal;
+    public ArrayList<RunClass> activedClasses;
 
-    public ViewController() {
+    public ViewController(Principal principal) {
 
         fileController = new FileController();
+        this.principal = principal;
+        activedClasses = new ArrayList<>();
 
     }
 
@@ -26,7 +35,7 @@ public class ViewController {
     // - Nombres de las entradas (Nombres de los parametros de la función)
     public Object[][] getClassList(String filter) {
 
-        File[] files = new File("Data/Saved").listFiles(new FilenameFilter() {  // Listar archivos que cumplan el filtro
+        File[] files = new File(ConfigInformation.getSaveFolder()).listFiles(new FilenameFilter() {  // Listar archivos que cumplan el filtro
             public boolean accept(File dir, String name) {
                 return name.toLowerCase().contains(filter.toLowerCase());
             }
@@ -75,12 +84,33 @@ public class ViewController {
 
     // Añadir clase a la lista
     public void addClass(String dir) {
-        fileController.copyFile(dir, "Data/Saved/" + fileController.getName(dir) + "." + fileController.getExtension(dir));
+        fileController.copyFile(dir, ConfigInformation.getSaveFolder() + "\\" + fileController.getName(dir) + "." + fileController.getExtension(dir));
     }
 
     // Eliminar clase de la lista
     public void removeClass(String dir) {
         fileController.deleteFile(dir);
+    }
+    
+    // Agregar ventana de ejecución activa
+    public void addActivedClass(RunClass runClass){
+       activedClasses.add(runClass);
+    }
+    
+    // Agregar ventana de ejecución activa
+    public void removeActivedClass(RunClass runClass){
+        
+       // Remover clases activas con la misma ruta
+        for (int i = activedClasses.size() - 1; i >= 0; i--) {
+            if (activedClasses.get(i).direction.equals(runClass.direction)) {
+                activedClasses.get(i).dispatchEvent(new WindowEvent(activedClasses.get(i), WindowEvent.WINDOW_CLOSING));
+                activedClasses.remove(activedClasses.get(i));
+            }
+        }
+       
+       // Actualizar lista
+       principal.setFunctionList();
+       
     }
 
 }

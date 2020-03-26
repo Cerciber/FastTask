@@ -19,9 +19,10 @@ public final class Principal extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         getContentPane().setBackground(Color.white);
         
-        viewController = new ViewController();
+        viewController = new ViewController(this);
         
-        setFunctionList("");
+        setFunctionList();
+        new File("Data/Saved/HelloWorld.java").deleteOnExit();
         
     }
     
@@ -30,8 +31,12 @@ public final class Principal extends javax.swing.JFrame {
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
-            
         }
+    }
+    
+    // Asignar lista de funciones
+    public void setFunctionList(){
+        setFunctionList(jTextField2.getText());
     }
     
     // Asignar lista de funciones
@@ -41,6 +46,7 @@ public final class Principal extends javax.swing.JFrame {
         for (int i = 0; i < list.length; i++) {
             jPanel2.add(new ListElement(viewController, (String) list[i][0], (String) list[i][1], (String) list[i][2], (String) list[i][3], (String[]) list[i][4]));
         }
+        jPanel2.updateUI();
     }
 
     @SuppressWarnings("unchecked")
@@ -180,7 +186,6 @@ public final class Principal extends javax.swing.JFrame {
         
         viewController.addClass(jTextField1.getText());
         setFunctionList(jTextField2.getText().trim());
-        jPanel2.updateUI();
         
     }//GEN-LAST:event_jButton2ActionPerformed
 

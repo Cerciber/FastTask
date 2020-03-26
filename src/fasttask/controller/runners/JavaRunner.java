@@ -1,12 +1,12 @@
 
 package fasttask.controller.runners;
 
+import Data.ConfigInformation;
 import fasttask.controller.system.FileController;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -67,9 +67,9 @@ public class JavaRunner implements Runner {
         try {
             
             // Ejecutar clase
-            String command = "pushd C:\\Program Files\\Java\\jdk1.8.0_221\\bin "
-                    + "&& javac \"C:\\Users\\acer\\Google Drive\\CESAR\\6. PORTAFOLIO\\FastTask\\FastTask\\Data\\Generated\\JavaGenerated\\JavaGenerated.java\" "
-                    + "&& pushd \"C:\\Users\\acer\\Google Drive\\CESAR\\6. PORTAFOLIO\\FastTask\\FastTask\\Data\\Generated\\JavaGenerated\""
+            String command = "pushd " + ConfigInformation.getJavaFolder() + " "
+                    + "&& javac \"" + new File("Data/Generated/JavaGenerated").getAbsolutePath() + "\\JavaGenerated.java" + "\" "
+                    + "&& pushd \"" + new File("Data/Generated/JavaGenerated").getAbsolutePath() + "\""
                     + "&& java __Main";
             ProcessBuilder processBuilder = new ProcessBuilder("cmd.exe", "/C", command);
             processBuilder.environment().put(code, code);

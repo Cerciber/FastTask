@@ -1,5 +1,6 @@
 package fasttask.controller.runners;
 
+import Data.ConfigInformation;
 import fasttask.controller.system.FileController;
 import java.io.BufferedReader;
 import java.io.File;
@@ -63,7 +64,7 @@ public class PythonRunner implements Runner {
         try {
             
             // Ejecutar clase
-            String command = "C:\\Users\\acer\\AppData\\Local\\Programs\\Python\\Python37-32\\python.exe \"" + new File("Data/Generated/PythonGenerated.py").getAbsoluteFile().toString() + "\"";
+            String command = ConfigInformation.getPythonFolder() + "\\python.exe \"" + new File("Data/Generated/PythonGenerated.py").getAbsoluteFile().toString() + "\"";
             Process proc = Runtime.getRuntime().exec(command);
             
             // Obtener resultado

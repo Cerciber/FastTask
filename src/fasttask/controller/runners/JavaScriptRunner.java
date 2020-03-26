@@ -1,6 +1,7 @@
 
 package fasttask.controller.runners;
 
+import Data.ConfigInformation;
 import fasttask.controller.system.FileController;
 import java.io.BufferedReader;
 import java.io.File;
@@ -64,8 +65,8 @@ public class JavaScriptRunner implements Runner {
         try {
             
             // Ejecutar clase
-            String command = "pushd C:\\Program Files\\nodejs "
-                    + "&& node \"C:\\Users\\acer\\Google Drive\\CESAR\\6. PORTAFOLIO\\FastTask\\FastTask\\Data\\Generated\\JavaScriptGenerated.js\" ";
+            String command = "pushd " + ConfigInformation.getJavaScriptFolder() + " "  
+                    + "&& node \"" + new File("Data/Generated/JavaScriptGenerated.js").getAbsolutePath() + "\" ";
             ProcessBuilder processBuilder = new ProcessBuilder("cmd.exe", "/C", command);
             processBuilder.environment().put(code, code);
             Process proc = processBuilder.start();

@@ -1,6 +1,7 @@
 
 package fasttask.view;
 
+import Data.ConfigInformation;
 import fasttask.controller.view.ViewController;
 import java.awt.Color;
 import java.awt.Component;
@@ -13,12 +14,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 public class RunClass extends javax.swing.JFrame {
 
     ViewController viewController;
     
-    String direction;
+    public String direction;
     String name;
     String description;
     String languaje;
@@ -110,6 +112,11 @@ public class RunClass extends javax.swing.JFrame {
                 formWindowGainedFocus(evt);
             }
             public void windowLostFocus(java.awt.event.WindowEvent evt) {
+            }
+        });
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
             }
         });
 
@@ -330,7 +337,7 @@ public class RunClass extends javax.swing.JFrame {
         
         // Abirir archivo con sublime text 3
         try {
-            String command = "pushd C:\\Program Files\\Sublime Text 3 "
+            String command = "pushd " + ConfigInformation.getSublimeTextFolder() + " "
                     + "&& sublime_text \"" + direction + "\"";
             ProcessBuilder processBuilder = new ProcessBuilder("cmd.exe", "/C", command);
             Process proc = processBuilder.start();
@@ -347,10 +354,19 @@ public class RunClass extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         
-        viewController.removeClass(direction);
-        dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
+        int dialogResult = JOptionPane.showConfirmDialog (this, "¿Quieres borrar la clase " + name + "?", "Warning", JOptionPane.YES_OPTION);
+        if(dialogResult == JOptionPane.YES_OPTION){
+          
+            viewController.removeClass(direction);
+            viewController.removeActivedClass(this);
+            
+        }
         
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        
+    }//GEN-LAST:event_formWindowClosing
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
