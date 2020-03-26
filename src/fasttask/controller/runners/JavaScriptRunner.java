@@ -30,7 +30,7 @@ public class JavaScriptRunner implements Runner {
         pattern = Pattern.compile(".*?constructor[ ]*?[(](.*?)[)]", Pattern.DOTALL);
         matcher = pattern.matcher(code);
         String[] parameters;
-        if (matcher.find()) {
+        if (matcher.find() && !matcher.group(1).trim().equals("")) {
             parameters = matcher.group(1).split(",");
         } else {
             parameters = new String[]{};

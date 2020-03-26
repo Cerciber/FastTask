@@ -1,9 +1,10 @@
 
-// Restar dos valores reales
-class Clase {
-    constructor(val1, val2) {
-        console.log(val1 + val2);
+// Hola mundo
+class Prueba {
+    public Prueba() {
+        System.out.println("Hesllo Wolrd");
     }
+    
 }
 
-new Clase (4, 5);
+ class __Main {public static void main(String[] args) { new Prueba ();}}

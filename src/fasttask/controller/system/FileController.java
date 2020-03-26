@@ -3,10 +3,15 @@ package fasttask.controller.system;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-
+import java.nio.channels.FileChannel;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class FileController {
 
@@ -45,28 +50,28 @@ public class FileController {
     }
 
     // Guardar contenido
-    public void savedContent(File dir, String code){
-        
+    public void savedContent(File dir, String code) {
+
         // Escribir en un archivo
         try {
 
             // Crear objeto de escritura
             FileWriter writer = new FileWriter(dir);
-            
+
             // Crear objeto de escritura directa
             BufferedWriter br = new BufferedWriter(writer);
-            
+
             // Escribir texto
             br.write(code);
-            
+
             // Cerrar objeto escritura
             br.close();
 
         } catch (IOException ex) {
         }
-        
+
     }
-    
+
     // Obtener nombre de un archivo
     public String getName(File dir) {
         int index = dir.getName().lastIndexOf(".");
@@ -75,7 +80,7 @@ public class FileController {
         }
         return dir.getName().substring(0, index);
     }
-    
+
     // Obtener extensión de un archivo
     public String getExtension(File dir) {
         try {
@@ -88,22 +93,33 @@ public class FileController {
             return "";
         }
     }
-    
+
     // Crear archivo
-    public void createFile(File dir){
+    public void createFile(File dir) {
         try {
             dir.createNewFile();
         } catch (IOException ex) {
             System.out.println(ex);
         }
     }
-    
+
     // Borrar archivos en un directorio
-    public void deleteFilesInFolder(File dir){
+    public void deleteFilesInFolder(File dir) {
         File[] files = dir.listFiles();
         for (File file : files) {
             file.delete();
         }
     }
-    
+
+    // Copiar archivo
+    public void copyFile(File dir1, File dir2) {
+        createFile(dir2);
+        savedContent(dir2, loadContent(dir1));
+    }
+
+    // Eliminar archivo
+    public void deleteFile(File dir) {
+        //FileDeleteStrategy.FORCE.delete(dir);
+    }
+
 }

@@ -36,6 +36,7 @@ public final class Principal extends javax.swing.JFrame {
     
     // Asignar lista de funciones
     public void setFunctionList(){
+        jPanel2.removeAll();
         Object[][] list = viewController.getClassList();
         for (int i = 0; i < list.length; i++) {
             jPanel2.add(new ListElement(viewController, (File) list[i][0], (String) list[i][1], (String) list[i][2], (String) list[i][3], (String[]) list[i][4]));
@@ -113,7 +114,7 @@ public final class Principal extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
                             .addComponent(jLabel2))
-                        .addGap(0, 219, Short.MAX_VALUE))
+                        .addGap(0, 311, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jTextField1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -139,7 +140,7 @@ public final class Principal extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 231, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 278, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -153,8 +154,10 @@ public final class Principal extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         
         JFileChooser fileChooser = new JFileChooser();
-        int result = fileChooser.showOpenDialog(this);
-        jTextField1.setText(fileChooser.getSelectedFile().getAbsolutePath());
+        fileChooser.showOpenDialog(this);
+        if (fileChooser.getSelectedFile() != null) {
+            jTextField1.setText(fileChooser.getSelectedFile().getAbsolutePath());
+        }
         
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -164,7 +167,9 @@ public final class Principal extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         
-        
+        viewController.addClass(new File(jTextField1.getText()));
+        setFunctionList();
+        revalidate();
         
     }//GEN-LAST:event_jButton2ActionPerformed
 

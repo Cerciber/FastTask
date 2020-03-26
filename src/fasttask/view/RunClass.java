@@ -4,9 +4,14 @@ package fasttask.view;
 import fasttask.controller.view.ViewController;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Desktop;
+import java.awt.event.WindowEvent;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class RunClass extends javax.swing.JFrame {
 
@@ -65,6 +70,13 @@ public class RunClass extends javax.swing.JFrame {
         jButton3 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowFocusListener(new java.awt.event.WindowFocusListener() {
+            public void windowGainedFocus(java.awt.event.WindowEvent evt) {
+                formWindowGainedFocus(evt);
+            }
+            public void windowLostFocus(java.awt.event.WindowEvent evt) {
+            }
+        });
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         jPanel1.setOpaque(false);
@@ -190,8 +202,18 @@ public class RunClass extends javax.swing.JFrame {
         );
 
         jButton2.setText("Editar");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton3.setText("Borrar");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -268,6 +290,32 @@ public class RunClass extends javax.swing.JFrame {
         
         
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        
+        // Abirir archivo con sublime text 3
+        try {
+            String command = "pushd C:\\Program Files\\Sublime Text 3 "
+                    + "&& sublime_text \"" + direction.getAbsolutePath() + "\"";
+            ProcessBuilder processBuilder = new ProcessBuilder("cmd.exe", "/C", command);
+            Process proc = processBuilder.start();
+        } catch (IOException ex) {
+        }
+
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void formWindowGainedFocus(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowGainedFocus
+        
+        
+       
+    }//GEN-LAST:event_formWindowGainedFocus
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        
+        viewController.removeClass(direction);
+        dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
+        
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;

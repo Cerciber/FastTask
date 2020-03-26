@@ -71,7 +71,12 @@ public class ViewController {
     
     // Añadir clase a la lista
     public void addClass(File dir){
-        
+        fileController.copyFile(dir, new File("Data/Saved/" + dir.getName()));
+    }
+    
+    // Eliminar clase de la lista
+    public void removeClass(File dir){
+        fileController.deleteFile(dir);
     }
     
 }
