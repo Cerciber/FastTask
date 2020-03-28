@@ -105,7 +105,8 @@ public class ViewController {
        // Remover clases activas con la misma ruta
         for (int i = activedClasses.size() - 1; i >= 0; i--) {
             if (activedClasses.get(i).direction.equals(runClass.direction)) {
-                activedClasses.get(i).dispatchEvent(new WindowEvent(activedClasses.get(i).frame, WindowEvent.WINDOW_CLOSING));
+                activedClasses.get(i).frame.setVisible(false);
+                activedClasses.get(i).frame.dispose();
                 activedClasses.remove(activedClasses.get(i));
             }
         }

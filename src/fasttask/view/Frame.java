@@ -1,6 +1,7 @@
 package fasttask.view;
 
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.MouseInfo;
 import java.awt.Toolkit;
@@ -14,20 +15,23 @@ import javax.swing.UnsupportedLookAndFeelException;
 public class Frame extends javax.swing.JFrame {
 
     boolean state;
+    int resizeOption;
     int x;
     int y;
+    int width;
+    int height;
 
     // State (true: principal, false segundario)
     public Frame(JPanel content, boolean state) {
-        setWindowsView();
+        
         initComponents();
-
+        
         if (state) {
-            setSize(600, 400);
+            setSize(300, 500);
             setLocationRelativeTo(null);
         } else {
 
-            setSize(300, 500);
+            setSize(300, 400);
 
             // Asignar posición aleatoria en pantalla
             Random random = new Random();
@@ -47,14 +51,6 @@ public class Frame extends javax.swing.JFrame {
         setVisible(true);
     }
 
-    // Asignar vista de windows
-    public void setWindowsView() {
-        try {
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
-        }
-    }
-
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -64,6 +60,7 @@ public class Frame extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -93,6 +90,9 @@ public class Frame extends javax.swing.JFrame {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 panelMouseEntered(evt);
             }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                panelMouseExited(evt);
+            }
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 panelMousePressed(evt);
             }
@@ -118,33 +118,43 @@ public class Frame extends javax.swing.JFrame {
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/fasttask/view/Images/ajustes.png"))); // NOI18N
 
+        jLabel2.setBackground(new java.awt.Color(0, 0, 0));
+        jLabel2.setFont(new java.awt.Font("Comic Sans MS", 1, 24)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel2.setText("FastTask");
+        jLabel2.setBorder(javax.swing.BorderFactory.createMatteBorder(4, 4, 0, 4, new java.awt.Color(0, 0, 0)));
+        jLabel2.setOpaque(true);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(panel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
+                .addContainerGap()
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 93, Short.MAX_VALUE)
                 .addComponent(jLabel6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel1))
+                .addComponent(jLabel1)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel4)
-                    .addComponent(jLabel6))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(panel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jLabel5)
-                .addGap(240, 240, 240))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(0, 0, 0)
+                .addComponent(panel, javax.swing.GroupLayout.DEFAULT_SIZE, 242, Short.MAX_VALUE))
         );
 
         pack();
@@ -192,7 +202,7 @@ public class Frame extends javax.swing.JFrame {
             setVisible(false);
             dispose();
         }
-        
+
 
     }//GEN-LAST:event_jLabel1MouseClicked
 
@@ -203,33 +213,80 @@ public class Frame extends javax.swing.JFrame {
     }//GEN-LAST:event_jLabel5MousePressed
 
     private void panelMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelMouseMoved
-        
-        
-        
+
+        if (evt.getX() <= 4) {
+            setCursor(new Cursor(Cursor.W_RESIZE_CURSOR));
+        } else if (evt.getX() >= getSize().width - 4) {
+            setCursor(new Cursor(Cursor.W_RESIZE_CURSOR));
+        } else if (evt.getY() <= 4) {
+            setCursor(new Cursor(Cursor.S_RESIZE_CURSOR));
+        } else if (evt.getY() >= panel.getSize().height - 4) {
+            setCursor(new Cursor(Cursor.S_RESIZE_CURSOR));
+        } else {
+            setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+        }
+
     }//GEN-LAST:event_panelMouseMoved
 
     private void panelMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelMouseEntered
-        
-        
-        
+
+        setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+
     }//GEN-LAST:event_panelMouseEntered
 
     private void panelMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelMousePressed
-        
+
         x = evt.getX();
         y = evt.getY();
-        
+        width = getSize().width;
+        height = getSize().height;
+
+        if (evt.getX() <= 4) {
+            resizeOption = 1;
+        } else if (evt.getX() >= getSize().width - 4) {
+            resizeOption = 2;
+        } else if (evt.getY() <= 4) {
+            resizeOption = 3;
+        } else if (evt.getY() >= panel.getSize().height - 4) {
+            resizeOption = 4;
+        } else {
+            resizeOption = 0;
+        }
+
     }//GEN-LAST:event_panelMousePressed
 
     private void panelMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelMouseDragged
-        
-        setLocation(getLocation().x + evt.getX() - x, getLocation().y + evt.getY() - y);
-        
+
+        switch (resizeOption) {
+            case 0:
+                setLocation(getLocation().x + evt.getX() - x, getLocation().y + evt.getY() - y);
+                break;
+            case 1:
+                setBounds(getLocation().x + evt.getX() - x, getLocation().y, getSize().width - evt.getX() + x, getSize().height);
+                break;
+            case 2:
+                setSize(width + evt.getX() - x, getSize().height);
+                break;
+            case 3:
+                setBounds(getLocation().x, getLocation().y + evt.getY() - y, getSize().width, getSize().height - evt.getY() + y);
+                break;
+            case 4:
+                setSize(getSize().width, height + evt.getY() - y);
+                break;
+        }
+
     }//GEN-LAST:event_panelMouseDragged
+
+    private void panelMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelMouseExited
+
+        setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+
+    }//GEN-LAST:event_panelMouseExited
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
