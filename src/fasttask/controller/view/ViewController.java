@@ -1,12 +1,14 @@
 package fasttask.controller.view;
 
-import Data.ConfigInformation;
+import fasttask.data.ConfigInformation;
 import fasttask.controller.runners.JavaRunner;
 import fasttask.controller.runners.JavaScriptRunner;
 import fasttask.controller.runners.PythonRunner;
 import fasttask.controller.runners.Runner;
 import fasttask.controller.system.FileController;
 import fasttask.view.Principal;
+import fasttask.view.Principal;
+import fasttask.view.RunClass;
 import fasttask.view.RunClass;
 import java.awt.event.WindowEvent;
 import java.io.File;
@@ -103,7 +105,7 @@ public class ViewController {
        // Remover clases activas con la misma ruta
         for (int i = activedClasses.size() - 1; i >= 0; i--) {
             if (activedClasses.get(i).direction.equals(runClass.direction)) {
-                activedClasses.get(i).dispatchEvent(new WindowEvent(activedClasses.get(i), WindowEvent.WINDOW_CLOSING));
+                activedClasses.get(i).dispatchEvent(new WindowEvent(activedClasses.get(i).frame, WindowEvent.WINDOW_CLOSING));
                 activedClasses.remove(activedClasses.get(i));
             }
         }

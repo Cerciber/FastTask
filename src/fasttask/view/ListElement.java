@@ -5,6 +5,7 @@ import fasttask.controller.view.ViewController;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.awt.event.WindowEvent;
 import java.util.Arrays;
 import java.util.Random;
 import javax.swing.JFrame;
@@ -110,19 +111,11 @@ public class ListElement extends javax.swing.JPanel {
     private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
         
         // Crear frame de la función seleccionada
-        RunClass frame = new RunClass(viewController, direction, name, description, languaje, parameters);
-        frame.setResizable(true);
-        frame.setVisible(true);
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        viewController.addActivedClass(frame);
-        
-        // Asignar posición aleatoria en pantalla
-        Random random = new Random();
-        Toolkit toolkit = Toolkit.getDefaultToolkit();
-        Dimension dimension = toolkit.getScreenSize();
-        int x = random.nextInt(dimension.width - frame.getWidth());
-        int y = random.nextInt(dimension.height - frame.getHeight());
-        frame.setLocation(x, y);
+        RunClass runClass = new RunClass(null, viewController, direction, name, description, languaje, parameters);
+        Frame frame = new Frame(runClass, false);
+        runClass.frame = frame;
+
+        viewController.addActivedClass(runClass);
         
     }//GEN-LAST:event_formMouseClicked
 

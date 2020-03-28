@@ -1,7 +1,7 @@
 
 package fasttask.controller.runners;
 
-import Data.ConfigInformation;
+import fasttask.data.ConfigInformation;
 import fasttask.controller.system.FileController;
 import java.io.BufferedReader;
 import java.io.File;

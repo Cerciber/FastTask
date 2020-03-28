@@ -1,5 +1,5 @@
 
-package Data;
+package fasttask.data;
 
 public class ConfigInformation {
    

@@ -1,24 +1,19 @@
 
 package fasttask.view;
 
-import Data.ConfigInformation;
 import fasttask.controller.view.ViewController;
+import fasttask.data.ConfigInformation;
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Desktop;
 import java.awt.event.KeyEvent;
-import java.awt.event.WindowEvent;
-import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
-public class RunClass extends javax.swing.JFrame {
+public class RunClass extends javax.swing.JPanel {
 
     ViewController viewController;
+    public Frame frame;
     
     public String direction;
     String name;
@@ -26,15 +21,14 @@ public class RunClass extends javax.swing.JFrame {
     String languaje;
     String[] parameters;
     
-    public RunClass(ViewController viewController, String dir, String name, String description, String languaje, String[] parameters) {
-        
+    public RunClass(Frame frame, ViewController viewController, String dir, String name, String description, String languaje, String[] parameters) {
         initComponents();
-        getContentPane().setBackground(Color.white);
         String params = Arrays.toString(parameters);
         jLabel2.setText(name + " (" + params.substring(1, params.length() - 1) + ")");
         jLabel4.setText(languaje);
         jLabel3.setText(description);
         
+        this.frame = frame;
         this.viewController = viewController;
         direction = dir;   
         this.name = name;
@@ -43,7 +37,7 @@ public class RunClass extends javax.swing.JFrame {
         this.parameters = parameters;
         setParametersList();
     }
-    
+
     // Asignar lista de funciones
     public void setParametersList(){
         jPanel4.removeAll();
@@ -85,6 +79,7 @@ public class RunClass extends javax.swing.JFrame {
         }
     }
 
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -105,20 +100,6 @@ public class RunClass extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
-
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        addWindowFocusListener(new java.awt.event.WindowFocusListener() {
-            public void windowGainedFocus(java.awt.event.WindowEvent evt) {
-                formWindowGainedFocus(evt);
-            }
-            public void windowLostFocus(java.awt.event.WindowEvent evt) {
-            }
-        });
-        addWindowListener(new java.awt.event.WindowAdapter() {
-            public void windowClosing(java.awt.event.WindowEvent evt) {
-                formWindowClosing(evt);
-            }
-        });
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         jPanel1.setOpaque(false);
@@ -163,11 +144,11 @@ public class RunClass extends javax.swing.JFrame {
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 244, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 372, Short.MAX_VALUE)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 26, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 31, Short.MAX_VALUE)
         );
 
         jPanel3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -188,7 +169,7 @@ public class RunClass extends javax.swing.JFrame {
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 26, Short.MAX_VALUE)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)
         );
 
         jPanel5.setBackground(new java.awt.Color(255, 255, 255));
@@ -257,8 +238,8 @@ public class RunClass extends javax.swing.JFrame {
             }
         });
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
@@ -294,9 +275,29 @@ public class RunClass extends javax.swing.JFrame {
                     .addComponent(jButton3))
                 .addContainerGap())
         );
-
-        pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+
+        Component[] component = jPanel4.getComponents();
+        String[] parameters = new String[component.length];
+
+        // Obtener parametros
+        for (int i = 0; i < parameters.length; i++) {
+            if (((ParameterElement) component[i]).isEmpty()) {
+                return;
+            }
+            parameters[i] = ((ParameterElement) component[i]).getValue();
+        }
+
+        // Ejecutar función
+        String[] returns = viewController.runClass(direction, parameters);
+
+        // ASignar retornos
+        jTextArea1.setText(returns[0].trim());
+        jTextArea2.setText(returns[1].trim());
+
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jPanel5formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel5formMouseClicked
 
@@ -310,63 +311,30 @@ public class RunClass extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jPanel5formMouseExited
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-       
-        Component[] component = jPanel4.getComponents();
-        String[] parameters = new String[component.length];
-        
-        // Obtener parametros
-        for (int i = 0; i < parameters.length; i++) {
-            if (((ParameterElement) component[i]).isEmpty()) {
-                return;
-            }
-            parameters[i] = ((ParameterElement) component[i]).getValue();
-        }
-        
-        // Ejecutar función
-        String[] returns = viewController.runClass(direction, parameters);
-        
-        // ASignar retornos
-        jTextArea1.setText(returns[0].trim());
-        jTextArea2.setText(returns[1].trim());
-        
-        
-    }//GEN-LAST:event_jButton1ActionPerformed
-
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        
+
         // Abirir archivo con sublime text 3
         try {
             String command = "pushd " + ConfigInformation.getSublimeTextFolder() + " "
-                    + "&& sublime_text \"" + direction + "\"";
+            + "&& sublime_text \"" + direction + "\"";
             ProcessBuilder processBuilder = new ProcessBuilder("cmd.exe", "/C", command);
             Process proc = processBuilder.start();
         } catch (IOException ex) {
         }
-
     }//GEN-LAST:event_jButton2ActionPerformed
 
-    private void formWindowGainedFocus(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowGainedFocus
-        
-        
-       
-    }//GEN-LAST:event_formWindowGainedFocus
-
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        
+
         int dialogResult = JOptionPane.showConfirmDialog (this, "¿Quieres borrar la clase " + name + "?", "Warning", JOptionPane.YES_OPTION);
         if(dialogResult == JOptionPane.YES_OPTION){
-          
+
             viewController.removeClass(direction);
             viewController.removeActivedClass(this);
-            
+
         }
-        
+
     }//GEN-LAST:event_jButton3ActionPerformed
 
-    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-        
-    }//GEN-LAST:event_formWindowClosing
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
