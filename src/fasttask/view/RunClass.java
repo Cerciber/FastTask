@@ -1,4 +1,3 @@
-
 package fasttask.view;
 
 import fasttask.controller.view.ViewController;
@@ -14,72 +13,87 @@ public class RunClass extends javax.swing.JPanel {
 
     ViewController viewController;
     public Frame frame;
-    
+    Principal principal;
+
     public String direction;
     String name;
     String description;
     String languaje;
     String[] parameters;
-    
-    public RunClass(Frame frame, ViewController viewController, String dir, String name, String description, String languaje, String[] parameters) {
+    Color color;
+
+    public RunClass(Principal principal, Frame frame, ViewController viewController, String dir, String name, String description, String languaje, String[] parameters) {
         initComponents();
         String params = Arrays.toString(parameters);
         jLabel2.setText(name + " (" + params.substring(1, params.length() - 1) + ")");
         jLabel4.setText(languaje);
         jLabel3.setText(description);
-        
+
+        this.principal = principal;
         this.frame = frame;
         this.viewController = viewController;
-        direction = dir;   
+        direction = dir;
         this.name = name;
         this.description = description;
         this.languaje = languaje;
         this.parameters = parameters;
+        
+        color = viewController.getRunner(dir).color();
+        jPanel7.setBorder(javax.swing.BorderFactory.createLineBorder(color, 4));
+        jPanel7.setBackground(color);
+        jLabel1.setIcon(ViewController.colorImage(jLabel1.getIcon(), color));
+        jLabel5.setIcon(ViewController.colorImage(jLabel5.getIcon(), color));
+        jLabel6.setIcon(ViewController.colorImage(jLabel6.getIcon(), color));
+        jLabel7.setIcon(ViewController.colorImage(jLabel7.getIcon(), color));
+        jLabel2.setForeground(color);
+        jLabel3.setForeground(color);
+        jLabel4.setForeground(color);
+        jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(color, 1));
+        jPanel3.setBorder(javax.swing.BorderFactory.createLineBorder(color, 1));
         setParametersList();
+        
     }
 
     // Asignar lista de funciones
-    public void setParametersList(){
+    public void setParametersList() {
         jPanel4.removeAll();
-        if(parameters.length == 0) {
+        if (parameters.length == 0) {
             jPanel1.setVisible(false);
         } else {
             jPanel1.setVisible(true);
             for (int i = 0; i < parameters.length - 1; i++) {
-                
-                ParameterElement parameterElement = new ParameterElement(parameters[i]);
+
+                ParameterElement parameterElement = new ParameterElement(parameters[i], color);
                 jPanel4.add(parameterElement);
-                
+
                 // Asignar salto de foco a los elementos
                 parameterElement.getField().addKeyListener(new java.awt.event.KeyAdapter() {
                     @Override
                     public void keyPressed(java.awt.event.KeyEvent evt) {
-                        if (evt.getKeyCode() ==  KeyEvent.VK_ENTER) {
+                        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
                             parameterElement.getField().transferFocus();
-                        } 
+                        }
                     }
                 });
-                
+
             }
-            
-            ParameterElement ParameterElement = new ParameterElement(parameters[parameters.length - 1]);
+
+            ParameterElement ParameterElement = new ParameterElement(parameters[parameters.length - 1], color);
             jPanel4.add(ParameterElement);
 
             // Asignar ejecución al ultimo elemento
             ParameterElement.getField().addKeyListener(new java.awt.event.KeyAdapter() {
                 @Override
                 public void keyReleased(java.awt.event.KeyEvent evt) {
-                    if (evt.getKeyCode() ==  KeyEvent.VK_ENTER) {
+                    if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
                         jLabel1MousePressed(null);
-                    } 
+                    }
                 }
             });
-            
-            
+
         }
     }
 
-    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -106,7 +120,6 @@ public class RunClass extends javax.swing.JPanel {
 
         setBackground(new java.awt.Color(255, 255, 255));
 
-        jPanel1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
         jPanel1.setOpaque(false);
 
         jScrollPane3.setBorder(null);
@@ -168,7 +181,7 @@ public class RunClass extends javax.swing.JPanel {
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 26, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)
                 .addGap(0, 0, 0))
         );
 
@@ -177,12 +190,10 @@ public class RunClass extends javax.swing.JPanel {
         jLabel5.setBackground(new java.awt.Color(255, 255, 255));
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/fasttask/view/Images/stop.png"))); // NOI18N
-        jLabel5.setOpaque(true);
 
         jLabel1.setBackground(new java.awt.Color(255, 255, 255));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/fasttask/view/Images/play.png"))); // NOI18N
-        jLabel1.setOpaque(true);
         jLabel1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 jLabel1MousePressed(evt);
@@ -192,7 +203,6 @@ public class RunClass extends javax.swing.JPanel {
         jLabel6.setBackground(new java.awt.Color(255, 255, 255));
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/fasttask/view/Images/editar.png"))); // NOI18N
-        jLabel6.setOpaque(true);
         jLabel6.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 jLabel6MousePressed(evt);
@@ -207,7 +217,6 @@ public class RunClass extends javax.swing.JPanel {
         jLabel7.setBackground(new java.awt.Color(255, 255, 255));
         jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/fasttask/view/Images/borrar.png"))); // NOI18N
-        jLabel7.setOpaque(true);
         jLabel7.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 jLabel7MousePressed(evt);
@@ -290,8 +299,8 @@ public class RunClass extends javax.swing.JPanel {
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel4)
+                        .addGap(9, 9, 9)
                         .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addGap(5, 5, 5))
         );
@@ -349,7 +358,7 @@ public class RunClass extends javax.swing.JPanel {
                 .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
@@ -368,7 +377,7 @@ public class RunClass extends javax.swing.JPanel {
     }//GEN-LAST:event_jPanel5formMouseExited
 
     private void jLabel1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MousePressed
-        
+
         Component[] component = jPanel4.getComponents();
         String[] parameters = new String[component.length];
 
@@ -386,37 +395,37 @@ public class RunClass extends javax.swing.JPanel {
         // ASignar retornos
         jTextArea1.setText(returns[0].trim());
         jTextArea2.setText(returns[1].trim());
-        
+
     }//GEN-LAST:event_jLabel1MousePressed
 
     private void jLabel6KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jLabel6KeyPressed
 
-        
+
     }//GEN-LAST:event_jLabel6KeyPressed
 
     private void jLabel7MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel7MousePressed
-        
-        int dialogResult = JOptionPane.showConfirmDialog (this, "¿Quieres borrar la clase " + name + "?", "Warning", JOptionPane.YES_OPTION);
-        if(dialogResult == JOptionPane.YES_OPTION){
+
+        int dialogResult = JOptionPane.showConfirmDialog(this, "¿Quieres borrar la clase " + name + "?", "Warning", JOptionPane.YES_OPTION);
+        if (dialogResult == JOptionPane.YES_OPTION) {
 
             viewController.removeClass(direction);
             viewController.removeActivedClass(this);
 
         }
-        
+
     }//GEN-LAST:event_jLabel7MousePressed
 
     private void jLabel6MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel6MousePressed
-        
+
         // Abirir archivo con sublime text 3
         try {
             String command = "pushd " + ConfigInformation.getSublimeTextFolder() + " "
-            + "&& sublime_text \"" + direction + "\"";
+                    + "&& sublime_text \"" + direction + "\"";
             ProcessBuilder processBuilder = new ProcessBuilder("cmd.exe", "/C", command);
             Process proc = processBuilder.start();
         } catch (IOException ex) {
         }
-        
+
     }//GEN-LAST:event_jLabel6MousePressed
 
     private void jPanel7formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel7formMouseClicked

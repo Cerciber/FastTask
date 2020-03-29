@@ -2,6 +2,7 @@ package fasttask.controller.runners;
 
 import fasttask.data.ConfigInformation;
 import fasttask.controller.system.FileController;
+import java.awt.Color;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
@@ -86,6 +87,11 @@ public class PythonRunner implements Runner {
         } catch (IOException e) {
         }
         return new String[]{"", ""};
+    }
+
+    @Override
+    public Color color() {
+        return new Color(120, 0, 140);
     }
 
 }

@@ -13,7 +13,8 @@ public class Main {
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
         }
         
-        Frame frame = new Frame(new Principal(), true);
+        Principal principal = new Principal();
+        new Frame(principal, principal, true);
         
     }
     

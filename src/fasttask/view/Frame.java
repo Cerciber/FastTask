@@ -1,30 +1,37 @@
 package fasttask.view;
 
+import fasttask.controller.view.ViewController;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
-import java.awt.MouseInfo;
 import java.awt.Toolkit;
 import java.awt.event.WindowEvent;
 import java.util.Random;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 
 public class Frame extends javax.swing.JFrame {
 
+    Principal principal;
+    
     boolean state;
     int resizeOption;
+    
     int x;
     int y;
     int width;
     int height;
-
+    
+    int xState;
+    int yState;
+    int widthState;
+    int heightState;
+    
     // State (true: principal, false segundario)
-    public Frame(JPanel content, boolean state) {
+    public Frame(Principal principal, JPanel content, boolean state) {
         
         initComponents();
+        this.principal = principal;
         
         if (state) {
             setSize(300, 500);
@@ -51,6 +58,20 @@ public class Frame extends javax.swing.JFrame {
         setVisible(true);
     }
 
+    public Frame(Principal principal, JPanel content, boolean state, String name, Color color){
+        this(principal, content,state);
+        jLabel2.setText(name);
+        panel.setBorder(javax.swing.BorderFactory.createLineBorder(color, 4));
+        jLabel1.setIcon(ViewController.colorImage(jLabel1.getIcon(), color));
+        jLabel4.setIcon(ViewController.colorImage(jLabel4.getIcon(), color));
+        jLabel5.setIcon(ViewController.colorImage(jLabel5.getIcon(), color));
+        jLabel6.setIcon(ViewController.colorImage(jLabel6.getIcon(), color));
+        jLabel2.setBackground(color);
+        jLabel2.setBorder(javax.swing.BorderFactory.createMatteBorder(4, 4, 0, 4, color));
+        setVisible(false);
+        setVisible(true);
+    }
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -117,6 +138,11 @@ public class Frame extends javax.swing.JFrame {
 
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/fasttask/view/Images/ajustes.png"))); // NOI18N
+        jLabel6.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jLabel6MousePressed(evt);
+            }
+        });
 
         jLabel2.setBackground(new java.awt.Color(0, 0, 0));
         jLabel2.setFont(new java.awt.Font("Comic Sans MS", 1, 24)); // NOI18N
@@ -133,8 +159,8 @@ public class Frame extends javax.swing.JFrame {
             .addComponent(panel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 93, Short.MAX_VALUE)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 106, Short.MAX_VALUE)
                 .addComponent(jLabel6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel5)
@@ -166,29 +192,17 @@ public class Frame extends javax.swing.JFrame {
     }//GEN-LAST:event_jLabel1MousePressed
 
     private void jLabel4MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel4MousePressed
-
+        
         if (getExtendedState() != JFrame.MAXIMIZED_BOTH) {
+            xState = this.getLocation().x;
+            yState = this.getLocation().y;
+            widthState = this.getWidth();
+            heightState = this.getHeight();
             setExtendedState(getExtendedState() | JFrame.MAXIMIZED_BOTH);
             getContentPane().setBackground(Color.WHITE);
         } else {
-
-            if (state) {
-                setSize(600, 400);
-                setLocationRelativeTo(null);
-            } else {
-
-                setSize(300, 500);
-
-                // Asignar posición aleatoria en pantalla
-                Random random = new Random();
-                Toolkit toolkit = Toolkit.getDefaultToolkit();
-                Dimension dimension = toolkit.getScreenSize();
-                int x = random.nextInt(dimension.width - getWidth());
-                int y = random.nextInt(dimension.height - getHeight());
-                setLocation(x, y);
-
-            }
-
+            setSize(widthState, heightState);
+            setLocation(xState, yState);
             getContentPane().setBackground(new Color(1.0f, 1.0f, 1.0f, 0.0f));
         }
 
@@ -201,6 +215,10 @@ public class Frame extends javax.swing.JFrame {
         } else {
             setVisible(false);
             dispose();
+            if (jLabel2.getText().equals("Configuración")) {
+                ViewController.confActived = false;
+            }
+            
         }
 
 
@@ -282,6 +300,20 @@ public class Frame extends javax.swing.JFrame {
         setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
 
     }//GEN-LAST:event_panelMouseExited
+
+    private void jLabel6MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel6MousePressed
+        
+        if (!ViewController.confActived) {
+            // Crear frame de la configuración
+            Configuration configuration = new Configuration(principal);
+            Frame frame = new Frame(principal, configuration, false, "Configuración", Color.BLACK);
+            frame.setSize(320, 360);
+            ViewController.confActived = true;
+        }
+        
+        
+        
+    }//GEN-LAST:event_jLabel6MousePressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

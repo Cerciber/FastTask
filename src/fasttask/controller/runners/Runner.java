@@ -2,6 +2,9 @@
 package fasttask.controller.runners;
 
 // Interfaz para ejecutar funciones desde diferentes lenguajes
+
+import java.awt.Color;
+
 public interface Runner {
     
     // Obtener información de la clase.
@@ -16,5 +19,8 @@ public interface Runner {
     // - Salida en consola de la calse
     // - Error de ejecución
     public String[] run(String code, String[] parameters);
+    
+    // Obtener color representativo del lenguaje
+    public Color color();
     
 }

@@ -12,6 +12,7 @@ import javax.swing.JFrame;
 
 public class ListElement extends javax.swing.JPanel {
 
+    Principal principal;
     ViewController viewController;
     
     String direction;
@@ -20,12 +21,13 @@ public class ListElement extends javax.swing.JPanel {
     String languaje;
     String[] parameters;
     
-    public ListElement(ViewController viewController, String dir, String name, String description, String languaje, String[] parameters) {
+    public ListElement(Principal principal, ViewController viewController, String dir, String name, String description, String languaje, String[] parameters) {
         initComponents();
         String params = Arrays.toString(parameters);
         jLabel1.setText(name + " (" + params.substring(1, params.length() - 1) + ")");
         jLabel4.setText(languaje);
         jLabel3.setText(description);
+        this.principal = principal;
         this.viewController = viewController;
         direction = dir;
         this.name = name;
@@ -131,8 +133,8 @@ public class ListElement extends javax.swing.JPanel {
     private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
         
         // Crear frame de la función seleccionada
-        RunClass runClass = new RunClass(null, viewController, direction, name, description, languaje, parameters);
-        Frame frame = new Frame(runClass, false);
+        RunClass runClass = new RunClass(principal, null, viewController, direction, name, description, languaje, parameters);
+        Frame frame = new Frame(principal, runClass, false, languaje, viewController.getRunner(direction).color());
         runClass.frame = frame;
 
         viewController.addActivedClass(runClass);

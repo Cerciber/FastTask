@@ -1,52 +1,48 @@
 
 package fasttask.data;
 
+import fasttask.controller.system.FileController;
+
 public class ConfigInformation {
    
-    private static String SaveFolder = "C:\\Users\\acer\\Documents\\FastTask\\Saved files";
-    private static String pythonFolder = "C:\\Users\\acer\\AppData\\Local\\Programs\\Python\\Python37-32";
-    private static String javaFolder = "C:\\Program Files\\Java\\jdk1.8.0_221\\bin";
-    private static String javaScriptFolder = "C:\\Program Files\\nodejs";
-    private static String sublimeTextFolder = "C:\\Program Files\\Sublime Text 3";
-
     public static String getSublimeTextFolder() {
-        return sublimeTextFolder;
+        return new FileController().loadContent("src/fasttask/data/SublimeText3.txt").trim();
     }
 
     public static void setSublimeTextFolder(String sublimeTextFolder) {
-        ConfigInformation.sublimeTextFolder = sublimeTextFolder;
+        new FileController().savedContent("src/fasttask/data/SublimeText3.txt", sublimeTextFolder);
     }
 
     public static String getSaveFolder() {
-        return ConfigInformation.SaveFolder;
+        return new FileController().loadContent("src/fasttask/data/ClassesDirectory.txt").trim();
     }
 
     public static void setSaveFolder(String SaveFolder) {
-        ConfigInformation.SaveFolder = SaveFolder;
+        new FileController().savedContent("src/fasttask/data/ClassesDirectory.txt", SaveFolder);
     }
 
     public static String getPythonFolder() {
-        return ConfigInformation.pythonFolder;
+        return new FileController().loadContent("src/fasttask/data/Python.txt").trim();
     }
 
     public static void setPythonFolder(String pythonFolder) {
-        ConfigInformation.pythonFolder = pythonFolder;
+        new FileController().savedContent("src/fasttask/data/Python.txt", pythonFolder);
     }
 
     public static String getJavaFolder() {
-        return ConfigInformation.javaFolder;
+        return new FileController().loadContent("src/fasttask/data/Java.txt").trim();
     }
 
     public static void setJavaFolder(String javaFolder) {
-        ConfigInformation.javaFolder = javaFolder;
+        new FileController().savedContent("src/fasttask/data/Java.txt", javaFolder);
     }
 
     public static String getJavaScriptFolder() {
-        return ConfigInformation.javaScriptFolder;
+        return new FileController().loadContent("src/fasttask/data/JavaScript.txt").trim();
     }
 
     public void setJavaScriptFolder(String javaScriptFolder) {
-        ConfigInformation.javaScriptFolder = javaScriptFolder;
+        new FileController().savedContent("src/fasttask/data/JavaScript.txt", javaScriptFolder);
     }
     
     

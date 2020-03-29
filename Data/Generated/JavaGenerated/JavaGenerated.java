@@ -2,7 +2,7 @@
 // Hola mundo
 class Prueba {
     public Prueba() {
-		System.out.println("Hello Wolrd");
+		System.out.println("Hellssssss Wolrd");
     }
     
 }

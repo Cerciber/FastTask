@@ -6,4 +6,4 @@ class Clase {
     }
 }
 
-new Clase (4, 56);
+new Clase (45, 45);

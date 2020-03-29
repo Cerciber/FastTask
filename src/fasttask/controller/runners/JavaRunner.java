@@ -3,6 +3,7 @@ package fasttask.controller.runners;
 
 import fasttask.data.ConfigInformation;
 import fasttask.controller.system.FileController;
+import java.awt.Color;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
@@ -97,6 +98,11 @@ public class JavaRunner implements Runner {
         }
         return new String[]{"", ""};
         
+    }
+
+    @Override
+    public Color color() {
+        return new Color(210,15,15);
     }
     
 }

@@ -7,19 +7,23 @@ import fasttask.controller.runners.PythonRunner;
 import fasttask.controller.runners.Runner;
 import fasttask.controller.system.FileController;
 import fasttask.view.Principal;
-import fasttask.view.Principal;
 import fasttask.view.RunClass;
-import fasttask.view.RunClass;
-import java.awt.event.WindowEvent;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.image.BufferedImage;
+import java.awt.image.WritableRaster;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.util.ArrayList;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 
 public class ViewController {
 
     FileController fileController;
     Principal principal;
     public ArrayList<RunClass> activedClasses;
+    public static boolean confActived = false;
 
     public ViewController(Principal principal) {
 
@@ -114,6 +118,35 @@ public class ViewController {
        // Actualizar lista
        principal.setFunctionList();
        
+    }
+    
+    // Cambiar color de una imagen
+    public static Icon colorImage(Icon image1, Color color) {
+        
+        BufferedImage image = new BufferedImage(
+            image1.getIconWidth(),
+            image1.getIconHeight(),
+            BufferedImage.TYPE_4BYTE_ABGR);
+        Graphics g = image.createGraphics();
+        image1.paintIcon(null, g, 0,0);
+        g.dispose();
+        
+        int width = image.getWidth();
+        int height = image.getHeight();
+        WritableRaster raster = image.getRaster();
+        for (int x = 0; x < width; x++) {
+            for (int y = 0; y < height; y++) {
+                int[] pixels = raster.getPixel(x, y, (int[]) null);
+                if (pixels[0] < 200 && pixels[1] < 200 && pixels[2] < 200) {
+                    pixels[0] = Math.min(255, color.getRed() + pixels[0]);
+                    pixels[1] = Math.min(255, color.getGreen() + pixels[1]);
+                    pixels[2] = Math.min(255, color.getBlue() + pixels[2]);
+                }
+                raster.setPixel(x, y, pixels);
+            }
+        }
+        
+        return new ImageIcon(image);
     }
 
 }
