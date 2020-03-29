@@ -14,6 +14,8 @@ import java.util.regex.Pattern;
 
 public class JavaRunner implements Runner {
 
+    Process process;
+    
     @Override
     public Object[] info(String code) {
         
@@ -43,48 +45,68 @@ public class JavaRunner implements Runner {
     }
     
     @Override
-    public String[] run(String code, String[] parameters) {
+    public void run(String code, String[] parameters) {
         
-        // Leer nombre de la clase
-        Pattern pattern = Pattern.compile("class[ ].*?(.*?)[{]", Pattern.DOTALL);
-        Matcher matcher = pattern.matcher(code);
-        String nameClass;
-        if (matcher.find()) {
-            nameClass = matcher.group(1);
-        } else {
-            nameClass = "";
-        }
-        
-        // Crear codigo del ejecutable
-        String parametersString = Arrays.toString(parameters);
-        String generatedCode = code + "\n class __Main {public static void main(String[] args) { new " + nameClass + "(" + parametersString.substring(1, parametersString.length() - 1) + ")" + ";}}";
-        
-        // Generar ejecutable
-        FileController fileController = new FileController();
-        fileController.deleteFilesInFolder("Data/Generated/JavaGenerated");
-        fileController.createFile("Data/Generated/JavaGenerated/JavaGenerated.java");
-        fileController.savedContent("Data/Generated/JavaGenerated/JavaGenerated.java", generatedCode);
+        new Thread(){
+            
+            @Override
+            public void run(){
+                
+                // Leer nombre de la clase
+                Pattern pattern = Pattern.compile("class[ ].*?(.*?)[{]", Pattern.DOTALL);
+                Matcher matcher = pattern.matcher(code);
+                String nameClass;
+                if (matcher.find()) {
+                    nameClass = matcher.group(1);
+                } else {
+                    nameClass = "";
+                }
+
+                // Crear codigo del ejecutable
+                String parametersString = Arrays.toString(parameters);
+                String generatedCode = code + "\n class __Main {public static void main(String[] args) { new " + nameClass + "(" + parametersString.substring(1, parametersString.length() - 1) + ")" + ";}}";
+
+                // Generar ejecutable
+                FileController fileController = new FileController();
+                fileController.deleteFilesInFolder("Data/Generated/JavaGenerated");
+                fileController.createFile("Data/Generated/JavaGenerated/JavaGenerated.java");
+                fileController.savedContent("Data/Generated/JavaGenerated/JavaGenerated.java", generatedCode);
+
+                try {
+
+                    // Ejecutar clase
+                    String command = "pushd " + ConfigInformation.getJavaFolder() + " "
+                            + "&& javac \"" + new File("Data/Generated/JavaGenerated").getAbsolutePath() + "\\JavaGenerated.java" + "\" "
+                            + "&& pushd \"" + new File("Data/Generated/JavaGenerated").getAbsolutePath() + "\""
+                            + "&& java __Main";
+                    ProcessBuilder processBuilder = new ProcessBuilder("cmd.exe", "/C", command);
+                    processBuilder.environment().put(code, code);
+                    process = processBuilder.start();
+
+                } catch (IOException e) {
+                    System.out.println(e);
+                }
+                
+            }
+            
+        }.start();
+       
+    }
+
+    @Override
+    public String[] returns() {
         
         try {
             
-            // Ejecutar clase
-            String command = "pushd " + ConfigInformation.getJavaFolder() + " "
-                    + "&& javac \"" + new File("Data/Generated/JavaGenerated").getAbsolutePath() + "\\JavaGenerated.java" + "\" "
-                    + "&& pushd \"" + new File("Data/Generated/JavaGenerated").getAbsolutePath() + "\""
-                    + "&& java __Main";
-            ProcessBuilder processBuilder = new ProcessBuilder("cmd.exe", "/C", command);
-            processBuilder.environment().put(code, code);
-            Process proc = processBuilder.start();
-            
             // Obtener resultados
-            BufferedReader stdInput = new BufferedReader(new InputStreamReader(proc.getInputStream(), "ISO-8859-1"));
+            BufferedReader stdInput = new BufferedReader(new InputStreamReader(process.getInputStream(), "ISO-8859-1"));
             String aux = stdInput.readLine();
             String result1 = "";
             while (aux != null) {
                 result1 += aux + "\n";
                 aux = stdInput.readLine();
             }
-            BufferedReader stdInput2 = new BufferedReader(new InputStreamReader(proc.getErrorStream(), "ISO-8859-1"));
+            BufferedReader stdInput2 = new BufferedReader(new InputStreamReader(process.getErrorStream(), "ISO-8859-1"));
             aux = stdInput2.readLine();
             String result2 = "";
             while (aux != null) {
@@ -100,6 +122,14 @@ public class JavaRunner implements Runner {
         
     }
 
+    
+    @Override
+    public void stop() {
+        if (process != null) {
+            process.destroy();
+        }
+    }
+    
     @Override
     public Color color() {
         return new Color(210,15,15);

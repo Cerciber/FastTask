@@ -2,7 +2,8 @@
 // Hola mundo
 class Prueba {
     public Prueba() {
-		System.out.println("Hellssssss Wolrd");
+		System.out.println("Hello Wolrd");
+		while(true){}
     }
     
 }

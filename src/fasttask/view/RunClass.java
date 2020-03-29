@@ -1,5 +1,6 @@
 package fasttask.view;
 
+import fasttask.controller.runners.Runner;
 import fasttask.controller.view.ViewController;
 import fasttask.data.ConfigInformation;
 import java.awt.Color;
@@ -14,6 +15,7 @@ public class RunClass extends javax.swing.JPanel {
     ViewController viewController;
     public Frame frame;
     Principal principal;
+    Runner runner;
 
     public String direction;
     String name;
@@ -390,11 +392,9 @@ public class RunClass extends javax.swing.JPanel {
         }
 
         // Ejecutar función
-        String[] returns = viewController.runClass(direction, parameters);
-
-        // ASignar retornos
-        jTextArea1.setText(returns[0].trim());
-        jTextArea2.setText(returns[1].trim());
+        runner = viewController.getRunner(direction);                             // Obtener runner del lenguaje detectado
+        String content = viewController.fileController.loadContent(direction);           // Obtener codido contenido
+        runner.run(content, parameters);         // Obtener infromación del codigo
 
     }//GEN-LAST:event_jLabel1MousePressed
 

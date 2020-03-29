@@ -18,7 +18,15 @@ public interface Runner {
     // Retorna:
     // - Salida en consola de la calse
     // - Error de ejecución
-    public String[] run(String code, String[] parameters);
+    public void run(String code, String[] parameters);
+    
+    // Devolver retornos actuales de la ejecución:
+    // - Salida en consola de la calse
+    // - Error de ejecución
+    public String[] returns();
+    
+    // Parar ejecución
+    public void stop();
     
     // Obtener color representativo del lenguaje
     public Color color();

@@ -20,7 +20,7 @@ import javax.swing.ImageIcon;
 
 public class ViewController {
 
-    FileController fileController;
+    public FileController fileController;
     Principal principal;
     public ArrayList<RunClass> activedClasses;
     public static boolean confActived = false;
@@ -46,23 +46,26 @@ public class ViewController {
                 return name.toLowerCase().contains(filter.toLowerCase());
             }
         });  
-        Object[][] objects = new Object[files.length][4];         // Crear objectos de retorno para cada archivo
+        ArrayList<Object[]> objects = new ArrayList<>();         // Crear objectos de retorno para cada archivo
 
         // Para cada archivo
-        for (int i = 0; i < objects.length; i++) {
+        for (int i = 0; i < files.length; i++) {
 
             Runner runner = getRunner(files[i].getAbsolutePath());                        // Obtener runner del lenguaje detectado
-            String content = fileController.loadContent(files[i].getAbsolutePath());      // Obtener codido contenido
-            Object[] codeInfo = runner.info(content);                   // Obtener infromación del codigo
-            objects[i] = new Object[]{files[i].getAbsolutePath(), // Obtener información del archivo y del codigo
-                fileController.getName(files[i].getAbsolutePath()),
-                codeInfo[0],
-                codeInfo[2],
-                codeInfo[1]};
+            
+            if (runner != null) {
+                String content = fileController.loadContent(files[i].getAbsolutePath());      // Obtener codido contenido
+                Object[] codeInfo = runner.info(content);                   // Obtener infromación del codigo
+                objects.add(new Object[]{files[i].getAbsolutePath(), // Obtener información del archivo y del codigo
+                    fileController.getName(files[i].getAbsolutePath()),
+                    codeInfo[0],
+                    codeInfo[2],
+                    codeInfo[1]});
+            }    
 
         }
 
-        return objects;
+        return objects.toArray(new Object[][]{});
     }
 
     // Obtener runner del lenguaje del archivo
@@ -76,16 +79,6 @@ public class ViewController {
                 return new JavaScriptRunner();
         }
         return null;
-    }
-
-    // Ejecutar clase y obtener retornos
-    public String[] runClass(String dir, String[] parameters) {
-
-        Runner runner = getRunner(dir);                             // Obtener runner del lenguaje detectado
-        String content = fileController.loadContent(dir);           // Obtener codido contenido
-        String[] returns = runner.run(content, parameters);         // Obtener infromación del codigo
-
-        return returns;
     }
 
     // Añadir clase a la lista

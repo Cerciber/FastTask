@@ -14,6 +14,8 @@ import java.util.regex.Pattern;
 
 public class JavaScriptRunner implements Runner {
 
+    Process process;
+    
     @Override
     public Object[] info(String code) {
 
@@ -43,44 +45,64 @@ public class JavaScriptRunner implements Runner {
     }
     
     @Override
-    public String[] run(String code, String[] parameters) {
+    public void run(String code, String[] parameters) {
         
-        // Leer nombre de la clase
-        Pattern pattern = Pattern.compile("class[ ].*?(.*?)[{]", Pattern.DOTALL);
-        Matcher matcher = pattern.matcher(code);
-        String nameClass;
-        if (matcher.find()) {
-            nameClass = matcher.group(1);
-        } else {
-            nameClass = "";
-        }
+        new Thread(){
+            
+            @Override
+            public void run(){
+                
+                // Leer nombre de la clase
+                Pattern pattern = Pattern.compile("class[ ].*?(.*?)[{]", Pattern.DOTALL);
+                Matcher matcher = pattern.matcher(code);
+                String nameClass;
+                if (matcher.find()) {
+                    nameClass = matcher.group(1);
+                } else {
+                    nameClass = "";
+                }
+
+                // Crear codigo del ejecutable
+                String parametersString = Arrays.toString(parameters);
+                String generatedCode = code + "\n" + "new " + nameClass + "(" + parametersString.substring(1, parametersString.length() - 1) + ");";
+
+                // Generar ejecutable
+                FileController fileController = new FileController();
+                fileController.savedContent("Data/Generated/JavaScriptGenerated.js", generatedCode);
+
+                try {
+
+                    // Ejecutar clase
+                    String command = "pushd " + ConfigInformation.getJavaScriptFolder() + " "  
+                            + "&& node \"" + new File("Data/Generated/JavaScriptGenerated.js").getAbsolutePath() + "\" ";
+                    ProcessBuilder processBuilder = new ProcessBuilder("cmd.exe", "/C", command);
+                    processBuilder.environment().put(code, code);
+                    process = processBuilder.start();
+
+                } catch (IOException e) {
+                    System.out.println(e);
+                }
+                
+            }
+            
+        }.start();
         
-        // Crear codigo del ejecutable
-        String parametersString = Arrays.toString(parameters);
-        String generatedCode = code + "\n" + "new " + nameClass + "(" + parametersString.substring(1, parametersString.length() - 1) + ");";
-        
-        // Generar ejecutable
-        FileController fileController = new FileController();
-        fileController.savedContent("Data/Generated/JavaScriptGenerated.js", generatedCode);
+    }
+
+    @Override
+    public String[] returns() {
         
         try {
             
-            // Ejecutar clase
-            String command = "pushd " + ConfigInformation.getJavaScriptFolder() + " "  
-                    + "&& node \"" + new File("Data/Generated/JavaScriptGenerated.js").getAbsolutePath() + "\" ";
-            ProcessBuilder processBuilder = new ProcessBuilder("cmd.exe", "/C", command);
-            processBuilder.environment().put(code, code);
-            Process proc = processBuilder.start();
-            
             // Obtener resultados
-            BufferedReader stdInput = new BufferedReader(new InputStreamReader(proc.getInputStream(), "ISO-8859-1"));
+            BufferedReader stdInput = new BufferedReader(new InputStreamReader(process.getInputStream(), "ISO-8859-1"));
             String aux = stdInput.readLine();
             String result1 = "";
             while (aux != null) {
                 result1 += aux + "\n";
                 aux = stdInput.readLine();
             }
-            BufferedReader stdInput2 = new BufferedReader(new InputStreamReader(proc.getErrorStream(), "ISO-8859-1"));
+            BufferedReader stdInput2 = new BufferedReader(new InputStreamReader(process.getErrorStream(), "ISO-8859-1"));
             aux = stdInput2.readLine();
             String result2 = "";
             while (aux != null) {
@@ -97,6 +119,14 @@ public class JavaScriptRunner implements Runner {
         
     }
 
+    
+    @Override
+    public void stop() {
+        if (process != null) {
+            process.destroy();
+        }
+    }
+    
     @Override
     public Color color() {
         return new Color(226, 113, 0);
