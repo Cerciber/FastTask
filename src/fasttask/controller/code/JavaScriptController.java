@@ -1,8 +1,8 @@
 
-package fasttask.controller.runners;
+package fasttask.controller.code;
 
-import fasttask.data.ConfigInformation;
-import fasttask.controller.system.FileController;
+import fasttask.controller.settting.SettingController;
+import fasttask.data.system.FileAccess;
 import java.awt.Color;
 import java.io.BufferedReader;
 import java.io.File;
@@ -12,9 +12,12 @@ import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class JavaScriptRunner implements Runner {
+public class JavaScriptController implements Runner {
 
-    Process process;
+    static final String JAVASCRIPT_GENERATED_FILE = "src/fasttask/data/files/generated/JavaScriptGenerated/PJavaScriptGenerated.py";
+    static final String JAVASCRIPT_GENERATED_DIRECTORY = "src/fasttask/data/files/generated/JavaScriptGenerated";
+    
+    boolean stop;
     
     @Override
     public Object[] info(String code) {
@@ -45,7 +48,7 @@ public class JavaScriptRunner implements Runner {
     }
     
     @Override
-    public void run(String code, String[] parameters) {
+    public void run(String code, String[] parameters, CommandLine commandLine) {
         
         new Thread(){
             
@@ -67,17 +70,38 @@ public class JavaScriptRunner implements Runner {
                 String generatedCode = code + "\n" + "new " + nameClass + "(" + parametersString.substring(1, parametersString.length() - 1) + ");";
 
                 // Generar ejecutable
-                FileController fileController = new FileController();
-                fileController.savedContent("Data/Generated/JavaScriptGenerated.js", generatedCode);
+                FileAccess fileController = new FileAccess();
+                fileController.savedContent(JAVASCRIPT_GENERATED_FILE, generatedCode);
 
                 try {
 
                     // Ejecutar clase
-                    String command = "pushd " + ConfigInformation.getJavaScriptFolder() + " "  
-                            + "&& node \"" + new File("Data/Generated/JavaScriptGenerated.js").getAbsolutePath() + "\" ";
+                    String command = "pushd " + SettingController.getJavaScriptFolder() + " "  
+                            + "&& node \"" + new File(JAVASCRIPT_GENERATED_FILE).getAbsolutePath() + "\" ";
                     ProcessBuilder processBuilder = new ProcessBuilder("cmd.exe", "/C", command);
                     processBuilder.environment().put(code, code);
-                    process = processBuilder.start();
+                    Process process = processBuilder.start();
+                    
+                    // Obtener resultados
+                    BufferedReader stdInput = new BufferedReader(new InputStreamReader(process.getInputStream(), "ISO-8859-1"));
+                    String aux = stdInput.readLine();
+                    System.out.println(aux);
+                    while (!stop && aux != null) {
+                        commandLine.write(aux + "\n");
+                        aux = stdInput.readLine();
+                        System.out.println(aux);
+                    }
+                    if (!stop) {
+                        BufferedReader stdInput2 = new BufferedReader(new InputStreamReader(process.getErrorStream(), "ISO-8859-1"));
+                        String aux2 = stdInput2.readLine();
+                        System.out.println(aux);
+                        while (aux2 != null) {
+                            System.out.println(process);
+                            commandLine.writeError(aux2 + "\n");
+                            aux2 = stdInput2.readLine();
+                            System.out.println(aux);
+                        }
+                    }
 
                 } catch (IOException e) {
                     System.out.println(e);
@@ -88,43 +112,10 @@ public class JavaScriptRunner implements Runner {
         }.start();
         
     }
-
-    @Override
-    public String[] returns() {
-        
-        try {
-            
-            // Obtener resultados
-            BufferedReader stdInput = new BufferedReader(new InputStreamReader(process.getInputStream(), "ISO-8859-1"));
-            String aux = stdInput.readLine();
-            String result1 = "";
-            while (aux != null) {
-                result1 += aux + "\n";
-                aux = stdInput.readLine();
-            }
-            BufferedReader stdInput2 = new BufferedReader(new InputStreamReader(process.getErrorStream(), "ISO-8859-1"));
-            aux = stdInput2.readLine();
-            String result2 = "";
-            while (aux != null) {
-                result2 += aux + "\n";
-                aux = stdInput2.readLine();
-            }
-            return new String[]{result1, result2};
-            
-        } catch (IOException e) {
-            System.out.println(e);
-        }
-        return new String[]{"", ""};
-        
-        
-    }
-
     
     @Override
     public void stop() {
-        if (process != null) {
-            process.destroy();
-        }
+        stop = true;
     }
     
     @Override

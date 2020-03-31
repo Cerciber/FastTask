@@ -1,4 +1,4 @@
-package fasttask.controller.system;
+package fasttask.data.system;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -7,10 +7,10 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
-public class FileController {
+public class FileAccess {
 
     // Cargar contenido de un archivo
-    public String loadContent(String dir) {
+    public static String loadContent(String dir) {
 
         String content = "";
 
@@ -43,7 +43,7 @@ public class FileController {
     }
 
     // Guardar contenido
-    public void savedContent(String dir, String code) {
+    public static void savedContent(String dir, String code) {
 
         // Escribir en un archivo
         try {
@@ -66,7 +66,7 @@ public class FileController {
     }
 
     // Obtener nombre de un archivo
-    public String getName(String dir) {
+    public static String getName(String dir) {
         File file = new File(dir);
         int index = file.getName().lastIndexOf(".");
         if (index == -1) {
@@ -76,7 +76,7 @@ public class FileController {
     }
 
     // Obtener extensión de un archivo
-    public String getExtension(String dir) {
+    public static String getExtension(String dir) {
         File file = new File(dir);
         int index = file.getName().lastIndexOf(".");
         if (index == -1) {
@@ -86,7 +86,7 @@ public class FileController {
     }
 
     // Crear archivo
-    public void createFile(String dir) {
+    public static void createFile(String dir) {
         try {
             new File(dir).createNewFile();
         } catch (IOException ex) {
@@ -95,7 +95,7 @@ public class FileController {
     }
 
     // Borrar archivos en un directorio
-    public void deleteFilesInFolder(String dir) {
+    public static void deleteFilesInFolder(String dir) {
         File[] files = new File(dir).listFiles();
         for (File file : files) {
             file.delete();
@@ -103,13 +103,13 @@ public class FileController {
     }
 
     // Copiar archivo
-    public void copyFile(String dir1, String dir2) {
+    public static void copyFile(String dir1, String dir2) {
         createFile(dir2);
         savedContent(dir2, loadContent(dir1));
     }
 
     // Eliminar archivo
-    public void deleteFile(String dir) {
+    public static void deleteFile(String dir) {
         System.gc();
         try {
             org.apache.commons.io.FileDeleteStrategy.FORCE.delete(new File(dir));

@@ -1,11 +1,11 @@
 package fasttask.controller.view;
 
-import fasttask.data.ConfigInformation;
-import fasttask.controller.runners.JavaRunner;
-import fasttask.controller.runners.JavaScriptRunner;
-import fasttask.controller.runners.PythonRunner;
-import fasttask.controller.runners.Runner;
-import fasttask.controller.system.FileController;
+import fasttask.controller.settting.SettingController;
+import fasttask.controller.code.JavaController;
+import fasttask.controller.code.JavaScriptController;
+import fasttask.controller.code.PythonController;
+import fasttask.controller.code.Runner;
+import fasttask.data.system.FileAccess;
 import fasttask.view.Principal;
 import fasttask.view.RunClass;
 import java.awt.Color;
@@ -20,14 +20,14 @@ import javax.swing.ImageIcon;
 
 public class ViewController {
 
-    public FileController fileController;
+    public FileAccess fileController;
     Principal principal;
     public ArrayList<RunClass> activedClasses;
     public static boolean confActived = false;
 
     public ViewController(Principal principal) {
 
-        fileController = new FileController();
+        fileController = new FileAccess();
         this.principal = principal;
         activedClasses = new ArrayList<>();
 
@@ -41,7 +41,7 @@ public class ViewController {
     // - Nombres de las entradas (Nombres de los parametros de la función)
     public Object[][] getClassList(String filter) {
 
-        File[] files = new File(ConfigInformation.getSaveFolder()).listFiles(new FilenameFilter() {  // Listar archivos que cumplan el filtro
+        File[] files = new File(SettingController.getSaveFolder()).listFiles(new FilenameFilter() {  // Listar archivos que cumplan el filtro
             public boolean accept(File dir, String name) {
                 return name.toLowerCase().contains(filter.toLowerCase());
             }
@@ -72,18 +72,18 @@ public class ViewController {
     public Runner getRunner(String dir) {
         switch (fileController.getExtension(dir)) {
             case "java":
-                return new JavaRunner();
+                return new JavaController(dir);
             case "py":
-                return new PythonRunner();
+                return new PythonController();
             case "js":
-                return new JavaScriptRunner();
+                return new JavaScriptController();
         }
         return null;
     }
 
     // Añadir clase a la lista
     public void addClass(String dir) {
-        fileController.copyFile(dir, ConfigInformation.getSaveFolder() + "\\" + fileController.getName(dir) + "." + fileController.getExtension(dir));
+        fileController.copyFile(dir, SettingController.getSaveFolder() + "\\" + fileController.getName(dir) + "." + fileController.getExtension(dir));
     }
 
     // Eliminar clase de la lista

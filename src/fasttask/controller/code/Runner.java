@@ -1,5 +1,5 @@
 
-package fasttask.controller.runners;
+package fasttask.controller.code;
 
 // Interfaz para ejecutar funciones desde diferentes lenguajes
 
@@ -18,12 +18,7 @@ public interface Runner {
     // Retorna:
     // - Salida en consola de la calse
     // - Error de ejecución
-    public void run(String code, String[] parameters);
-    
-    // Devolver retornos actuales de la ejecución:
-    // - Salida en consola de la calse
-    // - Error de ejecución
-    public String[] returns();
+    public void run(String code, String[] parameters, CommandLine commandLine);
     
     // Parar ejecución
     public void stop();

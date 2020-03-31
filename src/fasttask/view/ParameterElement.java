@@ -42,6 +42,7 @@ public class ParameterElement extends javax.swing.JPanel {
         jLabel1.setText("Nombre");
         jLabel1.setOpaque(true);
 
+        jTextField1.setFont(new java.awt.Font("Monospaced", 0, 13)); // NOI18N
         jTextField1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField1ActionPerformed(evt);

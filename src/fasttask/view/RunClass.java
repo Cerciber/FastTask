@@ -1,8 +1,9 @@
 package fasttask.view;
 
-import fasttask.controller.runners.Runner;
+import fasttask.controller.code.CommandLine;
+import fasttask.controller.code.Runner;
 import fasttask.controller.view.ViewController;
-import fasttask.data.ConfigInformation;
+import fasttask.controller.settting.SettingController;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.KeyEvent;
@@ -10,7 +11,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import javax.swing.JOptionPane;
 
-public class RunClass extends javax.swing.JPanel {
+public class RunClass extends javax.swing.JPanel implements CommandLine{
 
     ViewController viewController;
     public Frame frame;
@@ -95,6 +96,18 @@ public class RunClass extends javax.swing.JPanel {
 
         }
     }
+    
+    @Override
+    public void write(String text) {
+        jTextArea1.setText(jTextArea1.getText() + text);
+        jTextArea1.setCaretPosition(jTextArea1.getText().length());
+    }
+
+    @Override
+    public void writeError(String text) {
+        jTextArea2.setText(jTextArea2.getText() + text);
+        jTextArea2.setCaretPosition(jTextArea2.getText().length());
+    }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -146,6 +159,7 @@ public class RunClass extends javax.swing.JPanel {
 
         jScrollPane1.setBorder(null);
 
+        jTextArea1.setBackground(new java.awt.Color(251, 255, 251));
         jTextArea1.setColumns(20);
         jTextArea1.setRows(1);
         jTextArea1.setTabSize(1);
@@ -168,6 +182,7 @@ public class RunClass extends javax.swing.JPanel {
 
         jScrollPane2.setBorder(null);
 
+        jTextArea2.setBackground(new java.awt.Color(255, 250, 250));
         jTextArea2.setColumns(20);
         jTextArea2.setForeground(new java.awt.Color(255, 0, 0));
         jTextArea2.setRows(1);
@@ -191,11 +206,16 @@ public class RunClass extends javax.swing.JPanel {
 
         jLabel5.setBackground(new java.awt.Color(255, 255, 255));
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/fasttask/view/Images/stop.png"))); // NOI18N
+        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/fasttask/data/files/images/stop.png"))); // NOI18N
+        jLabel5.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jLabel5MousePressed(evt);
+            }
+        });
 
         jLabel1.setBackground(new java.awt.Color(255, 255, 255));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/fasttask/view/Images/play.png"))); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/fasttask/data/files/images/play.png"))); // NOI18N
         jLabel1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 jLabel1MousePressed(evt);
@@ -204,7 +224,7 @@ public class RunClass extends javax.swing.JPanel {
 
         jLabel6.setBackground(new java.awt.Color(255, 255, 255));
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/fasttask/view/Images/editar.png"))); // NOI18N
+        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/fasttask/data/files/images/editar.png"))); // NOI18N
         jLabel6.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 jLabel6MousePressed(evt);
@@ -218,7 +238,7 @@ public class RunClass extends javax.swing.JPanel {
 
         jLabel7.setBackground(new java.awt.Color(255, 255, 255));
         jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/fasttask/view/Images/borrar.png"))); // NOI18N
+        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/fasttask/data/files/images/borrar.png"))); // NOI18N
         jLabel7.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 jLabel7MousePressed(evt);
@@ -380,6 +400,8 @@ public class RunClass extends javax.swing.JPanel {
 
     private void jLabel1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MousePressed
 
+        jTextArea1.setText("");
+        jTextArea2.setText("");
         Component[] component = jPanel4.getComponents();
         String[] parameters = new String[component.length];
 
@@ -394,7 +416,7 @@ public class RunClass extends javax.swing.JPanel {
         // Ejecutar función
         runner = viewController.getRunner(direction);                             // Obtener runner del lenguaje detectado
         String content = viewController.fileController.loadContent(direction);           // Obtener codido contenido
-        runner.run(content, parameters);         // Obtener infromación del codigo
+        runner.run(content, parameters, this);         // Obtener infromación del codigo
 
     }//GEN-LAST:event_jLabel1MousePressed
 
@@ -419,7 +441,7 @@ public class RunClass extends javax.swing.JPanel {
 
         // Abirir archivo con sublime text 3
         try {
-            String command = "pushd " + ConfigInformation.getSublimeTextFolder() + " "
+            String command = "pushd " + SettingController.getSublimeTextFolder() + " "
                     + "&& sublime_text \"" + direction + "\"";
             ProcessBuilder processBuilder = new ProcessBuilder("cmd.exe", "/C", command);
             Process proc = processBuilder.start();
@@ -439,6 +461,12 @@ public class RunClass extends javax.swing.JPanel {
     private void jPanel7formMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel7formMouseExited
         // TODO add your handling code here:
     }//GEN-LAST:event_jPanel7formMouseExited
+
+    private void jLabel5MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MousePressed
+        
+        runner.stop();
+        
+    }//GEN-LAST:event_jLabel5MousePressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -462,4 +490,5 @@ public class RunClass extends javax.swing.JPanel {
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextArea jTextArea2;
     // End of variables declaration//GEN-END:variables
+
 }
