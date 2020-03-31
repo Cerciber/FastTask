@@ -1,10 +1,10 @@
 package fasttask.controller.view;
 
+import fasttask.controller.code.CodeController;
 import fasttask.controller.settting.SettingController;
 import fasttask.controller.code.JavaController;
 import fasttask.controller.code.JavaScriptController;
 import fasttask.controller.code.PythonController;
-import fasttask.controller.code.Runner;
 import fasttask.data.system.FileAccess;
 import fasttask.view.Principal;
 import fasttask.view.RunClass;
@@ -42,6 +42,7 @@ public class ViewController {
     public Object[][] getClassList(String filter) {
 
         File[] files = new File(SettingController.getSaveFolder()).listFiles(new FilenameFilter() {  // Listar archivos que cumplan el filtro
+            @Override
             public boolean accept(File dir, String name) {
                 return name.toLowerCase().contains(filter.toLowerCase());
             }
@@ -51,34 +52,20 @@ public class ViewController {
         // Para cada archivo
         for (int i = 0; i < files.length; i++) {
 
-            Runner runner = getRunner(files[i].getAbsolutePath());                        // Obtener runner del lenguaje detectado
+            CodeController codeController = CodeController.getController(files[i].getAbsolutePath()); 
             
-            if (runner != null) {
-                String content = fileController.loadContent(files[i].getAbsolutePath());      // Obtener codido contenido
-                Object[] codeInfo = runner.info(content);                   // Obtener infromación del codigo
-                objects.add(new Object[]{files[i].getAbsolutePath(), // Obtener información del archivo y del codigo
-                    fileController.getName(files[i].getAbsolutePath()),
-                    codeInfo[0],
-                    codeInfo[2],
-                    codeInfo[1]});
+            if (codeController != null) {        
+                objects.add(new Object[]{
+                    codeController.direction(),
+                    codeController.name(),
+                    codeController.description(),
+                    codeController.languaje(),
+                    codeController.parameters()});
             }    
 
         }
 
         return objects.toArray(new Object[][]{});
-    }
-
-    // Obtener runner del lenguaje del archivo
-    public Runner getRunner(String dir) {
-        switch (fileController.getExtension(dir)) {
-            case "java":
-                return new JavaController(dir);
-            case "py":
-                return new PythonController();
-            case "js":
-                return new JavaScriptController();
-        }
-        return null;
     }
 
     // Añadir clase a la lista

@@ -10,7 +10,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 // Clase abstracta para ejecutar funciones desde diferentes lenguajes
-abstract class CodeController {
+public abstract class CodeController {
     
     // Constantes
     static final boolean RUNNING = true;    // Corriendo
@@ -42,6 +42,11 @@ abstract class CodeController {
     // Obtener extensión del archivo
     public String extention() {
         return FileAccess.getExtension(direction);
+    }   
+    
+    // Obtener dirección del archivo
+    public String direction() {
+        return direction;
     }   
     
     // Obtener nombre de la clase
@@ -134,6 +139,19 @@ abstract class CodeController {
     // Detener ejecución direccionando resultados a una consola
     public void stop(CommandLine commandLine) {
         state = STOPED;
-    }                      
+    }    
+    
+    // Obtener controlador del lenguaje del archivo
+    public static CodeController getController(String dir) {
+        switch (FileAccess.getExtension(dir)) {
+            case "java":
+                return new JavaController(dir);
+            case "py":
+                return new PythonController(dir);
+            case "js":
+                return new JavaScriptController(dir);
+        }
+        return null;
+    }
     
 }

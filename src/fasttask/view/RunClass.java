@@ -1,7 +1,7 @@
 package fasttask.view;
 
+import fasttask.controller.code.CodeController;
 import fasttask.controller.code.CommandLine;
-import fasttask.controller.code.Runner;
 import fasttask.controller.view.ViewController;
 import fasttask.controller.settting.SettingController;
 import java.awt.Color;
@@ -16,7 +16,7 @@ public class RunClass extends javax.swing.JPanel implements CommandLine{
     ViewController viewController;
     public Frame frame;
     Principal principal;
-    Runner runner;
+    CodeController runner;
 
     public String direction;
     String name;
@@ -41,7 +41,7 @@ public class RunClass extends javax.swing.JPanel implements CommandLine{
         this.languaje = languaje;
         this.parameters = parameters;
         
-        color = viewController.getRunner(dir).color();
+        color = CodeController.getController(dir).color();
         jPanel7.setBorder(javax.swing.BorderFactory.createLineBorder(color, 4));
         jPanel7.setBackground(color);
         jLabel1.setIcon(ViewController.colorImage(jLabel1.getIcon(), color));
@@ -414,9 +414,9 @@ public class RunClass extends javax.swing.JPanel implements CommandLine{
         }
 
         // Ejecutar función
-        runner = viewController.getRunner(direction);                             // Obtener runner del lenguaje detectado
+        runner = CodeController.getController(direction);                             // Obtener runner del lenguaje detectado
         String content = viewController.fileController.loadContent(direction);           // Obtener codido contenido
-        runner.run(content, parameters, this);         // Obtener infromación del codigo
+        runner.run(parameters, this);         // Obtener infromación del codigo
 
     }//GEN-LAST:event_jLabel1MousePressed
 
@@ -464,7 +464,7 @@ public class RunClass extends javax.swing.JPanel implements CommandLine{
 
     private void jLabel5MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MousePressed
         
-        runner.stop();
+        runner.stop(this);
         
     }//GEN-LAST:event_jLabel5MousePressed
 

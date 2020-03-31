@@ -1,6 +1,7 @@
 
 package fasttask.view;
 
+import fasttask.controller.code.CodeController;
 import fasttask.controller.view.ViewController;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -134,7 +135,7 @@ public class ListElement extends javax.swing.JPanel {
         
         // Crear frame de la función seleccionada
         RunClass runClass = new RunClass(principal, null, viewController, direction, name, description, languaje, parameters);
-        Frame frame = new Frame(principal, runClass, false, languaje, viewController.getRunner(direction).color());
+        Frame frame = new Frame(principal, runClass, false, languaje, CodeController.getController(direction).color());
         runClass.frame = frame;
 
         viewController.addActivedClass(runClass);

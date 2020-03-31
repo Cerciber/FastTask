@@ -11,111 +11,55 @@ import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class PythonController implements Runner {
+public class PythonController extends CodeController {
 
     static final String PYTHON_GENERATED_FILE = "src/fasttask/data/files/generated/PythonGenerated/PythonGenerated.py";
     static final String PYTHON_GENERATED_DIRECTORY = "src/fasttask/data/files/generated/PythonGenerated";
-    
-    boolean stop;
-    
-    @Override
-    public Object[] info(String code) {
 
-        // Leer descripcción
-        Pattern pattern = Pattern.compile("('''(.*?)''')|(#(.*?)\n)", Pattern.DOTALL);
-        Matcher matcher = pattern.matcher(code);
-        String description = "";
-        while (matcher.find()) {
-            if (matcher.group(4) == null)
-                description += matcher.group(2);
-            else
-                description += matcher.group(4);
-        } 
-        
-        // Leer parametros
-        pattern = Pattern.compile(".*?__init__[ ]*?[(].*?,(.*?)[)]", Pattern.DOTALL);
-        matcher = pattern.matcher(code);
-        String[] parameters;
-        if (matcher.find() && !matcher.group(1).trim().equals("")) {
-            parameters = matcher.group(1).split(",");
-        } else {
-            parameters = new String[]{};
-        }
-        
-        return new Object[]{description, parameters, "Python"};
-        
-    }
-
-    @Override
-    public void run(String code, String[] parameters, CommandLine commandLine) {
-        
-        new Thread(){
-            
-            @Override
-            public void run(){
-                
-                // Leer nombre de la clase
-                Pattern pattern = Pattern.compile("class[ ].*?(.*?)(?:[(]|[:])", Pattern.DOTALL);
-                Matcher matcher = pattern.matcher(code);
-                String nameClass;
-                if (matcher.find()) {
-                    nameClass = matcher.group(1);
-                } else {
-                    nameClass = "";
-                }
-
-                // Crear codigo del ejecutable
-                String parametersString = Arrays.toString(parameters);
-                String generatedCode = code + "\n" + nameClass + "(" + parametersString.substring(1, parametersString.length() - 1) + ")";
-
-                // Generar ejecutable
-                FileAccess.savedContent(PYTHON_GENERATED_FILE, generatedCode);
-
-                try {
-
-                    // Ejecutar clase
-                    String command = SettingController.getPythonFolder() + "\\python.exe \"" + new File(PYTHON_GENERATED_FILE).getAbsoluteFile().toString() + "\"";
-                    ProcessBuilder processBuilder = new ProcessBuilder("cmd.exe", "/C", command);
-                    Process process = processBuilder.start();
-                    
-                    // Obtener resultados
-                    BufferedReader stdInput = new BufferedReader(new InputStreamReader(process.getInputStream(), "ISO-8859-1"));
-                    String aux = stdInput.readLine();
-                    System.out.println(aux);
-                    while (!stop && aux != null) {
-                        commandLine.write(aux + "\n");
-                        aux = stdInput.readLine();
-                        System.out.println(aux);
-                    }
-                    if (!stop) {
-                        BufferedReader stdInput2 = new BufferedReader(new InputStreamReader(process.getErrorStream(), "ISO-8859-1"));
-                        String aux2 = stdInput2.readLine();
-                        System.out.println(aux);
-                        while (aux2 != null) {
-                            System.out.println(process);
-                            commandLine.writeError(aux2 + "\n");
-                            aux2 = stdInput2.readLine();
-                            System.out.println(aux);
-                        }
-                    }
-
-                } catch (IOException e) {
-                }
-                
-            }
-            
-        }.start();
-
+    public PythonController(String direction) {
+        super(direction);
     }
     
     @Override
-    public void stop() {
-        stop = true;
+    public String languaje() {
+        return "Python";
     }
     
     @Override
     public Color color() {
         return new Color(120, 0, 140);
+    }
+
+    @Override
+    public String classNameRE() {
+        return "class[ ].*?(.*?)(?:[(]|[:])";
+    }
+
+    @Override
+    public String descriptionRE() {
+        return "('''(.*?)''')|(#(.*?)\n)";
+    }
+
+    @Override
+    public String parametersRE() {
+        return ".*?__init__[ ]*?[(].*?,(.*?)[)]";
+    }
+
+    @Override
+    public void creteExecutable(String[] parameters) {
+        
+        // Crear codigo del ejecutable
+        String parametersString = Arrays.toString(parameters);
+        String generatedCode = FileAccess.loadContent(direction) + "\n" + className() + "(" + parametersString.substring(1, parametersString.length() - 1) + ")";
+
+        // Generar ejecutable
+        FileAccess.savedContent(PYTHON_GENERATED_FILE, generatedCode);
+        
+    }
+
+    @Override
+    public String runCommand() {
+        return SettingController.getPythonFolder() + "\\python.exe \"" + new File(PYTHON_GENERATED_FILE).getAbsoluteFile().toString() + "\"";
     }
 
 }
