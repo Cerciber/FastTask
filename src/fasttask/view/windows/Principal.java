@@ -1,8 +1,10 @@
 
-package fasttask.view;
+package fasttask.view.windows;
 
+import fasttask.view.components.ListElement;
 import fasttask.controller.view.ViewController;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.io.File;
 import javax.swing.JFileChooser;
 
@@ -14,10 +16,8 @@ public class Principal extends javax.swing.JPanel {
         initComponents();
         
         viewController = new ViewController(this);
-        
         setFunctionList();
-        new File("Data/Saved/HelloWorld.java").deleteOnExit();
-        
+        setPreferredSize(new Dimension(200, 400));
     }
 
     // Asignar lista de funciones
@@ -123,7 +123,7 @@ public class Principal extends javax.swing.JPanel {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
                             .addComponent(jLabel2))
-                        .addGap(0, 280, Short.MAX_VALUE))
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jTextField1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -149,7 +149,7 @@ public class Principal extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 148, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 232, Short.MAX_VALUE)
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents

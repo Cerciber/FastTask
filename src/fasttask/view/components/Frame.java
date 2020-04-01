@@ -1,6 +1,8 @@
-package fasttask.view;
+package fasttask.view.components;
 
 import fasttask.controller.view.ViewController;
+import fasttask.view.windows.Configuration;
+import fasttask.view.windows.Principal;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
@@ -33,12 +35,12 @@ public class Frame extends javax.swing.JFrame {
         initComponents();
         this.principal = principal;
         
+        
+        setMinimumSize(new Dimension(content.getPreferredSize().width + 70, content.getPreferredSize().height));
+        
         if (state) {
-            setSize(300, 500);
             setLocationRelativeTo(null);
         } else {
-
-            setSize(300, 400);
 
             // Asignar posición aleatoria en pantalla
             Random random = new Random();
@@ -180,7 +182,7 @@ public class Frame extends javax.swing.JFrame {
                     .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(0, 0, 0)
-                .addComponent(panel, javax.swing.GroupLayout.DEFAULT_SIZE, 242, Short.MAX_VALUE))
+                .addComponent(panel, javax.swing.GroupLayout.DEFAULT_SIZE, 49, Short.MAX_VALUE))
         );
 
         pack();

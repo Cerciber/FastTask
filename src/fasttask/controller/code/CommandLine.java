@@ -3,10 +3,13 @@ package fasttask.controller.code;
 
 public interface CommandLine {
     
-    // Escribir información en consola
-    public void write(String text);
+    static final boolean DEFAULT = true; 
+    static final boolean ERROR = false; 
     
-    // Write error en consola
-    public void writeError(String text);
+    // Escribir información en consola
+    public void write(String text, boolean type);
+    
+    // Leer información en consola
+    public String read(String text);
     
 }

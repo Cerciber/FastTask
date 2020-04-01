@@ -1,8 +1,10 @@
 
-package fasttask.view;
+package fasttask.view.components;
 
 import fasttask.controller.code.CodeController;
 import fasttask.controller.view.ViewController;
+import fasttask.view.windows.Principal;
+import fasttask.view.windows.RunClass;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;
@@ -67,7 +69,7 @@ public class ListElement extends javax.swing.JPanel {
         jLabel1.setText("Nombre (parametros)");
         jLabel1.setOpaque(true);
 
-        jLabel4.setFont(new java.awt.Font("Comic Sans MS", 0, 12)); // NOI18N
+        jLabel4.setFont(new java.awt.Font("Comic Sans MS", 1, 12)); // NOI18N
         jLabel4.setText("Lenguaje");
         jLabel4.setOpaque(true);
 

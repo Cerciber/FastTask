@@ -1,5 +1,5 @@
 
-package fasttask.view;
+package fasttask.view.components;
 
 import java.awt.Color;
 import javax.swing.JTextField;

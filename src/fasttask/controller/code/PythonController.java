@@ -13,8 +13,8 @@ import java.util.regex.Pattern;
 
 public class PythonController extends CodeController {
 
-    static final String PYTHON_GENERATED_FILE = "src/fasttask/data/files/generated/PythonGenerated/PythonGenerated.py";
-    static final String PYTHON_GENERATED_DIRECTORY = "src/fasttask/data/files/generated/PythonGenerated";
+    static final String PYTHON_GENERATED_FILE = SettingController.getGeneratedFolder() + "\\PythonGenerated\\PythonGenerated.py";
+    static final String PYTHON_GENERATED_DIRECTORY = SettingController.getGeneratedFolder() + "\\generated\\PythonGenerated";
 
     public PythonController(String direction) {
         super(direction);

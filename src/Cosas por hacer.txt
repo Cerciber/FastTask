@@ -1,0 +1,7 @@
+
+- Leer información por consola
+- Incluir redimensionamiento por esquinas
+- Crear clase en base a una plantilla
+- Señalar cuando la ejecución se ha terminado
+- Incluir proyectos completos
+- Configurar para que si se detecta el main no pedir parametros y ejecutar tal cual está

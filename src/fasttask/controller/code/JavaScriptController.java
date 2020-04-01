@@ -13,8 +13,8 @@ import java.util.regex.Pattern;
 
 public class JavaScriptController extends CodeController {
 
-    static final String JAVASCRIPT_GENERATED_FILE = "src/fasttask/data/files/generated/JavaScriptGenerated/PJavaScriptGenerated.py";
-    static final String JAVASCRIPT_GENERATED_DIRECTORY = "src/fasttask/data/files/generated/JavaScriptGenerated";
+    static final String JAVASCRIPT_GENERATED_FILE = SettingController.getGeneratedFolder() + "\\JavaScriptGenerated\\PJavaScriptGenerated.py";
+    static final String JAVASCRIPT_GENERATED_DIRECTORY = SettingController.getGeneratedFolder() + "\\JavaScriptGenerated";
 
     public JavaScriptController(String direction) {
         super(direction);

@@ -8,8 +8,8 @@ import java.util.Arrays;
 
 public class JavaController extends CodeController {
 
-    static final String JAVA_GENERATED_FILE = "src/fasttask/data/files/generated/JavaGenerated/JavaGenerated.java";
-    static final String JAVA_GENERATED_DIRECTORY = "src/fasttask/data/files/generated/JavaGenerated";
+    static final String JAVA_GENERATED_FILE = SettingController.getGeneratedFolder() + "\\JavaGenerated\\JavaGenerated.java";
+    static final String JAVA_GENERATED_DIRECTORY = SettingController.getGeneratedFolder() + "\\JavaGenerated";
 
     public JavaController(String direction) {
         super(direction);

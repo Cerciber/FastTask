@@ -1,5 +1,8 @@
-package fasttask.view;
+package fasttask.view.windows;
 
+import fasttask.view.windows.Principal;
+import fasttask.view.components.Frame;
+import fasttask.view.components.ParameterElement;
 import fasttask.controller.code.CodeController;
 import fasttask.controller.code.CommandLine;
 import fasttask.controller.view.ViewController;
@@ -30,7 +33,7 @@ public class RunClass extends javax.swing.JPanel implements CommandLine{
         String params = Arrays.toString(parameters);
         jLabel2.setText(name + " (" + params.substring(1, params.length() - 1) + ")");
         jLabel4.setText(languaje);
-        jLabel3.setText(description);
+        jTextArea2.setText(description);
 
         this.principal = principal;
         this.frame = frame;
@@ -46,13 +49,13 @@ public class RunClass extends javax.swing.JPanel implements CommandLine{
         jPanel7.setBackground(color);
         jLabel1.setIcon(ViewController.colorImage(jLabel1.getIcon(), color));
         jLabel5.setIcon(ViewController.colorImage(jLabel5.getIcon(), color));
+        jLabel8.setIcon(ViewController.colorImage(jLabel8.getIcon(), color));
         jLabel6.setIcon(ViewController.colorImage(jLabel6.getIcon(), color));
         jLabel7.setIcon(ViewController.colorImage(jLabel7.getIcon(), color));
         jLabel2.setForeground(color);
-        jLabel3.setForeground(color);
+        jTextArea2.setForeground(color);
         jLabel4.setForeground(color);
         jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(color, 1));
-        jPanel3.setBorder(javax.swing.BorderFactory.createLineBorder(color, 1));
         setParametersList();
         
     }
@@ -98,15 +101,22 @@ public class RunClass extends javax.swing.JPanel implements CommandLine{
     }
     
     @Override
-    public void write(String text) {
+    public void write(String text, boolean type) {
+        if (type == CommandLine.DEFAULT) {
+            jTextArea1.setBackground(new java.awt.Color(240, 255, 240));
+            jTextArea1.setForeground(Color.BLACK);
+        } else {
+            jTextArea1.setForeground(Color.RED);
+            jTextArea1.setBackground(new java.awt.Color(255, 240, 240));
+        }
         jTextArea1.setText(jTextArea1.getText() + text);
         jTextArea1.setCaretPosition(jTextArea1.getText().length());
     }
-
+    
+    
     @Override
-    public void writeError(String text) {
-        jTextArea2.setText(jTextArea2.getText() + text);
-        jTextArea2.setCaretPosition(jTextArea2.getText().length());
+    public String read(String text) {
+        return null;
     }
 
     @SuppressWarnings("unchecked")
@@ -119,19 +129,18 @@ public class RunClass extends javax.swing.JPanel implements CommandLine{
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
-        jPanel3 = new javax.swing.JPanel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jTextArea2 = new javax.swing.JTextArea();
         jPanel6 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
         jPanel7 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTextArea2 = new javax.swing.JTextArea();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
@@ -152,7 +161,9 @@ public class RunClass extends javax.swing.JPanel implements CommandLine{
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         jPanel2.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
@@ -169,37 +180,11 @@ public class RunClass extends javax.swing.JPanel implements CommandLine{
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)
-                .addGap(0, 0, 0))
-        );
-
-        jPanel3.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
-
-        jScrollPane2.setBorder(null);
-
-        jTextArea2.setBackground(new java.awt.Color(255, 250, 250));
-        jTextArea2.setColumns(20);
-        jTextArea2.setForeground(new java.awt.Color(255, 0, 0));
-        jTextArea2.setRows(1);
-        jTextArea2.setTabSize(1);
-        jScrollPane2.setViewportView(jTextArea2);
-
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2)
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)
-                .addGap(0, 0, 0))
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 82, Short.MAX_VALUE)
         );
 
         jPanel6.setOpaque(false);
@@ -245,6 +230,15 @@ public class RunClass extends javax.swing.JPanel implements CommandLine{
             }
         });
 
+        jLabel8.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/fasttask/data/files/images/clean.png"))); // NOI18N
+        jLabel8.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jLabel8MousePressed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
@@ -254,6 +248,8 @@ public class RunClass extends javax.swing.JPanel implements CommandLine{
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel5)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel8)
                 .addGap(10, 10, 10)
                 .addComponent(jLabel6)
                 .addGap(4, 4, 4)
@@ -269,7 +265,8 @@ public class RunClass extends javax.swing.JPanel implements CommandLine{
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(0, 0, 0))
         );
 
@@ -301,29 +298,30 @@ public class RunClass extends javax.swing.JPanel implements CommandLine{
         });
 
         jLabel2.setFont(new java.awt.Font("Comic Sans MS", 1, 12)); // NOI18N
-        jLabel2.setText("Nombre (parametros)");
+        jLabel2.setText("N ()");
         jLabel2.setOpaque(true);
 
-        jLabel3.setFont(new java.awt.Font("Comic Sans MS", 0, 12)); // NOI18N
-        jLabel3.setText("Descripción");
-        jLabel3.setOpaque(true);
-
-        jLabel4.setFont(new java.awt.Font("Comic Sans MS", 0, 12)); // NOI18N
-        jLabel4.setText("Lenguaje");
+        jLabel4.setFont(new java.awt.Font("Comic Sans MS", 1, 12)); // NOI18N
+        jLabel4.setText("L");
         jLabel4.setOpaque(true);
+
+        jTextArea2.setColumns(20);
+        jTextArea2.setFont(new java.awt.Font("Comic Sans MS", 0, 12)); // NOI18N
+        jTextArea2.setRows(1);
+        jTextArea2.setTabSize(1);
+        jTextArea2.setFocusable(false);
+        jScrollPane2.setViewportView(jTextArea2);
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel5Layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
                 .addGap(5, 5, 5)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addComponent(jLabel4)
-                        .addGap(9, 9, 9)
-                        .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane2)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 199, Short.MAX_VALUE))
                 .addGap(5, 5, 5))
         );
         jPanel5Layout.setVerticalGroup(
@@ -332,9 +330,9 @@ public class RunClass extends javax.swing.JPanel implements CommandLine{
                 .addGap(5, 5, 5)
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(jLabel3))
+                .addComponent(jLabel4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 52, Short.MAX_VALUE)
                 .addGap(5, 5, 5))
         );
 
@@ -363,7 +361,6 @@ public class RunClass extends javax.swing.JPanel implements CommandLine{
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -377,11 +374,9 @@ public class RunClass extends javax.swing.JPanel implements CommandLine{
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -401,7 +396,6 @@ public class RunClass extends javax.swing.JPanel implements CommandLine{
     private void jLabel1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MousePressed
 
         jTextArea1.setText("");
-        jTextArea2.setText("");
         Component[] component = jPanel4.getComponents();
         String[] parameters = new String[component.length];
 
@@ -417,6 +411,7 @@ public class RunClass extends javax.swing.JPanel implements CommandLine{
         runner = CodeController.getController(direction);                             // Obtener runner del lenguaje detectado
         String content = viewController.fileController.loadContent(direction);           // Obtener codido contenido
         runner.run(parameters, this);         // Obtener infromación del codigo
+        jTextArea1.requestFocus();
 
     }//GEN-LAST:event_jLabel1MousePressed
 
@@ -468,18 +463,24 @@ public class RunClass extends javax.swing.JPanel implements CommandLine{
         
     }//GEN-LAST:event_jLabel5MousePressed
 
+    private void jLabel8MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel8MousePressed
+       
+        jTextArea1.setText("");
+        jTextArea1.setBackground(Color.white);
+        
+    }//GEN-LAST:event_jLabel8MousePressed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
@@ -490,5 +491,6 @@ public class RunClass extends javax.swing.JPanel implements CommandLine{
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextArea jTextArea2;
     // End of variables declaration//GEN-END:variables
+
 
 }

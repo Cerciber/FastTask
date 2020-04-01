@@ -1,5 +1,5 @@
 
-package fasttask.view;
+package fasttask.view.windows;
 
 import fasttask.controller.settting.SettingController;
 import java.io.File;
