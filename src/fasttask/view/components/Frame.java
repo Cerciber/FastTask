@@ -6,9 +6,11 @@ import fasttask.view.windows.Principal;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
+import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.WindowEvent;
 import java.util.Random;
+import javax.swing.Icon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -56,6 +58,10 @@ public class Frame extends javax.swing.JFrame {
         setBackground(new Color(1.0f, 1.0f, 1.0f, 0.0f));
         ((JPanel) getContentPane()).setOpaque(true);
         panel.add(content);
+        //setIconImage(new javax.swing.ImageIcon(getClass().getResource("/fasttask/data/files/images/ajustes.png")).getImage());
+        setIconImage(new javax.swing.ImageIcon(getClass().getResource("/fasttask/data/files/images/ajustes.png")).getImage().getScaledInstance(70, 70, 0));
+        setName(jLabel2.getText());
+        setTitle(jLabel2.getText());
         this.state = state;
         setVisible(true);
     }
@@ -70,6 +76,8 @@ public class Frame extends javax.swing.JFrame {
         jLabel6.setIcon(ViewController.colorImage(jLabel6.getIcon(), color));
         jLabel2.setBackground(color);
         jLabel2.setBorder(javax.swing.BorderFactory.createMatteBorder(4, 4, 0, 4, color));
+        setName(name + " compiler");
+        setTitle(name + " compiler");
         setVisible(false);
         setVisible(true);
     }

@@ -1,7 +1,6 @@
 
 package fasttask.controller.code;
 
-import static fasttask.controller.code.CController.C_GENERATED_FILE;
 import fasttask.controller.settting.SettingController;
 import fasttask.data.system.FileAccess;
 import java.awt.Color;
@@ -40,7 +39,7 @@ public class CPlusPlusController extends CodeController{
 
     @Override
     public String parametersRE() {
-        return ".*?" + className() + "[ ]*?[(](.*?)[)]";
+        return ".*?construct[ ]*?(?:[^ ])*?[ ]*?[(](.*?)[)]";
     }
 
     @Override

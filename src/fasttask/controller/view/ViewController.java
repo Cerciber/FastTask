@@ -2,9 +2,6 @@ package fasttask.controller.view;
 
 import fasttask.controller.code.CodeController;
 import fasttask.controller.settting.SettingController;
-import fasttask.controller.code.JavaController;
-import fasttask.controller.code.JavaScriptController;
-import fasttask.controller.code.PythonController;
 import fasttask.data.system.FileAccess;
 import fasttask.view.windows.Principal;
 import fasttask.view.windows.RunClass;
@@ -100,7 +97,7 @@ public class ViewController {
        
     }
     
-    // Cambiar color de una imagen
+    // Cambiar color de un icono
     public static Icon colorImage(Icon image1, Color color) {
         
         BufferedImage image = new BufferedImage(
@@ -127,6 +124,34 @@ public class ViewController {
         }
         
         return new ImageIcon(image);
+    }
+    
+    public static BufferedImage colorImageBuffer(Icon image1, Color color) {
+        
+        BufferedImage image = new BufferedImage(
+            image1.getIconWidth(),
+            image1.getIconHeight(),
+            BufferedImage.TYPE_4BYTE_ABGR);
+        Graphics g = image.createGraphics();
+        image1.paintIcon(null, g, 0,0);
+        g.dispose();
+        
+        int width = image.getWidth();
+        int height = image.getHeight();
+        WritableRaster raster = image.getRaster();
+        for (int x = 0; x < width; x++) {
+            for (int y = 0; y < height; y++) {
+                int[] pixels = raster.getPixel(x, y, (int[]) null);
+                if (pixels[0] < 200 && pixels[1] < 200 && pixels[2] < 200) {
+                    pixels[0] = Math.min(255, color.getRed() + pixels[0]);
+                    pixels[1] = Math.min(255, color.getGreen() + pixels[1]);
+                    pixels[2] = Math.min(255, color.getBlue() + pixels[2]);
+                }
+                raster.setPixel(x, y, pixels);
+            }
+        }
+        
+        return image;
     }
 
 }

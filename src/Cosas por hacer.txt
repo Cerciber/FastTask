@@ -4,6 +4,7 @@ Correcciones
 - Corregir lectura con c puro
 
 Adiciones
+- Incluir cerrar todas las consolas
 - Incluir redimensionamiento por esquinas
 - Incluir arrastre en la etiqeuta
 - Crear clase en base a una plantilla

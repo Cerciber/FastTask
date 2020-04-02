@@ -1,19 +1,11 @@
 package fasttask.data.system;
 
-import fasttask.Main;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class FileAccess {
 
@@ -26,16 +18,10 @@ public class FileAccess {
         try {
 
             // Crear objeto de lectura
-            FileReader reader;
+            FileReader reader = new FileReader(new File(dir));
 
             // Crear objeto de lectura directa
-            BufferedReader br;
-            if (dir.startsWith("data")) {
-                br = new BufferedReader(new InputStreamReader(Main.class.getResourceAsStream(dir)));
-            } else {
-                reader = new FileReader(new File(dir));
-                br = new BufferedReader(reader);
-            }
+            BufferedReader br = new BufferedReader(reader);
 
             while (true) {
 
@@ -64,16 +50,10 @@ public class FileAccess {
         try {
 
             // Crear objeto de lectura
-            FileWriter writer;
+            FileWriter writer = new FileWriter(new File(dir));
 
             // Crear objeto de lectura directa
-            BufferedWriter br;
-            if (dir.startsWith("data")) {
-                br = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(new File(Main.class.getResource(dir).toURI()))));
-            } else {
-                writer = new FileWriter(new File(dir));
-                br = new BufferedWriter(writer);
-            }
+            BufferedWriter br = new BufferedWriter(writer);
 
             // Escribir texto
             br.write(code);
@@ -82,7 +62,6 @@ public class FileAccess {
             br.close();
 
         } catch (IOException ex) {
-        } catch (URISyntaxException ex) {
         }
 
     }

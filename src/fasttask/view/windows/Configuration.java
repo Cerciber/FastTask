@@ -13,10 +13,11 @@ public class Configuration extends javax.swing.JPanel {
         initComponents();
         this.principal = principal;
         jTextField1.setText(SettingController.getSaveFolder());
-        jTextField2.setText(SettingController.getSublimeTextFolder());
+        jTextField2.setText(SettingController.getEditorFile());
         jTextField3.setText(SettingController.getJavaFolder());
         jTextField4.setText(SettingController.getPythonFolder());
         jTextField5.setText(SettingController.getJavaScriptFolder());
+        jTextField6.setText(SettingController.getCPlusPlusFolder());
     }
     
     @SuppressWarnings("unchecked")
@@ -43,11 +44,19 @@ public class Configuration extends javax.swing.JPanel {
         jTextField5 = new javax.swing.JTextField();
         jLabel14 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
+        jLabel16 = new javax.swing.JLabel();
+        jTextField6 = new javax.swing.JTextField();
+        jLabel17 = new javax.swing.JLabel();
+        jLabel18 = new javax.swing.JLabel();
+        jLabel19 = new javax.swing.JLabel();
+        jLabel20 = new javax.swing.JLabel();
+        jLabel21 = new javax.swing.JLabel();
+        jLabel22 = new javax.swing.JLabel();
 
         setOpaque(false);
 
         jLabel1.setFont(new java.awt.Font("Comic Sans MS", 1, 13)); // NOI18N
-        jLabel1.setText("Directorio de clases:");
+        jLabel1.setText("Directorios para almacenar su codigos");
 
         jTextField1.setAlignmentX(2.0F);
         jTextField1.setAlignmentY(2.0F);
@@ -79,8 +88,8 @@ public class Configuration extends javax.swing.JPanel {
             }
         });
 
-        jLabel2.setFont(new java.awt.Font("Comic Sans MS", 1, 13)); // NOI18N
-        jLabel2.setText("Sublime text 3:");
+        jLabel2.setFont(new java.awt.Font("Comic Sans MS", 0, 13)); // NOI18N
+        jLabel2.setText("Editor: ");
 
         jTextField2.setAlignmentX(2.0F);
         jTextField2.setAlignmentY(2.0F);
@@ -122,7 +131,7 @@ public class Configuration extends javax.swing.JPanel {
         });
 
         jLabel9.setFont(new java.awt.Font("Comic Sans MS", 1, 13)); // NOI18N
-        jLabel9.setText("Java (SDK):");
+        jLabel9.setText("Directorios de sus compiladores");
 
         jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/fasttask/data/files/images/buscar.png"))); // NOI18N
         jLabel10.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -147,8 +156,8 @@ public class Configuration extends javax.swing.JPanel {
             }
         });
 
-        jLabel12.setFont(new java.awt.Font("Comic Sans MS", 1, 13)); // NOI18N
-        jLabel12.setText("Python:");
+        jLabel12.setFont(new java.awt.Font("Comic Sans MS", 0, 13)); // NOI18N
+        jLabel12.setText("Python: (Python\\Python37-32\\python.exe)");
 
         jLabel13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/fasttask/data/files/images/anadir.png"))); // NOI18N
         jLabel13.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -166,8 +175,8 @@ public class Configuration extends javax.swing.JPanel {
             }
         });
 
-        jLabel14.setFont(new java.awt.Font("Comic Sans MS", 1, 13)); // NOI18N
-        jLabel14.setText("JavaScript (node):");
+        jLabel14.setFont(new java.awt.Font("Comic Sans MS", 0, 13)); // NOI18N
+        jLabel14.setText("JavaScript: (nodejs\\node.exe)");
 
         jLabel15.setIcon(new javax.swing.ImageIcon(getClass().getResource("/fasttask/data/files/images/buscar.png"))); // NOI18N
         jLabel15.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -175,6 +184,44 @@ public class Configuration extends javax.swing.JPanel {
                 jLabel15MousePressed(evt);
             }
         });
+
+        jLabel16.setFont(new java.awt.Font("Comic Sans MS", 0, 13)); // NOI18N
+        jLabel16.setText("C y C++: (MinGW\\bin\\gcc.exe)");
+
+        jTextField6.setAlignmentX(2.0F);
+        jTextField6.setAlignmentY(2.0F);
+        jTextField6.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
+        jTextField6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField6ActionPerformed(evt);
+            }
+        });
+
+        jLabel17.setIcon(new javax.swing.ImageIcon(getClass().getResource("/fasttask/data/files/images/buscar.png"))); // NOI18N
+        jLabel17.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jLabel17MousePressed(evt);
+            }
+        });
+
+        jLabel18.setIcon(new javax.swing.ImageIcon(getClass().getResource("/fasttask/data/files/images/anadir.png"))); // NOI18N
+        jLabel18.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jLabel18MousePressed(evt);
+            }
+        });
+
+        jLabel19.setFont(new java.awt.Font("Comic Sans MS", 0, 13)); // NOI18N
+        jLabel19.setText("Directorio de codigos ingresados:");
+
+        jLabel20.setFont(new java.awt.Font("Comic Sans MS", 1, 13)); // NOI18N
+        jLabel20.setText("Ejecutable para su editor de texto preferido");
+
+        jLabel21.setFont(new java.awt.Font("Comic Sans MS", 0, 13)); // NOI18N
+        jLabel21.setText("Java: (Java\\jdk...\\bin\\java.exe) y (Java\\jdk...\\bin\\javac.exe)");
+
+        jLabel22.setFont(new java.awt.Font("Comic Sans MS", 3, 13)); // NOI18N
+        jLabel22.setText("(Verifique que contengan los ejecutables entre parentesis)");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -201,8 +248,13 @@ public class Configuration extends javax.swing.JPanel {
                             .addComponent(jLabel2)
                             .addComponent(jLabel9)
                             .addComponent(jLabel12)
-                            .addComponent(jLabel14))
-                        .addGap(0, 162, Short.MAX_VALUE))
+                            .addComponent(jLabel14)
+                            .addComponent(jLabel16)
+                            .addComponent(jLabel19)
+                            .addComponent(jLabel20)
+                            .addComponent(jLabel21)
+                            .addComponent(jLabel22))
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jTextField3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -220,7 +272,13 @@ public class Configuration extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel15)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jTextField6)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel17)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -229,10 +287,14 @@ public class Configuration extends javax.swing.JPanel {
                 .addContainerGap()
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel19)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jTextField1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel20)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -242,6 +304,10 @@ public class Configuration extends javax.swing.JPanel {
                     .addComponent(jTextField2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel9)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel22)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel21)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -261,7 +327,14 @@ public class Configuration extends javax.swing.JPanel {
                     .addComponent(jLabel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jTextField5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel16)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel18, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel17, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jTextField6, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addContainerGap(132, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -293,7 +366,7 @@ public class Configuration extends javax.swing.JPanel {
     private void jLabel5MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MousePressed
         
         if(new File(jTextField2.getText()).exists()) {
-            SettingController.setSaveFolder(jTextField2.getText());
+            SettingController.setEditorFile(jTextField2.getText());
         }
         
     }//GEN-LAST:event_jLabel5MousePressed
@@ -305,7 +378,7 @@ public class Configuration extends javax.swing.JPanel {
     private void jLabel6MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel6MousePressed
         
         JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
         fileChooser.showOpenDialog(this);
         if (fileChooser.getSelectedFile() != null) {
             jTextField2.setText(fileChooser.getSelectedFile().getAbsolutePath());
@@ -329,7 +402,7 @@ public class Configuration extends javax.swing.JPanel {
     private void jLabel8MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel8MousePressed
         
         if(new File(jTextField3.getText()).exists()) {
-            SettingController.setSaveFolder(jTextField3.getText());
+            SettingController.setJavaFolder(jTextField3.getText());
         }
         
     }//GEN-LAST:event_jLabel8MousePressed
@@ -353,7 +426,7 @@ public class Configuration extends javax.swing.JPanel {
     private void jLabel11MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel11MousePressed
         
         if(new File(jTextField4.getText()).exists()) {
-            SettingController.setSaveFolder(jTextField4.getText());
+            SettingController.setPythonFolder(jTextField4.getText());
         }
         
     }//GEN-LAST:event_jLabel11MousePressed
@@ -365,7 +438,7 @@ public class Configuration extends javax.swing.JPanel {
     private void jLabel13MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel13MousePressed
         
         if(new File(jTextField5.getText()).exists()) {
-            SettingController.setSaveFolder(jTextField5.getText());
+            SettingController.setJavaScriptFolder(jTextField5.getText());
         }
         
     }//GEN-LAST:event_jLabel13MousePressed
@@ -386,6 +459,30 @@ public class Configuration extends javax.swing.JPanel {
         
     }//GEN-LAST:event_jLabel15MousePressed
 
+    private void jTextField6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField6ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField6ActionPerformed
+
+    private void jLabel17MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel17MousePressed
+        
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        fileChooser.showOpenDialog(this);
+        if (fileChooser.getSelectedFile() != null) {
+            jTextField6.setText(fileChooser.getSelectedFile().getAbsolutePath());
+            jLabel8MousePressed(null);
+        }
+    
+    }//GEN-LAST:event_jLabel17MousePressed
+
+    private void jLabel18MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel18MousePressed
+        
+        if(new File(jTextField6.getText()).exists()) {
+            SettingController.setCPlusPlusFolder(jTextField6.getText());
+        }
+        
+    }//GEN-LAST:event_jLabel18MousePressed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
@@ -395,7 +492,14 @@ public class Configuration extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel20;
+    private javax.swing.JLabel jLabel21;
+    private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -408,5 +512,6 @@ public class Configuration extends javax.swing.JPanel {
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
     private javax.swing.JTextField jTextField5;
+    private javax.swing.JTextField jTextField6;
     // End of variables declaration//GEN-END:variables
 }

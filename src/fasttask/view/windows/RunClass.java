@@ -7,6 +7,7 @@ import fasttask.controller.code.CodeController;
 import fasttask.controller.code.CommandLine;
 import fasttask.controller.view.ViewController;
 import fasttask.controller.settting.SettingController;
+import fasttask.data.system.FileAccess;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.KeyEvent;
@@ -147,6 +148,15 @@ public class RunClass extends javax.swing.JPanel implements CommandLine{
         jTextArea2 = new javax.swing.JTextArea();
 
         setBackground(new java.awt.Color(255, 255, 255));
+        addAncestorListener(new javax.swing.event.AncestorListener() {
+            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
+            }
+            public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
+            }
+            public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
+                formAncestorRemoved(evt);
+            }
+        });
 
         jPanel1.setOpaque(false);
 
@@ -445,10 +455,12 @@ public class RunClass extends javax.swing.JPanel implements CommandLine{
 
         // Abirir archivo con sublime text 3
         try {
-            String command = "pushd " + SettingController.getSublimeTextFolder() + " "
-                    + "&& sublime_text \"" + direction + "\"";
+            String editorFile = SettingController.getEditorFile();
+            String command = "pushd " + FileAccess.getFolder(editorFile) + " "
+                    + "&& " + FileAccess.getName(editorFile) + " \"" + direction + "\"";
+            System.out.println(command);
             ProcessBuilder processBuilder = new ProcessBuilder("cmd.exe", "/C", command);
-            Process proc = processBuilder.start();
+            processBuilder.start();
         } catch (IOException ex) {
         }
 
@@ -467,8 +479,9 @@ public class RunClass extends javax.swing.JPanel implements CommandLine{
     }//GEN-LAST:event_jPanel7formMouseExited
 
     private void jLabel5MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MousePressed
-        
-        runner.stop(this);
+        if (runner != null) {
+            runner.stop(this);
+        }
         
     }//GEN-LAST:event_jLabel5MousePressed
 
@@ -486,11 +499,15 @@ public class RunClass extends javax.swing.JPanel implements CommandLine{
                 System.out.println("text: " + jTextArea1.getText().substring(inputStart));
                 writer.write(jTextArea1.getText().substring(inputStart) + "\n");
                 writer.flush();
-            } catch (IOException ex) {
+            } catch (IOException | NullPointerException ex) {
             }
         }
         
     }//GEN-LAST:event_jTextArea1KeyPressed
+
+    private void formAncestorRemoved(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_formAncestorRemoved
+        jLabel5MousePressed(null);
+    }//GEN-LAST:event_formAncestorRemoved
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

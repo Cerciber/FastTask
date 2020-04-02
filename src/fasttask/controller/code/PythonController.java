@@ -42,7 +42,7 @@ public class PythonController extends CodeController {
 
     @Override
     public String parametersRE() {
-        return ".*?__init__[ ]*?[(].*?(,.*?)[)]:";
+        return ".*?__init__[ ]*?[(](?:(?:.*?)),(.*?)[)]:";
     }
 
     @Override
