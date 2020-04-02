@@ -3,8 +3,10 @@ package fasttask.controller.code;
 import fasttask.data.system.FileAccess;
 import java.awt.Color;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -110,15 +112,17 @@ public abstract class CodeController {
 
                     // Ejecutar clase
                     String command = runCommand();
+                    System.out.println(command);
                     ProcessBuilder processBuilder = new ProcessBuilder("cmd.exe", "/C", command);
                     Process process = processBuilder.start();
 
                     // Obtener resultados
                     BufferedReader stdInput = new BufferedReader(new InputStreamReader(process.getInputStream(), "ISO-8859-1"));
-                    String aux = stdInput.readLine();
-                    while (state == RUNNING && aux != null) {
+                    BufferedWriter  stdOutput = new BufferedWriter(new OutputStreamWriter(process.getOutputStream(), "ISO-8859-1"));
+                    String aux;
+                    commandLine.read(stdOutput);
+                    while (state == RUNNING && (aux = stdInput.readLine()) != null) {
                         commandLine.write(aux + "\n", CommandLine.DEFAULT);
-                        aux = stdInput.readLine();
                     }
 
                     // Obtener error

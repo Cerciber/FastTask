@@ -5,7 +5,10 @@ import fasttask.controller.settting.SettingController;
 import fasttask.data.system.FileAccess;
 import java.awt.Color;
 import java.io.File;
+import java.io.IOException;
 import java.util.Arrays;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class CController extends CodeController {
     
@@ -59,8 +62,17 @@ public class CController extends CodeController {
     public String runCommand() {
         String name = FileAccess.getName(C_GENERATED_FILE);
         return "pushd \"" + new File(C_GENERATED_DIRECTORY).getAbsolutePath() + "\" "
-                + "&& \"" + SettingController.getCPlusPlusFolder() + "\\gcc\" " + FileAccess.getNameExtention(C_GENERATED_FILE) + " -o " + name + " "
+                + "&& \"" + SettingController.getCPlusPlusFolder() + "\\g++\" " + FileAccess.getNameExtention(C_GENERATED_FILE) + " -o " + name + " "
                 + "&& " + name;
+    }
+    
+    @Override
+    public void stop(CommandLine commandLine) {
+        try {
+            super.stop(commandLine);
+            new ProcessBuilder("cmd.exe", "/C", "taskkill /F /IM " + FileAccess.getName(C_GENERATED_FILE) + ".exe").start();
+        } catch (IOException ex) {
+        }
     }
     
 }

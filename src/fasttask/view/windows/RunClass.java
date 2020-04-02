@@ -10,6 +10,7 @@ import fasttask.controller.settting.SettingController;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.KeyEvent;
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.util.Arrays;
 import javax.swing.JOptionPane;
@@ -27,6 +28,8 @@ public class RunClass extends javax.swing.JPanel implements CommandLine{
     String languaje;
     String[] parameters;
     Color color;
+    int inputStart;
+    BufferedWriter writer;
 
     public RunClass(Principal principal, Frame frame, ViewController viewController, String dir, String name, String description, String languaje, String[] parameters) {
         initComponents();
@@ -110,13 +113,14 @@ public class RunClass extends javax.swing.JPanel implements CommandLine{
             jTextArea1.setBackground(new java.awt.Color(255, 240, 240));
         }
         jTextArea1.setText(jTextArea1.getText() + text);
-        jTextArea1.setCaretPosition(jTextArea1.getText().length());
+        inputStart = jTextArea1.getText().length();
+        jTextArea1.setCaretPosition(inputStart);
     }
     
     
     @Override
-    public String read(String text) {
-        return null;
+    public void read(BufferedWriter writer) {
+        this.writer = writer;
     }
 
     @SuppressWarnings("unchecked")
@@ -174,6 +178,11 @@ public class RunClass extends javax.swing.JPanel implements CommandLine{
         jTextArea1.setColumns(20);
         jTextArea1.setRows(1);
         jTextArea1.setTabSize(1);
+        jTextArea1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTextArea1KeyPressed(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTextArea1);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -469,6 +478,19 @@ public class RunClass extends javax.swing.JPanel implements CommandLine{
         jTextArea1.setBackground(Color.white);
         
     }//GEN-LAST:event_jLabel8MousePressed
+
+    private void jTextArea1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextArea1KeyPressed
+        
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            try {
+                System.out.println("text: " + jTextArea1.getText().substring(inputStart));
+                writer.write(jTextArea1.getText().substring(inputStart) + "\n");
+                writer.flush();
+            } catch (IOException ex) {
+            }
+        }
+        
+    }//GEN-LAST:event_jTextArea1KeyPressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -1,10 +1,12 @@
 
 package fasttask.controller.code;
 
+import static fasttask.controller.code.CController.C_GENERATED_FILE;
 import fasttask.controller.settting.SettingController;
 import fasttask.data.system.FileAccess;
 import java.awt.Color;
 import java.io.File;
+import java.io.IOException;
 import java.util.Arrays;
 
 public class CPlusPlusController extends CodeController{
@@ -61,6 +63,16 @@ public class CPlusPlusController extends CodeController{
         return "pushd \"" + new File(C_PLUS_PLUS_GENERATED_DIRECTORY).getAbsolutePath() + "\" "
                 + "&& \"" + SettingController.getCPlusPlusFolder() + "\\gcc\" " + FileAccess.getNameExtention(C_PLUS_PLUS_GENERATED_FILE) + " -g -o " + name + "  -lstdc++ "
                 + "&& " + name;
+    }
+    
+    @Override
+    public void stop(CommandLine commandLine) {
+        try {
+            super.stop(commandLine);
+            System.out.println("taskkill /F /IM " + FileAccess.getName(C_PLUS_PLUS_GENERATED_FILE) + ".exe");
+            new ProcessBuilder("cmd.exe", "/C", "taskkill /F /IM " + FileAccess.getName(C_PLUS_PLUS_GENERATED_FILE) + ".exe").start();
+        } catch (IOException ex) {
+        }
     }
     
 }

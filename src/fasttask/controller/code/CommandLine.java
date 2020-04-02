@@ -1,6 +1,8 @@
 
 package fasttask.controller.code;
 
+import java.io.BufferedWriter;
+
 public interface CommandLine {
     
     static final boolean DEFAULT = true; 
@@ -10,6 +12,6 @@ public interface CommandLine {
     public void write(String text, boolean type);
     
     // Leer información en consola
-    public String read(String text);
+    public void read(BufferedWriter writer);
     
 }
