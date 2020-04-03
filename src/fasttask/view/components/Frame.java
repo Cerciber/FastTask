@@ -161,6 +161,25 @@ public class Frame extends javax.swing.JFrame {
         jLabel2.setText("FastTask");
         jLabel2.setBorder(javax.swing.BorderFactory.createMatteBorder(4, 4, 0, 4, new java.awt.Color(0, 0, 0)));
         jLabel2.setOpaque(true);
+        jLabel2.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseDragged(java.awt.event.MouseEvent evt) {
+                jLabel2MouseDragged(evt);
+            }
+            public void mouseMoved(java.awt.event.MouseEvent evt) {
+                jLabel2MouseMoved(evt);
+            }
+        });
+        jLabel2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                jLabel2MouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jLabel2MouseExited(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jLabel2MousePressed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -356,6 +375,26 @@ public class Frame extends javax.swing.JFrame {
         
         
     }//GEN-LAST:event_jLabel6MousePressed
+
+    private void jLabel2MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseEntered
+        panelMouseEntered(evt);
+    }//GEN-LAST:event_jLabel2MouseEntered
+
+    private void jLabel2MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseExited
+        panelMouseExited(evt);
+    }//GEN-LAST:event_jLabel2MouseExited
+
+    private void jLabel2MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MousePressed
+        panelMousePressed(evt);
+    }//GEN-LAST:event_jLabel2MousePressed
+
+    private void jLabel2MouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseDragged
+        panelMouseDragged(evt);
+    }//GEN-LAST:event_jLabel2MouseDragged
+
+    private void jLabel2MouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseMoved
+         panelMouseMoved(evt);
+    }//GEN-LAST:event_jLabel2MouseMoved
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
