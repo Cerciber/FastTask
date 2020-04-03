@@ -12,6 +12,7 @@ import java.awt.image.WritableRaster;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -42,25 +43,14 @@ public class ViewController {
         File[] files = new File(SettingController.getSaveFolder()).listFiles(new FilenameFilter() {  // Listar archivos que cumplan el filtro
             @Override
             public boolean accept(File dir, String name) {
-                System.out.println(dir + " " + name);
                 CodeController codeController = CodeController.getController(dir + "\\" + name);
-                boolean r = false;
-                for (String filterPart : filter.split(",")) {
-                    filterPart = filterPart.trim();
-                    if (codeController.name().toLowerCase().contains(filterPart.toLowerCase())) {
-                        r = true;
-                    } else if (codeController.extention().toLowerCase().contains(filterPart.toLowerCase())) {
-                        r = true;
-                    } else if (codeController.languaje().toLowerCase().contains(filterPart.toLowerCase())) {
-                        r = true;
-                    } else if (codeController.description().toLowerCase().contains(filterPart.toLowerCase())) {
-                        r = true;
-                    } else {
-                        r = false;
-                        break;
-                    }
+                String[] filterParts = filter.split(",", 3);
+                if (codeController.name().toLowerCase().contains(filterParts[0].trim().toLowerCase())
+                        && (codeController.languaje().toLowerCase().startsWith(filterParts[1].trim().toLowerCase()) || codeController.extention().toLowerCase().startsWith(filterParts[1].trim().toLowerCase()))
+                        && codeController.description().toLowerCase().contains(filterParts[2].trim().toLowerCase())) {
+                    return true;
                 }
-                return r;
+                return false;
             }
         });  
         ArrayList<Object[]> objects = new ArrayList<>();         // Crear objectos de retorno para cada archivo

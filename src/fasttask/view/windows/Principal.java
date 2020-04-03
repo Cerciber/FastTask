@@ -17,11 +17,10 @@ public class Principal extends javax.swing.JPanel {
         
         viewController = new ViewController(this);
         setFunctionList();
-        setPreferredSize(new Dimension(200, 400));
-        
         viewController.customizeButton(jLabel3, Color.black);
         viewController.customizeButton(jLabel4, Color.black);
         viewController.customizeButton(jLabel5, Color.black);
+        setMinimumSize(getPreferredSize());
         
     }
 
@@ -32,6 +31,12 @@ public class Principal extends javax.swing.JPanel {
     
     // Asignar lista de funciones
     public void setFunctionList(String filter){
+        filter = filter.replace(",", ", ");
+        if(filter.split(",").length == 1){
+            filter += ", , ";
+        } else if(filter.split(",").length == 2){
+            filter += ", ";
+        }
         jPanel2.removeAll();
         Object[][] list = viewController.getClassList(filter);
         for (int i = 0; i < list.length; i++) {
@@ -57,6 +62,7 @@ public class Principal extends javax.swing.JPanel {
         jLabel5 = new javax.swing.JLabel();
 
         setOpaque(false);
+        setPreferredSize(new java.awt.Dimension(400, 600));
         addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 formFocusGained(evt);
@@ -81,7 +87,7 @@ public class Principal extends javax.swing.JPanel {
         });
 
         jLabel2.setFont(new java.awt.Font("Comic Sans MS", 1, 13)); // NOI18N
-        jLabel2.setText("Filtrar clases:");
+        jLabel2.setText("Filtrar codigos: (Nombre, Lenguaje, Descripción)");
 
         jTextField2.setAlignmentX(2.0F);
         jTextField2.setAlignmentY(2.0F);
@@ -132,7 +138,7 @@ public class Principal extends javax.swing.JPanel {
             }
         });
 
-        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/fasttask/data/files/images/anadir.png"))); // NOI18N
+        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/fasttask/data/files/images/check.png"))); // NOI18N
         jLabel5.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 jLabel5MousePressed(evt);
@@ -179,7 +185,7 @@ public class Principal extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 206, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 422, Short.MAX_VALUE)
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents

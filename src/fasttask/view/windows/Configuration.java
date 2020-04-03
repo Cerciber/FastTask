@@ -2,6 +2,8 @@
 package fasttask.view.windows;
 
 import fasttask.controller.settting.SettingController;
+import fasttask.controller.view.ViewController;
+import java.awt.Color;
 import java.io.File;
 import javax.swing.JFileChooser;
 
@@ -18,6 +20,19 @@ public class Configuration extends javax.swing.JPanel {
         jTextField4.setText(SettingController.getPythonFolder());
         jTextField5.setText(SettingController.getJavaScriptFolder());
         jTextField6.setText(SettingController.getCPlusPlusFolder());
+        ViewController.customizeButton(jLabel3, Color.black);
+        ViewController.customizeButton(jLabel4, Color.black);
+        ViewController.customizeButton(jLabel6, Color.black);
+        ViewController.customizeButton(jLabel5, Color.black);
+        ViewController.customizeButton(jLabel7, Color.black);
+        ViewController.customizeButton(jLabel8, Color.black);
+        ViewController.customizeButton(jLabel10, Color.black);
+        ViewController.customizeButton(jLabel11, Color.black);
+        ViewController.customizeButton(jLabel13, Color.black);
+        ViewController.customizeButton(jLabel15, Color.black);
+        ViewController.customizeButton(jLabel17, Color.black);
+        ViewController.customizeButton(jLabel18, Color.black);
+                      
     }
     
     @SuppressWarnings("unchecked")
@@ -74,14 +89,14 @@ public class Configuration extends javax.swing.JPanel {
             }
         });
 
-        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/fasttask/data/files/images/anadir.png"))); // NOI18N
+        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/fasttask/data/files/images/check.png"))); // NOI18N
         jLabel4.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 jLabel4MousePressed(evt);
             }
         });
 
-        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/fasttask/data/files/images/anadir.png"))); // NOI18N
+        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/fasttask/data/files/images/check.png"))); // NOI18N
         jLabel5.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 jLabel5MousePressed(evt);
@@ -114,7 +129,7 @@ public class Configuration extends javax.swing.JPanel {
             }
         });
 
-        jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/fasttask/data/files/images/anadir.png"))); // NOI18N
+        jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/fasttask/data/files/images/check.png"))); // NOI18N
         jLabel8.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 jLabel8MousePressed(evt);
@@ -140,7 +155,7 @@ public class Configuration extends javax.swing.JPanel {
             }
         });
 
-        jLabel11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/fasttask/data/files/images/anadir.png"))); // NOI18N
+        jLabel11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/fasttask/data/files/images/check.png"))); // NOI18N
         jLabel11.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 jLabel11MousePressed(evt);
@@ -159,7 +174,7 @@ public class Configuration extends javax.swing.JPanel {
         jLabel12.setFont(new java.awt.Font("Comic Sans MS", 0, 13)); // NOI18N
         jLabel12.setText("Python: (Python\\Python37-32\\python.exe)");
 
-        jLabel13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/fasttask/data/files/images/anadir.png"))); // NOI18N
+        jLabel13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/fasttask/data/files/images/check.png"))); // NOI18N
         jLabel13.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 jLabel13MousePressed(evt);
@@ -204,7 +219,7 @@ public class Configuration extends javax.swing.JPanel {
             }
         });
 
-        jLabel18.setIcon(new javax.swing.ImageIcon(getClass().getResource("/fasttask/data/files/images/anadir.png"))); // NOI18N
+        jLabel18.setIcon(new javax.swing.ImageIcon(getClass().getResource("/fasttask/data/files/images/check.png"))); // NOI18N
         jLabel18.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 jLabel18MousePressed(evt);

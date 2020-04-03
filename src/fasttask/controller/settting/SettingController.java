@@ -6,7 +6,7 @@ import fasttask.data.system.FileAccess;
 
 public class SettingController {
    
-    /*
+    
     static final String EDITOR_FILE = "C:\\Users\\acer\\Documents\\FastTask\\configuration\\directions\\Editor.txt";
     static final String SAVED_FILE = "C:\\Users\\acer\\Documents\\FastTask\\configuration\\directions\\Saved.txt";
     static final String GENERATED_FOLDER = "C:\\Users\\acer\\Documents\\FastTask\\configuration\\generated";
@@ -14,17 +14,16 @@ public class SettingController {
     static final String JAVA_FILE = "C:\\Users\\acer\\Documents\\FastTask\\configuration\\directions\\Java.txt";
     static final String JAVASCRIPT_FILE = "C:\\Users\\acer\\Documents\\FastTask\\configuration\\directions\\JavaScript.txt";
     static final String C_PLUS_PLUS_FILE = "C:\\Users\\acer\\Documents\\FastTask\\configuration\\directions\\CPlusPlus.txt";
-    */
     
     // Direcciones para distribución
-    static final String EDITOR_FILE = FileAccess.getFolder(Main.class.getProtectionDomain().getCodeSource().getLocation().toString().replace("%20", " ")).substring(6) + "\\configuration\\directions\\Editor.txt";
+    /*static final String EDITOR_FILE = FileAccess.getFolder(Main.class.getProtectionDomain().getCodeSource().getLocation().toString().replace("%20", " ")).substring(6) + "\\configuration\\directions\\Editor.txt";
     static final String SAVED_FILE = FileAccess.getFolder(Main.class.getProtectionDomain().getCodeSource().getLocation().toString().replace("%20", " ")).substring(6) + "\\configuration\\directions\\Saved.txt";
     static final String GENERATED_FOLDER = FileAccess.getFolder(Main.class.getProtectionDomain().getCodeSource().getLocation().toString().replace("%20", " ")).substring(6) + "\\configuration\\generated";
     static final String PYTHON_FILE = FileAccess.getFolder(Main.class.getProtectionDomain().getCodeSource().getLocation().toString().replace("%20", " ")).substring(6) + "\\configuration\\directions\\Python.txt";
     static final String JAVA_FILE = FileAccess.getFolder(Main.class.getProtectionDomain().getCodeSource().getLocation().toString().replace("%20", " ")).substring(6) + "\\configuration\\directions\\Java.txt";
     static final String JAVASCRIPT_FILE = FileAccess.getFolder(Main.class.getProtectionDomain().getCodeSource().getLocation().toString().replace("%20", " ")).substring(6) + "\\configuration\\directions\\JavaScript.txt";
     static final String C_PLUS_PLUS_FILE = FileAccess.getFolder(Main.class.getProtectionDomain().getCodeSource().getLocation().toString().replace("%20", " ")).substring(6) + "\\configuration\\directions\\CPlusPlus.txt";
-    
+    */
     
     public static String getEditorFile() {
         return FileAccess.loadContent(EDITOR_FILE).trim();

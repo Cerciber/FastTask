@@ -206,7 +206,7 @@ public class RunClass extends javax.swing.JPanel implements CommandLine{
         jScrollPane1.setBorder(null);
 
         jTextArea1.setBackground(new java.awt.Color(251, 255, 251));
-        jTextArea1.setColumns(20);
+        jTextArea1.setColumns(1);
         jTextArea1.setRows(1);
         jTextArea1.setTabSize(1);
         jTextArea1.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -224,7 +224,7 @@ public class RunClass extends javax.swing.JPanel implements CommandLine{
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 82, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
         );
 
         jPanel6.setOpaque(false);
@@ -284,7 +284,7 @@ public class RunClass extends javax.swing.JPanel implements CommandLine{
         jPanel6Layout.setHorizontalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel5)
@@ -294,7 +294,7 @@ public class RunClass extends javax.swing.JPanel implements CommandLine{
                 .addComponent(jLabel6)
                 .addGap(4, 4, 4)
                 .addComponent(jLabel7)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -345,7 +345,9 @@ public class RunClass extends javax.swing.JPanel implements CommandLine{
         jLabel4.setText("L");
         jLabel4.setOpaque(true);
 
-        jTextArea2.setColumns(20);
+        jScrollPane2.setBorder(null);
+
+        jTextArea2.setColumns(1);
         jTextArea2.setFont(new java.awt.Font("Comic Sans MS", 0, 12)); // NOI18N
         jTextArea2.setRows(1);
         jTextArea2.setTabSize(1);
@@ -360,9 +362,9 @@ public class RunClass extends javax.swing.JPanel implements CommandLine{
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
                 .addGap(5, 5, 5)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane2)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 199, Short.MAX_VALUE))
+                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(5, 5, 5))
         );
         jPanel5Layout.setVerticalGroup(

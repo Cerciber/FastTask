@@ -45,23 +45,6 @@ public class Frame extends javax.swing.JFrame {
         initComponents();
         this.principal = principal;
         this.content = content;
-        
-        
-        setMinimumSize(new Dimension(content.getPreferredSize().width + 80, content.getPreferredSize().height));
-        
-        if (state) {
-            setLocationRelativeTo(null);
-        } else {
-
-            // Asignar posición aleatoria en pantalla
-            Random random = new Random();
-            Toolkit toolkit = Toolkit.getDefaultToolkit();
-            Dimension dimension = toolkit.getScreenSize();
-            int x = random.nextInt(dimension.width - getWidth());
-            int y = random.nextInt(dimension.height - getHeight());
-            setLocation(x, y);
-
-        }
 
         getContentPane().setBackground(new Color(1.0f, 1.0f, 1.0f, 0.0f));
         setBackground(new Color(1.0f, 1.0f, 1.0f, 0.0f));
@@ -84,6 +67,25 @@ public class Frame extends javax.swing.JFrame {
         setName(name + " compiler");
         setTitle(name + " compiler");
         setVisible(true);
+
+        setPreferredSize(new Dimension(getPreferredSize().width, getPreferredSize().height + 15));
+        setMinimumSize(getPreferredSize());
+        setSize(getPreferredSize());
+        
+        if (state) {
+            setLocationRelativeTo(null);
+        } else {
+
+            // Asignar posición aleatoria en pantalla
+            Random random = new Random();
+            Toolkit toolkit = Toolkit.getDefaultToolkit();
+            Dimension dimension = toolkit.getScreenSize();
+            int x = random.nextInt(dimension.width - getWidth());
+            int y = random.nextInt(dimension.height - getHeight());
+            setLocation(x, y);
+
+        }
+        
     }
     
     @SuppressWarnings("unchecked")
