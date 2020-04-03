@@ -14,8 +14,8 @@ import java.util.regex.Pattern;
 public abstract class CodeController {
 
     // Constantes
-    static final boolean RUNNING = true;    // Corriendo
-    static final boolean STOPED = false;    // Detenido
+    public static final boolean RUNNING = true;    // Corriendo
+    public static final boolean STOPED = false;    // Detenido
 
     // Atributos
     String direction;   // Dirección
@@ -102,6 +102,8 @@ public abstract class CodeController {
 
             @Override
             public void run() {
+                
+                commandLine.onRun();
 
                 try {
 
@@ -138,6 +140,9 @@ public abstract class CodeController {
                 } catch (IOException e) {
                     System.out.println(e);
                 }
+                
+                state = STOPED;
+                commandLine.onFinished();
 
             }
 
@@ -150,6 +155,11 @@ public abstract class CodeController {
         state = STOPED;
     }
 
+    // Obtener estado
+    public boolean getState(){
+        return state;
+    }
+    
     // Obtener controlador del lenguaje del archivo
     public static CodeController getController(String dir) {
         switch (FileAccess.getExtension(dir)) {

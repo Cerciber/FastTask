@@ -14,4 +14,10 @@ public interface CommandLine {
     // Leer información en consola
     public void read(BufferedWriter writer);
     
+    // Acciones al iniciar proceso
+    public void onRun();
+    
+    // Acciones al finalizar proceso
+    public void onFinished();
+    
 }

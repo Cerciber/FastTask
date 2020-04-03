@@ -11,6 +11,7 @@ import fasttask.data.system.FileAccess;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseListener;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.util.Arrays;
@@ -31,6 +32,7 @@ public class RunClass extends javax.swing.JPanel implements CommandLine{
     Color color;
     int inputStart;
     BufferedWriter writer;
+    Thread confButtonThread;
 
     public RunClass(Principal principal, Frame frame, ViewController viewController, String dir, String name, String description, String languaje, String[] parameters) {
         initComponents();
@@ -51,13 +53,14 @@ public class RunClass extends javax.swing.JPanel implements CommandLine{
         color = CodeController.getController(dir).color();
         jPanel7.setBorder(javax.swing.BorderFactory.createLineBorder(color, 4));
         jPanel7.setBackground(color);
-        jLabel1.setIcon(ViewController.colorImage(jLabel1.getIcon(), color));
-        jLabel5.setIcon(ViewController.colorImage(jLabel5.getIcon(), color));
-        jLabel8.setIcon(ViewController.colorImage(jLabel8.getIcon(), color));
-        jLabel6.setIcon(ViewController.colorImage(jLabel6.getIcon(), color));
-        jLabel7.setIcon(ViewController.colorImage(jLabel7.getIcon(), color));
+        ViewController.customizeButton(jLabel1, color);
+        ViewController.customizeButton(jLabel5, color);
+        ViewController.customizeButton(jLabel8, color);
+        ViewController.customizeButton(jLabel6, color);
+        ViewController.customizeButton(jLabel7, color);
         jLabel2.setForeground(color);
         jTextArea2.setForeground(color);
+        jTextArea2.setBorder(javax.swing.BorderFactory.createLineBorder(color, 1));
         jLabel4.setForeground(color);
         jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(color, 1));
         setParametersList();
@@ -122,6 +125,24 @@ public class RunClass extends javax.swing.JPanel implements CommandLine{
     @Override
     public void read(BufferedWriter writer) {
         this.writer = writer;
+    }
+    
+    @Override
+    public void onRun() {
+                
+        // Bloquear color run
+        jLabel1.setIcon(ViewController.colorLightImage(jLabel1.getIcon(), color));
+        jLabel1.removeMouseListener(jLabel1.getMouseListeners()[jLabel1.getMouseListeners().length - 1]);
+        
+    }
+
+    @Override
+    public void onFinished() {
+        
+        // Desbloquear color run
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/fasttask/data/files/images/play.png")));
+        ViewController.customizeButton(jLabel1, color);
+        
     }
 
     @SuppressWarnings("unchecked")
@@ -328,6 +349,7 @@ public class RunClass extends javax.swing.JPanel implements CommandLine{
         jTextArea2.setFont(new java.awt.Font("Comic Sans MS", 0, 12)); // NOI18N
         jTextArea2.setRows(1);
         jTextArea2.setTabSize(1);
+        jTextArea2.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(204, 204, 204)));
         jTextArea2.setFocusable(false);
         jScrollPane2.setViewportView(jTextArea2);
 
@@ -413,24 +435,27 @@ public class RunClass extends javax.swing.JPanel implements CommandLine{
     }//GEN-LAST:event_jPanel5formMouseExited
 
     private void jLabel1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MousePressed
+        
+        if (runner == null || runner.getState() == CodeController.STOPED) {
+            
+            jTextArea1.setText("");
+            Component[] component = jPanel4.getComponents();
+            String[] parameters = new String[component.length];
 
-        jTextArea1.setText("");
-        Component[] component = jPanel4.getComponents();
-        String[] parameters = new String[component.length];
-
-        // Obtener parametros
-        for (int i = 0; i < parameters.length; i++) {
-            if (((ParameterElement) component[i]).isEmpty()) {
-                return;
+            // Obtener parametros
+            for (int i = 0; i < parameters.length; i++) {
+                if (((ParameterElement) component[i]).isEmpty()) {
+                    return;
+                }
+                parameters[i] = ((ParameterElement) component[i]).getValue();
             }
-            parameters[i] = ((ParameterElement) component[i]).getValue();
-        }
 
-        // Ejecutar función
-        runner = CodeController.getController(direction);                             // Obtener runner del lenguaje detectado
-        String content = viewController.fileController.loadContent(direction);           // Obtener codido contenido
-        runner.run(parameters, this);         // Obtener infromación del codigo
-        jTextArea1.requestFocus();
+            // Ejecutar función
+            runner = CodeController.getController(direction);                             // Obtener runner del lenguaje detectado
+            runner.run(parameters, this);      
+            jTextArea1.requestFocus();
+            
+        }
 
     }//GEN-LAST:event_jLabel1MousePressed
 
@@ -512,8 +537,8 @@ public class RunClass extends javax.swing.JPanel implements CommandLine{
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel4;
+    public javax.swing.JLabel jLabel2;
+    public javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
@@ -528,7 +553,7 @@ public class RunClass extends javax.swing.JPanel implements CommandLine{
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextArea jTextArea2;
+    public javax.swing.JTextArea jTextArea2;
     // End of variables declaration//GEN-END:variables
 
 

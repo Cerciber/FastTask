@@ -1,14 +1,17 @@
 package fasttask.view.components;
 
+import fasttask.controller.code.CodeController;
 import fasttask.controller.view.ViewController;
 import fasttask.view.windows.Configuration;
 import fasttask.view.windows.Principal;
+import fasttask.view.windows.RunClass;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.WindowEvent;
+import java.util.Arrays;
 import java.util.Random;
 import javax.swing.Icon;
 import javax.swing.JFrame;
@@ -17,6 +20,7 @@ import javax.swing.JPanel;
 public class Frame extends javax.swing.JFrame {
 
     Principal principal;
+    JPanel content;
     
     boolean state;
     int resizeOption;
@@ -33,12 +37,17 @@ public class Frame extends javax.swing.JFrame {
     
     // State (true: principal, false segundario)
     public Frame(Principal principal, JPanel content, boolean state) {
+        this(principal, content, state, "FastTask", Color.black);
+    }
+
+    public Frame(Principal principal, JPanel content, boolean state, String name, Color color){
         
         initComponents();
         this.principal = principal;
+        this.content = content;
         
         
-        setMinimumSize(new Dimension(content.getPreferredSize().width + 70, content.getPreferredSize().height));
+        setMinimumSize(new Dimension(content.getPreferredSize().width + 80, content.getPreferredSize().height));
         
         if (state) {
             setLocationRelativeTo(null);
@@ -58,27 +67,22 @@ public class Frame extends javax.swing.JFrame {
         setBackground(new Color(1.0f, 1.0f, 1.0f, 0.0f));
         ((JPanel) getContentPane()).setOpaque(true);
         panel.add(content);
-        //setIconImage(new javax.swing.ImageIcon(getClass().getResource("/fasttask/data/files/images/ajustes.png")).getImage());
         setIconImage(new javax.swing.ImageIcon(getClass().getResource("/fasttask/data/files/images/ajustes.png")).getImage().getScaledInstance(70, 70, 0));
         setName(jLabel2.getText());
         setTitle(jLabel2.getText());
         this.state = state;
-        setVisible(true);
-    }
-
-    public Frame(Principal principal, JPanel content, boolean state, String name, Color color){
-        this(principal, content,state);
+        
+        ViewController.customizeButton(jLabel1, color);
+        ViewController.customizeButton(jLabel4, color);
+        ViewController.customizeButton(jLabel5, color);
+        ViewController.customizeButton(jLabel6, color);
+        
         jLabel2.setText(name);
         panel.setBorder(javax.swing.BorderFactory.createLineBorder(color, 4));
-        jLabel1.setIcon(ViewController.colorImage(jLabel1.getIcon(), color));
-        jLabel4.setIcon(ViewController.colorImage(jLabel4.getIcon(), color));
-        jLabel5.setIcon(ViewController.colorImage(jLabel5.getIcon(), color));
-        jLabel6.setIcon(ViewController.colorImage(jLabel6.getIcon(), color));
         jLabel2.setBackground(color);
         jLabel2.setBorder(javax.swing.BorderFactory.createMatteBorder(4, 4, 0, 4, color));
         setName(name + " compiler");
         setTitle(name + " compiler");
-        setVisible(false);
         setVisible(true);
     }
     
@@ -95,6 +99,18 @@ public class Frame extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
+        addWindowStateListener(new java.awt.event.WindowStateListener() {
+            public void windowStateChanged(java.awt.event.WindowEvent evt) {
+                formWindowStateChanged(evt);
+            }
+        });
+        addWindowFocusListener(new java.awt.event.WindowFocusListener() {
+            public void windowGainedFocus(java.awt.event.WindowEvent evt) {
+                formWindowGainedFocus(evt);
+            }
+            public void windowLostFocus(java.awt.event.WindowEvent evt) {
+            }
+        });
 
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/fasttask/data/files/images/cerrar.png"))); // NOI18N
@@ -189,7 +205,7 @@ public class Frame extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
                 .addComponent(jLabel6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel5)
@@ -395,6 +411,24 @@ public class Frame extends javax.swing.JFrame {
     private void jLabel2MouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseMoved
          panelMouseMoved(evt);
     }//GEN-LAST:event_jLabel2MouseMoved
+
+    private void formWindowStateChanged(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowStateChanged
+
+    }//GEN-LAST:event_formWindowStateChanged
+
+    private void formWindowGainedFocus(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowGainedFocus
+        
+        if (content instanceof RunClass){
+            CodeController codeController = CodeController.getController(((RunClass) content).direction);
+            String params = Arrays.toString(codeController.parameters());
+            ((RunClass) content).jLabel2.setText(codeController.name() + " (" + params.substring(1, params.length() - 1) + ")");
+            ((RunClass) content).jLabel4.setText(codeController.languaje());
+            ((RunClass) content).jTextArea2.setText(codeController.description());
+        }
+        principal.setFunctionList(principal.jTextField2.getText().trim());
+        
+        
+    }//GEN-LAST:event_formWindowGainedFocus
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

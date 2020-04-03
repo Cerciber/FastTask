@@ -14,6 +14,7 @@ import java.io.FilenameFilter;
 import java.util.ArrayList;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 
 public class ViewController {
 
@@ -41,7 +42,25 @@ public class ViewController {
         File[] files = new File(SettingController.getSaveFolder()).listFiles(new FilenameFilter() {  // Listar archivos que cumplan el filtro
             @Override
             public boolean accept(File dir, String name) {
-                return name.toLowerCase().contains(filter.toLowerCase());
+                System.out.println(dir + " " + name);
+                CodeController codeController = CodeController.getController(dir + "\\" + name);
+                boolean r = false;
+                for (String filterPart : filter.split(",")) {
+                    filterPart = filterPart.trim();
+                    if (codeController.name().toLowerCase().contains(filterPart.toLowerCase())) {
+                        r = true;
+                    } else if (codeController.extention().toLowerCase().contains(filterPart.toLowerCase())) {
+                        r = true;
+                    } else if (codeController.languaje().toLowerCase().contains(filterPart.toLowerCase())) {
+                        r = true;
+                    } else if (codeController.description().toLowerCase().contains(filterPart.toLowerCase())) {
+                        r = true;
+                    } else {
+                        r = false;
+                        break;
+                    }
+                }
+                return r;
             }
         });  
         ArrayList<Object[]> objects = new ArrayList<>();         // Crear objectos de retorno para cada archivo
@@ -141,8 +160,8 @@ public class ViewController {
         return new ImageIcon(image);
     }
     
-    public static BufferedImage colorImageBuffer(Icon image1, Color color) {
-        
+    public static Icon colorLightImage(Icon image1, Color color) {
+
         BufferedImage image = new BufferedImage(
             image1.getIconWidth(),
             image1.getIconHeight(),
@@ -158,15 +177,36 @@ public class ViewController {
             for (int y = 0; y < height; y++) {
                 int[] pixels = raster.getPixel(x, y, (int[]) null);
                 if (pixels[0] < 200 && pixels[1] < 200 && pixels[2] < 200) {
-                    pixels[0] = Math.min(255, color.getRed() + pixels[0]);
-                    pixels[1] = Math.min(255, color.getGreen() + pixels[1]);
-                    pixels[2] = Math.min(255, color.getBlue() + pixels[2]);
+                    pixels[0] = Math.min(255, color.getRed() + pixels[0] + 150);
+                    pixels[1] = Math.min(255, color.getGreen() + pixels[1] + 150);
+                    pixels[2] = Math.min(255, color.getBlue() + pixels[2] + 150);
                 }
                 raster.setPixel(x, y, pixels);
             }
         }
         
-        return image;
-    }
+        return new ImageIcon(image);
 
+    }
+    
+    public static void customizeButton(JLabel label, Color color){
+        
+        Icon icon1 = colorImage(label.getIcon(), color);
+        Icon icon2 = colorLightImage(label.getIcon(), color);
+        
+        label.setIcon(icon1);
+        
+        label.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                label.setIcon(icon2);
+            }
+            @Override
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                label.setIcon(icon1);
+            }
+        });
+        
+    }
+    
 }

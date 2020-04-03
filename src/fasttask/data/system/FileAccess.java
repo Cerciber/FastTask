@@ -3,9 +3,11 @@ package fasttask.data.system;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
 
 public class FileAccess {
 
@@ -18,10 +20,10 @@ public class FileAccess {
         try {
 
             // Crear objeto de lectura
-            FileReader reader = new FileReader(new File(dir));
+            //FileReader reader = new FileReader(new File(dir));
 
             // Crear objeto de lectura directa
-            BufferedReader br = new BufferedReader(reader);
+            BufferedReader br =  new BufferedReader(new InputStreamReader(new FileInputStream(dir), "UTF-8"));
 
             while (true) {
 

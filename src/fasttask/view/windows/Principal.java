@@ -18,6 +18,11 @@ public class Principal extends javax.swing.JPanel {
         viewController = new ViewController(this);
         setFunctionList();
         setPreferredSize(new Dimension(200, 400));
+        
+        viewController.customizeButton(jLabel3, Color.black);
+        viewController.customizeButton(jLabel4, Color.black);
+        viewController.customizeButton(jLabel5, Color.black);
+        
     }
 
     // Asignar lista de funciones
@@ -30,7 +35,8 @@ public class Principal extends javax.swing.JPanel {
         jPanel2.removeAll();
         Object[][] list = viewController.getClassList(filter);
         for (int i = 0; i < list.length; i++) {
-            jPanel2.add(new ListElement(this, viewController, (String) list[i][0], (String) list[i][1], (String) list[i][2], (String) list[i][3], (String[]) list[i][4]));
+            ListElement listElement = new ListElement(this, viewController, (String) list[i][0], (String) list[i][1], (String) list[i][2], (String) list[i][3], (String[]) list[i][4]);
+            jPanel2.add(listElement);
         }
         jPanel2.updateUI();
     }
@@ -51,6 +57,16 @@ public class Principal extends javax.swing.JPanel {
         jLabel5 = new javax.swing.JLabel();
 
         setOpaque(false);
+        addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                formFocusGained(evt);
+            }
+        });
+        addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                formComponentShown(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Comic Sans MS", 1, 13)); // NOI18N
         jLabel1.setText("Ingresar clase:");
@@ -101,6 +117,9 @@ public class Principal extends javax.swing.JPanel {
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/fasttask/data/files/images/buscar.png"))); // NOI18N
         jLabel3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                jLabel3MouseEntered(evt);
+            }
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 jLabel3MousePressed(evt);
             }
@@ -180,7 +199,6 @@ public class Principal extends javax.swing.JPanel {
     private void jTextField2KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField2KeyReleased
 
         setFunctionList(jTextField2.getText().trim());
-        jPanel2.updateUI();
 
     }//GEN-LAST:event_jTextField2KeyReleased
 
@@ -214,6 +232,18 @@ public class Principal extends javax.swing.JPanel {
         }
         
     }//GEN-LAST:event_jLabel5MousePressed
+
+    private void jLabel3MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseEntered
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jLabel3MouseEntered
+
+    private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
+       
+    }//GEN-LAST:event_formComponentShown
+
+    private void formFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_formFocusGained
+
+    }//GEN-LAST:event_formFocusGained
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

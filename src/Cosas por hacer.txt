@@ -4,8 +4,6 @@ Correcciones
 - Corregir lectura con c puro
 
 Adiciones
-- Incluir arrastre en la etiqeuta
 - Crear clase en base a una plantilla
-- Señalar cuando la ejecución se ha terminado
 - Incluir proyectos completos
 - Configurar para que corra de acuerdo a la prioridad - > buscar main -> si no hay main y hay varios archivo error -> primera clase - primer constructor -> primer metodo -> expresión
