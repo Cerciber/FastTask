@@ -242,7 +242,15 @@ public class Frame extends javax.swing.JFrame {
 
     private void panelMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelMouseMoved
 
-        if (evt.getX() <= 4) {
+        if (evt.getX() <= 4 && evt.getY() <= 4) {
+            setCursor(new Cursor(Cursor.NW_RESIZE_CURSOR));
+        } else if (evt.getX() <= 4 && evt.getY() >= panel.getSize().height - 4) {
+            setCursor(new Cursor(Cursor.NE_RESIZE_CURSOR));
+        } else if (evt.getX() >= getSize().width - 4 && evt.getY() >= panel.getSize().height - 4) {
+            setCursor(new Cursor(Cursor.SE_RESIZE_CURSOR));
+        } else if (evt.getX() >= getSize().width - 4 && evt.getY() <= 4) {
+            setCursor(new Cursor(Cursor.SW_RESIZE_CURSOR));
+        } else if (evt.getX() <= 4) {
             setCursor(new Cursor(Cursor.W_RESIZE_CURSOR));
         } else if (evt.getX() >= getSize().width - 4) {
             setCursor(new Cursor(Cursor.W_RESIZE_CURSOR));
@@ -269,14 +277,22 @@ public class Frame extends javax.swing.JFrame {
         width = getSize().width;
         height = getSize().height;
 
-        if (evt.getX() <= 4) {
+        if (evt.getX() <= 4 && evt.getY() <= 4) {
             resizeOption = 1;
-        } else if (evt.getX() >= getSize().width - 4) {
+        } else if (evt.getX() <= 4 && evt.getY() >= panel.getSize().height - 4) {
             resizeOption = 2;
-        } else if (evt.getY() <= 4) {
+        } else if (evt.getX() >= getSize().width - 4 && evt.getY() >= panel.getSize().height - 4) {
             resizeOption = 3;
-        } else if (evt.getY() >= panel.getSize().height - 4) {
+        } else if (evt.getX() >= getSize().width - 4 && evt.getY() <= 4) {
             resizeOption = 4;
+        } else if (evt.getX() <= 4) {
+            resizeOption = 5;
+        } else if (evt.getX() >= getSize().width - 4) {
+            resizeOption = 6;
+        } else if (evt.getY() <= 4) {
+            resizeOption = 7;
+        } else if (evt.getY() >= panel.getSize().height - 4) {
+            resizeOption = 8;
         } else {
             resizeOption = 0;
         }
@@ -291,14 +307,30 @@ public class Frame extends javax.swing.JFrame {
                 break;
             case 1:
                 setBounds(getLocation().x + evt.getX() - x, getLocation().y, getSize().width - evt.getX() + x, getSize().height);
-                break;
-            case 2:
-                setSize(width + evt.getX() - x, getSize().height);
-                break;
-            case 3:
                 setBounds(getLocation().x, getLocation().y + evt.getY() - y, getSize().width, getSize().height - evt.getY() + y);
                 break;
+            case 2:
+                setBounds(getLocation().x + evt.getX() - x, getLocation().y, getSize().width - evt.getX() + x, getSize().height);
+                setSize(getSize().width, height + evt.getY() - y);
+                break;
+            case 3:
+                setSize(width + evt.getX() - x, getSize().height);
+                setSize(getSize().width, height + evt.getY() - y);
+                break;
             case 4:
+                setSize(width + evt.getX() - x, getSize().height);
+                setBounds(getLocation().x, getLocation().y + evt.getY() - y, getSize().width, getSize().height - evt.getY() + y);
+                break;
+            case 5:
+                setBounds(getLocation().x + evt.getX() - x, getLocation().y, getSize().width - evt.getX() + x, getSize().height);
+                break;
+            case 6:
+                setSize(width + evt.getX() - x, getSize().height);
+                break;
+            case 7:
+                setBounds(getLocation().x, getLocation().y + evt.getY() - y, getSize().width, getSize().height - evt.getY() + y);
+                break;
+            case 8:
                 setSize(getSize().width, height + evt.getY() - y);
                 break;
         }

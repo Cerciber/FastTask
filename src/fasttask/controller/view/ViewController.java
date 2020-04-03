@@ -80,7 +80,7 @@ public class ViewController {
        activedClasses.add(runClass);
     }
     
-    // Agregar ventana de ejecución activa
+    // Remover clases activas que contengan la dirección
     public void removeActivedClass(RunClass runClass){
         
        // Remover clases activas con la misma ruta
@@ -91,6 +91,21 @@ public class ViewController {
                 activedClasses.remove(activedClasses.get(i));
             }
         }
+       
+       // Actualizar lista
+       principal.setFunctionList();
+       
+    }
+    
+    // Remover clases activas
+    public void removeActivedClass(){
+        
+       // Remover clases activas con la misma ruta
+        for (int i = activedClasses.size() - 1; i >= 0; i--) {
+            activedClasses.get(i).frame.setVisible(false);
+            activedClasses.get(i).frame.dispose();
+        }
+        activedClasses.clear();
        
        // Actualizar lista
        principal.setFunctionList();
