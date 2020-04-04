@@ -18,8 +18,7 @@ public class Main {
         }
         
         // Iniciar ventana
-        Principal principal = new Principal();
-        Frame frame = new Frame(principal, principal, true, "TrimCode", Constants.MAIN_FRAME_COLOR);
+        new Principal();
         
     }
     

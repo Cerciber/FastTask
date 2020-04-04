@@ -12,7 +12,6 @@ import java.awt.image.WritableRaster;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -94,9 +93,8 @@ public class ViewController {
         
        // Remover clases activas con la misma ruta
         for (int i = activedClasses.size() - 1; i >= 0; i--) {
-            if (activedClasses.get(i).direction.equals(runClass.direction)) {
-                activedClasses.get(i).frame.setVisible(false);
-                activedClasses.get(i).frame.dispose();
+            if (activedClasses.get(i).codeController.direction().equals(runClass.codeController.direction())) {
+                activedClasses.get(i).frame.close();
                 activedClasses.remove(activedClasses.get(i));
             }
         }

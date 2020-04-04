@@ -9,72 +9,88 @@ import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.awt.event.MouseEvent;
 import java.awt.event.WindowEvent;
 import java.util.Arrays;
 import java.util.Random;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-public class Frame extends javax.swing.JFrame {
+public final class Frame extends javax.swing.JFrame {
 
-    Principal principal;
-    JPanel content;
+    // Contenido del la ventana
+    Frameable frameable;
     
-    boolean state;
-    int resizeOption;
-    
+    // Estado anterior al redimensionamiento
     int x;
     int y;
     int width;
     int height;
-    
+
+    // Tipo de redimensionamiento
+    int resizeOption;
+
+    // Estado anterior a la maximización
     int xState;
     int yState;
     int widthState;
     int heightState;
-    
-    // State (true: principal, false segundario)
-    public Frame(Principal principal, JPanel content, boolean state) {
-        this(principal, content, state, "TrimCode", Color.black);
+
+    public Frame(Frameable frameable) {
+
+        this.frameable = frameable;
+
+        initComponents();                   // Iniciar componentes generados
+        panel.add(frameable.content());     // Asignar contenido
+        setCustomization();                 // Personalizar
+        setLocation();                      // Asignar ubicación
+        setVisible(true);                   // Mostrar
+
     }
 
-    public Frame(Principal principal, JPanel content, boolean state, String name, Color color){
-        
-        initComponents();
-        this.principal = principal;
-        this.content = content;
+    // Personalizar ventana
+    public void setCustomization() {
 
-        getContentPane().setBackground(new Color(1.0f, 1.0f, 1.0f, 0.0f));
+        // Dar transparencia 
         setBackground(new Color(1.0f, 1.0f, 1.0f, 0.0f));
+        getContentPane().setBackground(new Color(1.0f, 1.0f, 1.0f, 0.0f));
         ((JPanel) getContentPane()).setOpaque(true);
-        panel.add(content);
-        setIconImage(new javax.swing.ImageIcon(getClass().getResource("/fasttask/data/files/images/ajustes.png")).getImage().getScaledInstance(70, 70, 0));
-        setName(jLabel2.getText());
-        setTitle(jLabel2.getText());
-        this.state = state;
-        
-        ViewController.customizeButton(jLabel1, color);
-        ViewController.customizeButton(jLabel4, color);
-        ViewController.customizeButton(jLabel5, color);
-        ViewController.customizeButton(jLabel6, color);
-        
-        jLabel2.setText(name);
-        panel.setBorder(javax.swing.BorderFactory.createLineBorder(color, 4));
-        jLabel2.setBackground(color);
-        jLabel2.setBorder(javax.swing.BorderFactory.createMatteBorder(4, 4, 0, 4, color));
-        setName(name + " compiler");
-        setTitle(name + " compiler");
-        setVisible(true);
 
+        // Asignar Icono y nombre
+        setIconImage(new javax.swing.ImageIcon(getClass().getResource("/fasttask/data/files/images/ajustes.png")).getImage().getScaledInstance(70, 70, 0));
+        setName(frameable.title());
+        setTitle(frameable.title());
+        jLabel2.setText(frameable.title());
+
+        // Personalizar botones
+        ViewController.customizeButton(jLabel1, frameable.color());
+        ViewController.customizeButton(jLabel4, frameable.color());
+        ViewController.customizeButton(jLabel5, frameable.color());
+        ViewController.customizeButton(jLabel6, frameable.color());
+
+        // Personaliar bordes
+        panel.setBorder(javax.swing.BorderFactory.createLineBorder(frameable.color(), 4));
+        jLabel2.setBackground(frameable.color());
+        jLabel2.setBorder(javax.swing.BorderFactory.createMatteBorder(4, 4, 0, 4, frameable.color()));
+
+        // Personalizar tamaño
         setPreferredSize(new Dimension(getPreferredSize().width, getPreferredSize().height + 15));
         setMinimumSize(getPreferredSize());
         setSize(getPreferredSize());
-        
-        if (state) {
+
+    }
+
+    // Asignar posición en pantalla
+    public void setLocation() {
+
+        if (frameable.typeStartLocation() == Frameable.CENTER) {
+
+            // Central
             setLocationRelativeTo(null);
+
         } else {
 
-            // Asignar posición aleatoria en pantalla
+            // Aleatoria
             Random random = new Random();
             Toolkit toolkit = Toolkit.getDefaultToolkit();
             Dimension dimension = toolkit.getScreenSize();
@@ -83,9 +99,154 @@ public class Frame extends javax.swing.JFrame {
             setLocation(x, y);
 
         }
-        
+
+    }
+
+    // Al presionar el boton de configuración
+    public void onConfigurationClick() {
+        frameable.onConfuigurationClick();
+    }
+
+    // Al presionar el boton de  maximizar ventana
+    public void onMaximizeClick() {
+        if (getExtendedState() != JFrame.MAXIMIZED_BOTH) {
+            xState = this.getLocation().x;
+            yState = this.getLocation().y;
+            widthState = this.getWidth();
+            heightState = this.getHeight();
+            setExtendedState(getExtendedState() | JFrame.MAXIMIZED_BOTH);
+            getContentPane().setBackground(Color.WHITE);
+        } else {
+            setSize(widthState, heightState);
+            setLocation(xState, yState);
+            getContentPane().setBackground(new Color(1.0f, 1.0f, 1.0f, 0.0f));
+        }
+    }
+
+    // Al presionar el boton de  minimizar ventana
+    public void onMinimizeClick() {
+        setState(Frame.ICONIFIED);
+    }
+
+    // Al presionar el boton de cerrar ventana
+    public void onCloseClick() {
+        if (frameable.typeClose() == Frameable.CLOSE_PROGRAM) {
+            dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
+        } else {
+            setVisible(false);
+            dispose();
+        }
+        frameable.onCloseClick();
+    }
+
+    // Al ingresar el mouse en el frame
+    public void onMouseEntered(MouseEvent evt) {
+        setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+    }
+
+    // Al sacar el mouse en el frame
+    public void onMouseExited(MouseEvent evt) {
+        setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+    }
+
+    // Al mover el mouse en el frame
+    public void onMouseMoved(MouseEvent evt) {
+        if (evt.getX() <= 4 && evt.getY() <= 4) {
+            setCursor(new Cursor(Cursor.NW_RESIZE_CURSOR));
+        } else if (evt.getX() <= 4 && evt.getY() >= panel.getSize().height - 4) {
+            setCursor(new Cursor(Cursor.NE_RESIZE_CURSOR));
+        } else if (evt.getX() >= getSize().width - 4 && evt.getY() >= panel.getSize().height - 4) {
+            setCursor(new Cursor(Cursor.SE_RESIZE_CURSOR));
+        } else if (evt.getX() >= getSize().width - 4 && evt.getY() <= 4) {
+            setCursor(new Cursor(Cursor.SW_RESIZE_CURSOR));
+        } else if (evt.getX() <= 4) {
+            setCursor(new Cursor(Cursor.W_RESIZE_CURSOR));
+        } else if (evt.getX() >= getSize().width - 4) {
+            setCursor(new Cursor(Cursor.W_RESIZE_CURSOR));
+        } else if (evt.getY() <= 4) {
+            setCursor(new Cursor(Cursor.S_RESIZE_CURSOR));
+        } else if (evt.getY() >= panel.getSize().height - 4) {
+            setCursor(new Cursor(Cursor.S_RESIZE_CURSOR));
+        } else {
+            setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+        }
+    }
+
+    // Al presionar el mouse en el frame
+    public void onMousePressed(MouseEvent evt) {
+        x = evt.getX();
+        y = evt.getY();
+        width = getSize().width;
+        height = getSize().height;
+        if (evt.getX() <= 4 && evt.getY() <= 4) {
+            resizeOption = 1;
+        } else if (evt.getX() <= 4 && evt.getY() >= panel.getSize().height - 4) {
+            resizeOption = 2;
+        } else if (evt.getX() >= getSize().width - 4 && evt.getY() >= panel.getSize().height - 4) {
+            resizeOption = 3;
+        } else if (evt.getX() >= getSize().width - 4 && evt.getY() <= 4) {
+            resizeOption = 4;
+        } else if (evt.getX() <= 4) {
+            resizeOption = 5;
+        } else if (evt.getX() >= getSize().width - 4) {
+            resizeOption = 6;
+        } else if (evt.getY() <= 4) {
+            resizeOption = 7;
+        } else if (evt.getY() >= panel.getSize().height - 4) {
+            resizeOption = 8;
+        } else {
+            resizeOption = 0;
+        }
+    }
+
+    // Al arrastrar el mouse en el frame
+    public void onMouseDragged(MouseEvent evt) {
+        switch (resizeOption) {
+            case 0:
+                setLocation(getLocation().x + evt.getX() - x, getLocation().y + evt.getY() - y);
+                break;
+            case 1:
+                setBounds(getLocation().x + evt.getX() - x, getLocation().y, getSize().width - evt.getX() + x, getSize().height);
+                setBounds(getLocation().x, getLocation().y + evt.getY() - y, getSize().width, getSize().height - evt.getY() + y);
+                break;
+            case 2:
+                setBounds(getLocation().x + evt.getX() - x, getLocation().y, getSize().width - evt.getX() + x, getSize().height);
+                setSize(getSize().width, height + evt.getY() - y);
+                break;
+            case 3:
+                setSize(width + evt.getX() - x, getSize().height);
+                setSize(getSize().width, height + evt.getY() - y);
+                break;
+            case 4:
+                setSize(width + evt.getX() - x, getSize().height);
+                setBounds(getLocation().x, getLocation().y + evt.getY() - y, getSize().width, getSize().height - evt.getY() + y);
+                break;
+            case 5:
+                setBounds(getLocation().x + evt.getX() - x, getLocation().y, getSize().width - evt.getX() + x, getSize().height);
+                break;
+            case 6:
+                setSize(width + evt.getX() - x, getSize().height);
+                break;
+            case 7:
+                setBounds(getLocation().x, getLocation().y + evt.getY() - y, getSize().width, getSize().height - evt.getY() + y);
+                break;
+            case 8:
+                setSize(getSize().width, height + evt.getY() - y);
+                break;
+        }
+    }
+
+    // Al obtener foco el frame
+    public void onGetFocus(WindowEvent evt) {
+        frameable.onGetFocus();
     }
     
+    // Cerrar ventana
+    public void close(){
+        setVisible(false);
+        dispose();
+    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -237,179 +398,59 @@ public class Frame extends javax.swing.JFrame {
     }//GEN-LAST:event_jLabel1MousePressed
 
     private void jLabel4MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel4MousePressed
-        
-        if (getExtendedState() != JFrame.MAXIMIZED_BOTH) {
-            xState = this.getLocation().x;
-            yState = this.getLocation().y;
-            widthState = this.getWidth();
-            heightState = this.getHeight();
-            setExtendedState(getExtendedState() | JFrame.MAXIMIZED_BOTH);
-            getContentPane().setBackground(Color.WHITE);
-        } else {
-            setSize(widthState, heightState);
-            setLocation(xState, yState);
-            getContentPane().setBackground(new Color(1.0f, 1.0f, 1.0f, 0.0f));
-        }
-
+        onMaximizeClick();
     }//GEN-LAST:event_jLabel4MousePressed
 
     private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
-
-        if (state) {
-            dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
-        } else {
-            setVisible(false);
-            dispose();
-            if (jLabel2.getText().equals("Configuración")) {
-                ViewController.confActived = false;
-            }
-            
-        }
-
-
+        onCloseClick();
     }//GEN-LAST:event_jLabel1MouseClicked
 
     private void jLabel5MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MousePressed
-
-        setState(Frame.ICONIFIED);
-
+        onMinimizeClick();
     }//GEN-LAST:event_jLabel5MousePressed
 
     private void panelMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelMouseMoved
-
-        if (evt.getX() <= 4 && evt.getY() <= 4) {
-            setCursor(new Cursor(Cursor.NW_RESIZE_CURSOR));
-        } else if (evt.getX() <= 4 && evt.getY() >= panel.getSize().height - 4) {
-            setCursor(new Cursor(Cursor.NE_RESIZE_CURSOR));
-        } else if (evt.getX() >= getSize().width - 4 && evt.getY() >= panel.getSize().height - 4) {
-            setCursor(new Cursor(Cursor.SE_RESIZE_CURSOR));
-        } else if (evt.getX() >= getSize().width - 4 && evt.getY() <= 4) {
-            setCursor(new Cursor(Cursor.SW_RESIZE_CURSOR));
-        } else if (evt.getX() <= 4) {
-            setCursor(new Cursor(Cursor.W_RESIZE_CURSOR));
-        } else if (evt.getX() >= getSize().width - 4) {
-            setCursor(new Cursor(Cursor.W_RESIZE_CURSOR));
-        } else if (evt.getY() <= 4) {
-            setCursor(new Cursor(Cursor.S_RESIZE_CURSOR));
-        } else if (evt.getY() >= panel.getSize().height - 4) {
-            setCursor(new Cursor(Cursor.S_RESIZE_CURSOR));
-        } else {
-            setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-        }
-
+        onMouseMoved(evt);
     }//GEN-LAST:event_panelMouseMoved
 
     private void panelMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelMouseEntered
-
-        setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-
+        onMouseEntered(evt);
     }//GEN-LAST:event_panelMouseEntered
 
     private void panelMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelMousePressed
-
-        x = evt.getX();
-        y = evt.getY();
-        width = getSize().width;
-        height = getSize().height;
-
-        if (evt.getX() <= 4 && evt.getY() <= 4) {
-            resizeOption = 1;
-        } else if (evt.getX() <= 4 && evt.getY() >= panel.getSize().height - 4) {
-            resizeOption = 2;
-        } else if (evt.getX() >= getSize().width - 4 && evt.getY() >= panel.getSize().height - 4) {
-            resizeOption = 3;
-        } else if (evt.getX() >= getSize().width - 4 && evt.getY() <= 4) {
-            resizeOption = 4;
-        } else if (evt.getX() <= 4) {
-            resizeOption = 5;
-        } else if (evt.getX() >= getSize().width - 4) {
-            resizeOption = 6;
-        } else if (evt.getY() <= 4) {
-            resizeOption = 7;
-        } else if (evt.getY() >= panel.getSize().height - 4) {
-            resizeOption = 8;
-        } else {
-            resizeOption = 0;
-        }
-
+        onMousePressed(evt);
     }//GEN-LAST:event_panelMousePressed
 
     private void panelMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelMouseDragged
-
-        switch (resizeOption) {
-            case 0:
-                setLocation(getLocation().x + evt.getX() - x, getLocation().y + evt.getY() - y);
-                break;
-            case 1:
-                setBounds(getLocation().x + evt.getX() - x, getLocation().y, getSize().width - evt.getX() + x, getSize().height);
-                setBounds(getLocation().x, getLocation().y + evt.getY() - y, getSize().width, getSize().height - evt.getY() + y);
-                break;
-            case 2:
-                setBounds(getLocation().x + evt.getX() - x, getLocation().y, getSize().width - evt.getX() + x, getSize().height);
-                setSize(getSize().width, height + evt.getY() - y);
-                break;
-            case 3:
-                setSize(width + evt.getX() - x, getSize().height);
-                setSize(getSize().width, height + evt.getY() - y);
-                break;
-            case 4:
-                setSize(width + evt.getX() - x, getSize().height);
-                setBounds(getLocation().x, getLocation().y + evt.getY() - y, getSize().width, getSize().height - evt.getY() + y);
-                break;
-            case 5:
-                setBounds(getLocation().x + evt.getX() - x, getLocation().y, getSize().width - evt.getX() + x, getSize().height);
-                break;
-            case 6:
-                setSize(width + evt.getX() - x, getSize().height);
-                break;
-            case 7:
-                setBounds(getLocation().x, getLocation().y + evt.getY() - y, getSize().width, getSize().height - evt.getY() + y);
-                break;
-            case 8:
-                setSize(getSize().width, height + evt.getY() - y);
-                break;
-        }
-
+        onMouseDragged(evt);
     }//GEN-LAST:event_panelMouseDragged
 
     private void panelMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelMouseExited
-
-        setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-
+        onMouseExited(evt);
     }//GEN-LAST:event_panelMouseExited
 
     private void jLabel6MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel6MousePressed
-        
-        if (!ViewController.confActived) {
-            // Crear frame de la configuración
-            Configuration configuration = new Configuration(principal);
-            Frame frame = new Frame(principal, configuration, false, "Configuración", Color.BLACK);
-            frame.setSize(320, 360);
-            ViewController.confActived = true;
-        }
-        
-        
-        
+
     }//GEN-LAST:event_jLabel6MousePressed
 
     private void jLabel2MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseEntered
-        panelMouseEntered(evt);
+        onMouseEntered(evt);
     }//GEN-LAST:event_jLabel2MouseEntered
 
     private void jLabel2MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseExited
-        panelMouseExited(evt);
+        onMouseExited(evt);
     }//GEN-LAST:event_jLabel2MouseExited
 
     private void jLabel2MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MousePressed
-        panelMousePressed(evt);
+        onMousePressed(evt);
     }//GEN-LAST:event_jLabel2MousePressed
 
     private void jLabel2MouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseDragged
-        panelMouseDragged(evt);
+        onMouseDragged(evt);
     }//GEN-LAST:event_jLabel2MouseDragged
 
     private void jLabel2MouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseMoved
-         panelMouseMoved(evt);
+        onMouseMoved(evt);
     }//GEN-LAST:event_jLabel2MouseMoved
 
     private void formWindowStateChanged(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowStateChanged
@@ -417,17 +458,7 @@ public class Frame extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowStateChanged
 
     private void formWindowGainedFocus(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowGainedFocus
-        
-        if (content instanceof RunClass){
-            CodeController codeController = CodeController.getController(((RunClass) content).direction);
-            String params = Arrays.toString(codeController.parameters());
-            ((RunClass) content).jLabel2.setText(codeController.name() + " (" + params.substring(1, params.length() - 1) + ")");
-            ((RunClass) content).jLabel4.setText(codeController.languaje());
-            ((RunClass) content).jTextArea2.setText(codeController.description());
-        }
-        principal.setFunctionList(principal.jTextField2.getText().trim());
-        
-        
+        onGetFocus(evt);
     }//GEN-LAST:event_formWindowGainedFocus
 
 

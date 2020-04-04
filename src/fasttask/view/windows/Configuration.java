@@ -3,11 +3,14 @@ package fasttask.view.windows;
 
 import fasttask.data.system.Directions;
 import fasttask.controller.view.ViewController;
+import fasttask.data.system.Constants;
+import fasttask.view.components.Frameable;
 import java.awt.Color;
 import java.io.File;
 import javax.swing.JFileChooser;
+import javax.swing.JPanel;
 
-public class Configuration extends javax.swing.JPanel {
+public class Configuration extends javax.swing.JPanel implements Frameable {
 
     Principal principal;
     
@@ -33,6 +36,46 @@ public class Configuration extends javax.swing.JPanel {
         ViewController.customizeButton(jLabel17, Color.black);
         ViewController.customizeButton(jLabel18, Color.black);
                       
+    }
+    
+    @Override
+    public String title() {
+        return "Configuración";
+    }
+
+    @Override
+    public Color color() {
+        return Constants.CONFIGURATION_COLOR;
+    }
+
+    @Override
+    public JPanel content() {
+        return this;
+    }
+
+    @Override
+    public int typeStartLocation() {
+        return Frameable.RANDOM;
+    }
+
+    @Override
+    public int typeClose() {
+        return Frameable.CLOSE_ACTUAL;
+    }
+
+    @Override
+    public void onConfuigurationClick() {
+        // No se necesita
+    }
+    
+    @Override
+    public void onCloseClick() {
+        ViewController.confActived = false;
+    }
+    
+    @Override
+    public void onGetFocus() {
+        
     }
     
     @SuppressWarnings("unchecked")
@@ -535,4 +578,5 @@ public class Configuration extends javax.swing.JPanel {
     private javax.swing.JTextField jTextField5;
     private javax.swing.JTextField jTextField6;
     // End of variables declaration//GEN-END:variables
+
 }

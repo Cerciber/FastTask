@@ -1,10 +1,12 @@
-
 package fasttask.view.windows;
 
 import fasttask.data.system.Directions;
 import fasttask.view.components.ListElement;
 import fasttask.controller.view.ViewController;
+import fasttask.data.system.Constants;
 import fasttask.data.system.FileAccess;
+import fasttask.view.components.Frame;
+import fasttask.view.components.Frameable;
 import fasttask.view.components.NewClass;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -12,35 +14,50 @@ import java.io.File;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
-public class Principal extends javax.swing.JPanel {
+public final class Principal extends javax.swing.JPanel implements Frameable {
 
-    ViewController viewController;
+    // Controlador de la interfaz grafica
+    ViewController viewController;  
     
+    // Ventana contenedora
+    Frame frame;
+
     public Principal() {
-        initComponents();
         
         viewController = new ViewController(this);
-        setFunctionList();
-        viewController.customizeButton(jLabel3, new Color(44, 169, 36));
-        viewController.customizeButton(jLabel4, new Color(44, 169, 36));
-        viewController.customizeButton(jLabel5, new Color(44, 169, 36));
-        viewController.customizeButton(jLabel6, new Color(44, 169, 36));
+        
+        initComponents();       // Iniciar componentes generados
+        setFunctionList();      // Asignar lista de funciones
+        setCustomization();     // Personalizar
+
+        frame = new Frame(this);
+
+    }
+    
+    // Personalizar ventana
+    public void setCustomization() {
+        
+        ViewController.customizeButton(jLabel3, Constants.MAIN_FRAME_COLOR);
+        ViewController.customizeButton(jLabel4, Constants.MAIN_FRAME_COLOR);
+        ViewController.customizeButton(jLabel5, Constants.MAIN_FRAME_COLOR);
+        ViewController.customizeButton(jLabel6, Constants.MAIN_FRAME_COLOR);
         setMinimumSize(getPreferredSize());
         
     }
 
     // Asignar lista de funciones
-    public void setFunctionList(){
+    public void setFunctionList() {
         setFunctionList(jTextField2.getText());
     }
-    
-    // Asignar lista de funciones
-    public void setFunctionList(String filter){
+
+    // Asignar lista de funciones con filtro
+    public void setFunctionList(String filter) {
         filter = filter.replace(",", ", ");
-        if(filter.split(",").length == 1){
+        if (filter.split(",").length == 1) {
             filter += ", , ";
-        } else if(filter.split(",").length == 2){
+        } else if (filter.split(",").length == 2) {
             filter += ", ";
         }
         jPanel2.removeAll();
@@ -51,7 +68,57 @@ public class Principal extends javax.swing.JPanel {
         }
         jPanel2.updateUI();
     }
+
+    @Override
+    public String title() {
+        return Constants.APP_NAME;
+    }
+
+    @Override
+    public Color color() {
+        return Constants.MAIN_FRAME_COLOR;
+    }
+
+    @Override
+    public JPanel content() {
+        return this;
+    }
+
+    @Override
+    public int typeStartLocation() {
+        return Frameable.CENTER;
+    }
+
+    @Override
+    public int typeClose() {
+        return Frameable.CLOSE_PROGRAM;
+    }
+
+    @Override
+    public void onConfuigurationClick() {
+        
+        // Si la configuración no esta abierta
+        if (!ViewController.confActived) {
+            
+            // Abrir configuración
+            Configuration configuration = new Configuration(this);
+            Frame frame = new Frame(configuration);
+            ViewController.confActived = true;
+            
+        }
+        
+    }
     
+    @Override
+    public void onCloseClick() {
+        
+    }
+    
+    @Override
+    public void onGetFocus() {
+        setFunctionList();
+    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -234,24 +301,24 @@ public class Principal extends javax.swing.JPanel {
     }//GEN-LAST:event_jTextField2KeyTyped
 
     private void jLabel3MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MousePressed
-        
+
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.showOpenDialog(this);
         if (fileChooser.getSelectedFile() != null) {
             jTextField1.setText(fileChooser.getSelectedFile().getAbsolutePath());
             jLabel5MousePressed(null);
         }
-        
+
     }//GEN-LAST:event_jLabel3MousePressed
 
     private void jLabel4MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel4MousePressed
-        
+
         viewController.removeActivedClass();
-        
+
     }//GEN-LAST:event_jLabel4MousePressed
 
     private void jLabel5MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MousePressed
-        
+
         if (new File(jTextField1.getText()).exists()) {
             if (!viewController.addClass(jTextField1.getText())) {
                 JOptionPane.showMessageDialog(this, "El nombre ya existe en la lista");
@@ -259,9 +326,9 @@ public class Principal extends javax.swing.JPanel {
                 setFunctionList(jTextField2.getText().trim());
                 jTextField1.setText("");
             }
-            
+
         }
-        
+
     }//GEN-LAST:event_jLabel5MousePressed
 
     private void jLabel3MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseEntered
@@ -269,7 +336,7 @@ public class Principal extends javax.swing.JPanel {
     }//GEN-LAST:event_jLabel3MouseEntered
 
     private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
-       
+
     }//GEN-LAST:event_formComponentShown
 
     private void formFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_formFocusGained
@@ -277,7 +344,7 @@ public class Principal extends javax.swing.JPanel {
     }//GEN-LAST:event_formFocusGained
 
     private void jLabel6MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel6MousePressed
-        
+
         JDialog jDialog = new JDialog();
         NewClass newClass = new NewClass(jDialog);
         jDialog.setModal(true);
@@ -286,22 +353,20 @@ public class Principal extends javax.swing.JPanel {
         jDialog.pack();
         jDialog.setLocationRelativeTo(null);
         jDialog.setVisible(true);
-        
+
         if (newClass.accept()) {
-            
+
             if (newClass.template()) {
-                
-                FileAccess.copyFile(Directions.getTemplatesFolder()+ "\\template." + FileAccess.getExtension(newClass.getName()), Directions.getSaveFolder() + "\\" + newClass.getName());
-                
+
+                FileAccess.copyFile(Directions.getTemplatesFolder() + "\\template." + FileAccess.getExtension(newClass.getName()), Directions.getSaveFolder() + "\\" + newClass.getName());
+
             } else {
                 FileAccess.createFile(Directions.getSaveFolder() + "\\" + newClass.getName());
 
             }
-            
-            
-            
+
         }
-        
+
     }//GEN-LAST:event_jLabel6MousePressed
 
 
@@ -318,4 +383,5 @@ public class Principal extends javax.swing.JPanel {
     private javax.swing.JTextField jTextField1;
     public javax.swing.JTextField jTextField2;
     // End of variables declaration//GEN-END:variables
+
 }

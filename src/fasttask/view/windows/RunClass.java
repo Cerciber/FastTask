@@ -8,6 +8,7 @@ import fasttask.controller.code.CommandLine;
 import fasttask.controller.view.ViewController;
 import fasttask.data.system.Directions;
 import fasttask.data.system.FileAccess;
+import fasttask.view.components.Frameable;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.KeyEvent;
@@ -16,15 +17,15 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.util.Arrays;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
-public class RunClass extends javax.swing.JPanel implements CommandLine{
+public final class RunClass extends javax.swing.JPanel implements Frameable, CommandLine{
 
-    ViewController viewController;
-    public Frame frame;
     Principal principal;
-    CodeController runner;
-
-    public String direction;
+    public CodeController codeController;
+    
+    public Frame frame;
+    
     String name;
     String description;
     String languaje;
@@ -35,16 +36,16 @@ public class RunClass extends javax.swing.JPanel implements CommandLine{
     Thread confButtonThread;
 
     public RunClass(Principal principal, Frame frame, ViewController viewController, String dir, String name, String description, String languaje, String[] parameters) {
-        initComponents();
-        String params = Arrays.toString(parameters);
-        jLabel2.setText(name + " (" + params.substring(1, params.length() - 1) + ")");
-        jLabel4.setText(languaje);
-        jTextArea2.setText(description);
-
+        
         this.principal = principal;
-        this.frame = frame;
-        this.viewController = viewController;
-        direction = dir;
+        this.codeController = CodeController.getController(dir);
+        
+        initComponents();
+        
+        
+        
+        setInformation();
+        
         this.name = name;
         this.description = description;
         this.languaje = languaje;
@@ -63,9 +64,19 @@ public class RunClass extends javax.swing.JPanel implements CommandLine{
         jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(color, 1));
         setParametersList();
         
+        frame = new Frame(this);
+        
+    }
+    
+    // Asignar información
+    public void setInformation() {
+        String params = Arrays.toString(parameters);
+        jLabel2.setText(name + " (" + params.substring(1, params.length() - 1) + ")");
+        jLabel4.setText(languaje);
+        jTextArea2.setText(description);
     }
 
-    // Asignar lista de funciones
+    // Asignar lista de parametros
     public void setParametersList() {
         jPanel4.removeAll();
         if (parameters.length == 0) {
@@ -103,6 +114,55 @@ public class RunClass extends javax.swing.JPanel implements CommandLine{
             });
 
         }
+    }
+    
+        @Override
+    public String title() {
+        return codeController.name();
+    }
+
+    @Override
+    public Color color() {
+        return codeController.color();
+    }
+
+    @Override
+    public JPanel content() {
+        return this;
+    }
+
+    @Override
+    public int typeStartLocation() {
+        return Frameable.RANDOM;
+    }
+
+    @Override
+    public int typeClose() {
+        return Frameable.CLOSE_ACTUAL;
+    }
+
+    @Override
+    public void onConfuigurationClick() {
+        
+        // Si la configuración no esta abierta
+        if (!ViewController.confActived) {
+            
+            // Abrir configuración
+            Configuration configuration = new Configuration(principal);
+            Frame frame = new Frame(configuration);
+            ViewController.confActived = true;
+            
+        }
+    }
+    
+    @Override
+    public void onCloseClick() {
+        // No se necesita
+    }
+    
+    @Override
+    public void onGetFocus() {
+        setInformation();
     }
     
     @Override
@@ -438,7 +498,7 @@ public class RunClass extends javax.swing.JPanel implements CommandLine{
 
     private void jLabel1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MousePressed
         
-        if (runner == null || runner.getState() == CodeController.STOPED) {
+        if (codeController.getState() == CodeController.STOPED) {
             
             jTextArea1.setText("");
             Component[] component = jPanel4.getComponents();
@@ -453,8 +513,7 @@ public class RunClass extends javax.swing.JPanel implements CommandLine{
             }
 
             // Ejecutar función
-            runner = CodeController.getController(direction);                             // Obtener runner del lenguaje detectado
-            runner.run(parameters, this);      
+            codeController.run(parameters, this);      
             jTextArea1.requestFocus();
             
         }
@@ -471,8 +530,8 @@ public class RunClass extends javax.swing.JPanel implements CommandLine{
         int dialogResult = JOptionPane.showConfirmDialog(this, "¿Quieres borrar la clase " + name + "?", "Warning", JOptionPane.YES_OPTION);
         if (dialogResult == JOptionPane.YES_OPTION) {
 
-            viewController.removeClass(direction);
-            viewController.removeActivedClass(this);
+            principal.viewController.removeClass(codeController.direction());
+            principal.viewController.removeActivedClass(this);
 
         }
 
@@ -484,7 +543,7 @@ public class RunClass extends javax.swing.JPanel implements CommandLine{
         try {
             String editorFile = Directions.getEditorFile();
             String command = "pushd " + FileAccess.getFolder(editorFile) + " "
-                    + "&& " + FileAccess.getName(editorFile) + " \"" + direction + "\"";
+                    + "&& " + FileAccess.getName(editorFile) + " \"" + codeController.direction() + "\"";
             System.out.println(command);
             ProcessBuilder processBuilder = new ProcessBuilder("cmd.exe", "/C", command);
             processBuilder.start();
@@ -506,8 +565,8 @@ public class RunClass extends javax.swing.JPanel implements CommandLine{
     }//GEN-LAST:event_jPanel7formMouseExited
 
     private void jLabel5MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MousePressed
-        if (runner != null) {
-            runner.stop(this);
+        if (codeController != null) {
+            codeController.stop(this);
         }
         
     }//GEN-LAST:event_jLabel5MousePressed
@@ -557,6 +616,5 @@ public class RunClass extends javax.swing.JPanel implements CommandLine{
     private javax.swing.JTextArea jTextArea1;
     public javax.swing.JTextArea jTextArea2;
     // End of variables declaration//GEN-END:variables
-
 
 }
