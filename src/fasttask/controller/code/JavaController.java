@@ -1,6 +1,6 @@
 package fasttask.controller.code;
 
-import fasttask.controller.settting.SettingController;
+import fasttask.data.system.Directions;
 import fasttask.data.system.FileAccess;
 import java.awt.Color;
 import java.io.File;
@@ -8,8 +8,8 @@ import java.util.Arrays;
 
 public class JavaController extends CodeController {
 
-    static final String JAVA_GENERATED_FILE = SettingController.getGeneratedFolder() + "\\JavaGenerated\\JavaGenerated.java";
-    static final String JAVA_GENERATED_DIRECTORY = SettingController.getGeneratedFolder() + "\\JavaGenerated";
+    static final String JAVA_GENERATED_FILE = Directions.getGeneratedFolder() + "\\JavaGenerated\\JavaGenerated.java";
+    static final String JAVA_GENERATED_DIRECTORY = Directions.getGeneratedFolder() + "\\JavaGenerated";
 
     public JavaController(String direction) {
         super(direction);
@@ -56,7 +56,7 @@ public class JavaController extends CodeController {
 
     @Override
     public String runCommand() {
-        return "pushd " + SettingController.getJavaFolder() + " "
+        return "pushd " + Directions.getJavaFolder() + " "
                 + "&& javac \"" + new File(JAVA_GENERATED_FILE).getAbsolutePath() + "\" "
                 + "&& pushd \"" + new File(JAVA_GENERATED_DIRECTORY).getAbsolutePath() + "\""
                 + "&& java __Main";

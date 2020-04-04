@@ -38,6 +38,8 @@ public class ListElement extends javax.swing.JPanel {
         this.languaje = languaje;
         this.parameters = parameters;
         
+        jLabel1.setForeground(new Color(44, 169, 36));
+        
     }
 
     @SuppressWarnings("unchecked")
@@ -50,7 +52,7 @@ public class ListElement extends javax.swing.JPanel {
         jLabel3 = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
-        setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(204, 204, 204)));
+        setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new Color(44, 169, 36)));
         addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 formMouseClicked(evt);
@@ -65,14 +67,17 @@ public class ListElement extends javax.swing.JPanel {
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
+        jLabel1.setBackground(new java.awt.Color(246, 246, 246));
         jLabel1.setFont(new java.awt.Font("Comic Sans MS", 1, 12)); // NOI18N
         jLabel1.setText("Nombre (parametros)");
         jLabel1.setOpaque(true);
 
+        jLabel4.setBackground(new java.awt.Color(246, 246, 246));
         jLabel4.setFont(new java.awt.Font("Comic Sans MS", 1, 12)); // NOI18N
         jLabel4.setText("Lenguaje");
         jLabel4.setOpaque(true);
 
+        jLabel3.setBackground(new java.awt.Color(246, 246, 246));
         jLabel3.setFont(new java.awt.Font("Comic Sans MS", 0, 12)); // NOI18N
         jLabel3.setText("Descripción");
         jLabel3.setOpaque(true);
@@ -123,7 +128,7 @@ public class ListElement extends javax.swing.JPanel {
 
     private void formMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseEntered
         
-        this.setBackground(Color.lightGray);
+        this.setBackground(new Color(44, 169, 36));
         
     }//GEN-LAST:event_formMouseEntered
 

@@ -6,7 +6,7 @@ import fasttask.view.components.ParameterElement;
 import fasttask.controller.code.CodeController;
 import fasttask.controller.code.CommandLine;
 import fasttask.controller.view.ViewController;
-import fasttask.controller.settting.SettingController;
+import fasttask.data.system.Directions;
 import fasttask.data.system.FileAccess;
 import java.awt.Color;
 import java.awt.Component;
@@ -59,9 +59,7 @@ public class RunClass extends javax.swing.JPanel implements CommandLine{
         ViewController.customizeButton(jLabel6, color);
         ViewController.customizeButton(jLabel7, color);
         jLabel2.setForeground(color);
-        jTextArea2.setForeground(color);
         jTextArea2.setBorder(javax.swing.BorderFactory.createLineBorder(color, 1));
-        jLabel4.setForeground(color);
         jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(color, 1));
         setParametersList();
         
@@ -337,10 +335,12 @@ public class RunClass extends javax.swing.JPanel implements CommandLine{
             }
         });
 
+        jLabel2.setBackground(new java.awt.Color(246, 246, 246));
         jLabel2.setFont(new java.awt.Font("Comic Sans MS", 1, 12)); // NOI18N
         jLabel2.setText("N ()");
         jLabel2.setOpaque(true);
 
+        jLabel4.setBackground(new java.awt.Color(246, 246, 246));
         jLabel4.setFont(new java.awt.Font("Comic Sans MS", 1, 12)); // NOI18N
         jLabel4.setText("L");
         jLabel4.setOpaque(true);
@@ -482,7 +482,7 @@ public class RunClass extends javax.swing.JPanel implements CommandLine{
 
         // Abirir archivo con sublime text 3
         try {
-            String editorFile = SettingController.getEditorFile();
+            String editorFile = Directions.getEditorFile();
             String command = "pushd " + FileAccess.getFolder(editorFile) + " "
                     + "&& " + FileAccess.getName(editorFile) + " \"" + direction + "\"";
             System.out.println(command);

@@ -1,6 +1,6 @@
 package fasttask.controller.code;
 
-import fasttask.controller.settting.SettingController;
+import fasttask.data.system.Directions;
 import fasttask.data.system.FileAccess;
 import java.awt.Color;
 import java.io.BufferedReader;
@@ -13,8 +13,8 @@ import java.util.regex.Pattern;
 
 public class JavaScriptController extends CodeController {
 
-    static final String JAVASCRIPT_GENERATED_FILE = SettingController.getGeneratedFolder() + "\\JavaScriptGenerated\\PJavaScriptGenerated.py";
-    static final String JAVASCRIPT_GENERATED_DIRECTORY = SettingController.getGeneratedFolder() + "\\JavaScriptGenerated";
+    static final String JAVASCRIPT_GENERATED_FILE = Directions.getGeneratedFolder() + "\\JavaScriptGenerated\\PJavaScriptGenerated.py";
+    static final String JAVASCRIPT_GENERATED_DIRECTORY = Directions.getGeneratedFolder() + "\\JavaScriptGenerated";
 
     public JavaScriptController(String direction) {
         super(direction);
@@ -59,7 +59,7 @@ public class JavaScriptController extends CodeController {
 
     @Override
     public String runCommand() {
-        return "pushd " + SettingController.getJavaScriptFolder() + " "
+        return "pushd " + Directions.getJavaScriptFolder() + " "
                 + "&& node \"" + new File(JAVASCRIPT_GENERATED_FILE).getAbsolutePath() + "\" ";
     }
 

@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -101,12 +100,17 @@ public class FileAccess {
     }
 
     // Crear archivo
-    public static void createFile(String dir) {
+    public static boolean createFile(String dir) {
         try {
+            if (new File(dir).exists()){
+                return false;
+            }
             new File(dir).createNewFile();
         } catch (IOException ex) {
             System.out.println(ex);
+            return false;
         }
+        return true;
     }
 
     // Borrar archivos en un directorio
@@ -118,9 +122,11 @@ public class FileAccess {
     }
 
     // Copiar archivo
-    public static void copyFile(String dir1, String dir2) {
-        createFile(dir2);
-        savedContent(dir2, loadContent(dir1));
+    public static boolean copyFile(String dir1, String dir2) {
+        boolean r = createFile(dir2);
+        if (r)
+            savedContent(dir2, loadContent(dir1));
+        return r;
     }
 
     // Eliminar archivo

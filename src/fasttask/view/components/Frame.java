@@ -8,12 +8,10 @@ import fasttask.view.windows.RunClass;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
-import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.WindowEvent;
 import java.util.Arrays;
 import java.util.Random;
-import javax.swing.Icon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -37,7 +35,7 @@ public class Frame extends javax.swing.JFrame {
     
     // State (true: principal, false segundario)
     public Frame(Principal principal, JPanel content, boolean state) {
-        this(principal, content, state, "FastTask", Color.black);
+        this(principal, content, state, "TrimCode", Color.black);
     }
 
     public Frame(Principal principal, JPanel content, boolean state, String name, Color color){

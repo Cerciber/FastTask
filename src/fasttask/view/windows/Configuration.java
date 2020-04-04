@@ -1,7 +1,7 @@
 
 package fasttask.view.windows;
 
-import fasttask.controller.settting.SettingController;
+import fasttask.data.system.Directions;
 import fasttask.controller.view.ViewController;
 import java.awt.Color;
 import java.io.File;
@@ -14,12 +14,12 @@ public class Configuration extends javax.swing.JPanel {
     public Configuration(Principal principal) {
         initComponents();
         this.principal = principal;
-        jTextField1.setText(SettingController.getSaveFolder());
-        jTextField2.setText(SettingController.getEditorFile());
-        jTextField3.setText(SettingController.getJavaFolder());
-        jTextField4.setText(SettingController.getPythonFolder());
-        jTextField5.setText(SettingController.getJavaScriptFolder());
-        jTextField6.setText(SettingController.getCPlusPlusFolder());
+        jTextField1.setText(Directions.getSaveFolder());
+        jTextField2.setText(Directions.getEditorFile());
+        jTextField3.setText(Directions.getJavaFolder());
+        jTextField4.setText(Directions.getPythonFolder());
+        jTextField5.setText(Directions.getJavaScriptFolder());
+        jTextField6.setText(Directions.getCPlusPlusFolder());
         ViewController.customizeButton(jLabel3, Color.black);
         ViewController.customizeButton(jLabel4, Color.black);
         ViewController.customizeButton(jLabel6, Color.black);
@@ -73,6 +73,7 @@ public class Configuration extends javax.swing.JPanel {
         jLabel1.setFont(new java.awt.Font("Comic Sans MS", 1, 13)); // NOI18N
         jLabel1.setText("Directorios para almacenar su codigos");
 
+        jTextField1.setFont(new java.awt.Font("Comic Sans MS", 0, 12)); // NOI18N
         jTextField1.setAlignmentX(2.0F);
         jTextField1.setAlignmentY(2.0F);
         jTextField1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
@@ -106,6 +107,7 @@ public class Configuration extends javax.swing.JPanel {
         jLabel2.setFont(new java.awt.Font("Comic Sans MS", 0, 13)); // NOI18N
         jLabel2.setText("Editor: ");
 
+        jTextField2.setFont(new java.awt.Font("Comic Sans MS", 0, 12)); // NOI18N
         jTextField2.setAlignmentX(2.0F);
         jTextField2.setAlignmentY(2.0F);
         jTextField2.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
@@ -136,6 +138,7 @@ public class Configuration extends javax.swing.JPanel {
             }
         });
 
+        jTextField3.setFont(new java.awt.Font("Comic Sans MS", 0, 12)); // NOI18N
         jTextField3.setAlignmentX(2.0F);
         jTextField3.setAlignmentY(2.0F);
         jTextField3.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
@@ -162,6 +165,7 @@ public class Configuration extends javax.swing.JPanel {
             }
         });
 
+        jTextField4.setFont(new java.awt.Font("Comic Sans MS", 0, 12)); // NOI18N
         jTextField4.setAlignmentX(2.0F);
         jTextField4.setAlignmentY(2.0F);
         jTextField4.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
@@ -181,6 +185,7 @@ public class Configuration extends javax.swing.JPanel {
             }
         });
 
+        jTextField5.setFont(new java.awt.Font("Comic Sans MS", 0, 12)); // NOI18N
         jTextField5.setAlignmentX(2.0F);
         jTextField5.setAlignmentY(2.0F);
         jTextField5.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
@@ -203,6 +208,7 @@ public class Configuration extends javax.swing.JPanel {
         jLabel16.setFont(new java.awt.Font("Comic Sans MS", 0, 13)); // NOI18N
         jLabel16.setText("C y C++: (MinGW\\bin\\gcc.exe)");
 
+        jTextField6.setFont(new java.awt.Font("Comic Sans MS", 0, 12)); // NOI18N
         jTextField6.setAlignmentX(2.0F);
         jTextField6.setAlignmentY(2.0F);
         jTextField6.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
@@ -372,7 +378,7 @@ public class Configuration extends javax.swing.JPanel {
     private void jLabel4MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel4MousePressed
 
         if(new File(jTextField1.getText()).exists()) {
-            SettingController.setSaveFolder(jTextField1.getText());
+            Directions.setSaveFolder(jTextField1.getText());
             principal.setFunctionList(principal.jTextField2.getText());
         }
 
@@ -381,7 +387,7 @@ public class Configuration extends javax.swing.JPanel {
     private void jLabel5MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MousePressed
         
         if(new File(jTextField2.getText()).exists()) {
-            SettingController.setEditorFile(jTextField2.getText());
+            Directions.setEditorFile(jTextField2.getText());
         }
         
     }//GEN-LAST:event_jLabel5MousePressed
@@ -417,7 +423,7 @@ public class Configuration extends javax.swing.JPanel {
     private void jLabel8MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel8MousePressed
         
         if(new File(jTextField3.getText()).exists()) {
-            SettingController.setJavaFolder(jTextField3.getText());
+            Directions.setJavaFolder(jTextField3.getText());
         }
         
     }//GEN-LAST:event_jLabel8MousePressed
@@ -441,7 +447,7 @@ public class Configuration extends javax.swing.JPanel {
     private void jLabel11MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel11MousePressed
         
         if(new File(jTextField4.getText()).exists()) {
-            SettingController.setPythonFolder(jTextField4.getText());
+            Directions.setPythonFolder(jTextField4.getText());
         }
         
     }//GEN-LAST:event_jLabel11MousePressed
@@ -453,7 +459,7 @@ public class Configuration extends javax.swing.JPanel {
     private void jLabel13MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel13MousePressed
         
         if(new File(jTextField5.getText()).exists()) {
-            SettingController.setJavaScriptFolder(jTextField5.getText());
+            Directions.setJavaScriptFolder(jTextField5.getText());
         }
         
     }//GEN-LAST:event_jLabel13MousePressed
@@ -493,7 +499,7 @@ public class Configuration extends javax.swing.JPanel {
     private void jLabel18MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel18MousePressed
         
         if(new File(jTextField6.getText()).exists()) {
-            SettingController.setCPlusPlusFolder(jTextField6.getText());
+            Directions.setCPlusPlusFolder(jTextField6.getText());
         }
         
     }//GEN-LAST:event_jLabel18MousePressed

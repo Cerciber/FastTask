@@ -1,6 +1,7 @@
 
 package fasttask;
 
+import fasttask.data.system.Constants;
 import fasttask.view.components.Frame;
 import fasttask.view.windows.Principal;
 import javax.swing.UIManager;
@@ -16,8 +17,9 @@ public class Main {
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
         }
         
+        // Iniciar ventana
         Principal principal = new Principal();
-        Frame frame = new Frame(principal, principal, true);
+        Frame frame = new Frame(principal, principal, true, "TrimCode", Constants.MAIN_FRAME_COLOR);
         
     }
     

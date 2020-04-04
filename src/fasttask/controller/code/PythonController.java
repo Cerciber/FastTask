@@ -1,6 +1,6 @@
 package fasttask.controller.code;
 
-import fasttask.controller.settting.SettingController;
+import fasttask.data.system.Directions;
 import fasttask.data.system.FileAccess;
 import java.awt.Color;
 import java.io.BufferedReader;
@@ -13,8 +13,8 @@ import java.util.regex.Pattern;
 
 public class PythonController extends CodeController {
 
-    static final String PYTHON_GENERATED_FILE = SettingController.getGeneratedFolder() + "\\PythonGenerated\\PythonGenerated.py";
-    static final String PYTHON_GENERATED_DIRECTORY = SettingController.getGeneratedFolder() + "\\generated\\PythonGenerated";
+    static final String PYTHON_GENERATED_FILE = Directions.getGeneratedFolder() + "\\PythonGenerated\\PythonGenerated.py";
+    static final String PYTHON_GENERATED_DIRECTORY = Directions.getGeneratedFolder() + "\\generated\\PythonGenerated";
 
     public PythonController(String direction) {
         super(direction);
@@ -59,7 +59,7 @@ public class PythonController extends CodeController {
 
     @Override
     public String runCommand() {
-        return SettingController.getPythonFolder() + "\\python.exe \"" + new File(PYTHON_GENERATED_FILE).getAbsoluteFile().toString() + "\"";
+        return Directions.getPythonFolder() + "\\python.exe \"" + new File(PYTHON_GENERATED_FILE).getAbsoluteFile().toString() + "\"";
     }
 
 }

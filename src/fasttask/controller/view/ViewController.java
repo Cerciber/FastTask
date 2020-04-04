@@ -1,7 +1,7 @@
 package fasttask.controller.view;
 
 import fasttask.controller.code.CodeController;
-import fasttask.controller.settting.SettingController;
+import fasttask.data.system.Directions;
 import fasttask.data.system.FileAccess;
 import fasttask.view.windows.Principal;
 import fasttask.view.windows.RunClass;
@@ -40,7 +40,7 @@ public class ViewController {
     // - Nombres de las entradas (Nombres de los parametros de la función)
     public Object[][] getClassList(String filter) {
 
-        File[] files = new File(SettingController.getSaveFolder()).listFiles(new FilenameFilter() {  // Listar archivos que cumplan el filtro
+        File[] files = new File(Directions.getSaveFolder()).listFiles(new FilenameFilter() {  // Listar archivos que cumplan el filtro
             @Override
             public boolean accept(File dir, String name) {
                 CodeController codeController = CodeController.getController(dir + "\\" + name);
@@ -75,8 +75,8 @@ public class ViewController {
     }
 
     // Añadir clase a la lista
-    public void addClass(String dir) {
-        fileController.copyFile(dir, SettingController.getSaveFolder() + "\\" + fileController.getName(dir) + "." + fileController.getExtension(dir));
+    public boolean addClass(String dir) {
+        return FileAccess.copyFile(dir, Directions.getSaveFolder() + "\\" + FileAccess.getName(dir) + "." + FileAccess.getExtension(dir));
     }
 
     // Eliminar clase de la lista

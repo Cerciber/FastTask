@@ -1,7 +1,7 @@
 
 package fasttask.controller.code;
 
-import fasttask.controller.settting.SettingController;
+import fasttask.data.system.Directions;
 import fasttask.data.system.FileAccess;
 import java.awt.Color;
 import java.io.File;
@@ -10,8 +10,8 @@ import java.util.Arrays;
 
 public class CPlusPlusController extends CodeController{
     
-    static final String C_PLUS_PLUS_GENERATED_FILE = SettingController.getGeneratedFolder() + "/CPlusPlusGenerated/CPlusPlusGenerated.cpp";
-    static final String C_PLUS_PLUS_GENERATED_DIRECTORY = SettingController.getGeneratedFolder() + "/CPlusPlusGenerated";
+    static final String C_PLUS_PLUS_GENERATED_FILE = Directions.getGeneratedFolder() + "/CPlusPlusGenerated/CPlusPlusGenerated.cpp";
+    static final String C_PLUS_PLUS_GENERATED_DIRECTORY = Directions.getGeneratedFolder() + "/CPlusPlusGenerated";
 
     public CPlusPlusController(String direction) {
         super(direction);
@@ -60,7 +60,7 @@ public class CPlusPlusController extends CodeController{
     public String runCommand() {
         String name = FileAccess.getName(C_PLUS_PLUS_GENERATED_FILE);
         return "pushd \"" + new File(C_PLUS_PLUS_GENERATED_DIRECTORY).getAbsolutePath() + "\" "
-                + "&& \"" + SettingController.getCPlusPlusFolder() + "\\gcc\" " + FileAccess.getNameExtention(C_PLUS_PLUS_GENERATED_FILE) + " -g -o " + name + "  -lstdc++ "
+                + "&& \"" + Directions.getCPlusPlusFolder() + "\\gcc\" " + FileAccess.getNameExtention(C_PLUS_PLUS_GENERATED_FILE) + " -g -o " + name + "  -lstdc++ "
                 + "&& " + name;
     }
     

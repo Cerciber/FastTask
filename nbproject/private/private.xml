@@ -3,15 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/acer/Google%20Drive/CESAR/6.%20PORTAFOLIO/FastTask/FastTask/src/fasttask/view/windows/Configuration.java</file>
-            <file>file:/C:/Users/acer/Google%20Drive/CESAR/6.%20PORTAFOLIO/FastTask/FastTask/src/fasttask/controller/settting/SettingController.java</file>
-            <file>file:/C:/Users/acer/Google%20Drive/CESAR/6.%20PORTAFOLIO/FastTask/FastTask/src/fasttask/view/components/ParameterElement.java</file>
-            <file>file:/C:/Users/acer/Google%20Drive/CESAR/6.%20PORTAFOLIO/FastTask/FastTask/src/fasttask/view/components/Frame.java</file>
-            <file>file:/C:/Users/acer/Google%20Drive/CESAR/6.%20PORTAFOLIO/FastTask/FastTask/src/fasttask/Main.java</file>
+            <file>file:/C:/Users/acer/Google%20Drive/CESAR/6.%20PORTAFOLIO/FastTask/FastTask/src/fasttask/data/system/FileAccess.java</file>
             <file>file:/C:/Users/acer/Google%20Drive/CESAR/6.%20PORTAFOLIO/FastTask/FastTask/src/fasttask/view/windows/Principal.java</file>
+            <file>file:/C:/Users/acer/Google%20Drive/CESAR/6.%20PORTAFOLIO/FastTask/FastTask/src/fasttask/view/components/NewClass.java</file>
             <file>file:/C:/Users/acer/Google%20Drive/CESAR/6.%20PORTAFOLIO/FastTask/FastTask/src/fasttask/controller/view/ViewController.java</file>
             <file>file:/C:/Users/acer/Google%20Drive/CESAR/6.%20PORTAFOLIO/FastTask/FastTask/src/fasttask/view/windows/RunClass.java</file>
-            <file>file:/C:/Users/acer/Google%20Drive/CESAR/6.%20PORTAFOLIO/FastTask/FastTask/src/fasttask/view/components/ListElement.java</file>
             <file>file:/C:/Users/acer/Google%20Drive/CESAR/6.%20PORTAFOLIO/FastTask/FastTask/src/Cosas%20por%20hacer.txt</file>
         </group>
     </open-files>
