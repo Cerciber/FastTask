@@ -5,7 +5,6 @@ Correcciones
 
 Adiciones
 - Agregar control de restricciones personalizadas (Compilador no configurado)
-- Verificar el formato de entrada de la consola
 - Visualizar todos los archivos en la busqueda de directorios
 - Cambiar todos los pressed por clicked
 - Crear clase en base a una plantilla

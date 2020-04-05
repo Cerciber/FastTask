@@ -53,12 +53,12 @@ public final class Configuration extends javax.swing.JPanel implements Frameable
         ViewController.customizeButton(jLabel18, Constants.CONFIGURATION_COLOR);
         
         // Personalizar bordes
-        jTextField1.setBorder(new javax.swing.border.LineBorder(Constants.MAIN_FRAME_COLOR, 1, true));
-        jTextField2.setBorder(new javax.swing.border.LineBorder(Constants.MAIN_FRAME_COLOR, 1, true));
-        jTextField3.setBorder(new javax.swing.border.LineBorder(Constants.MAIN_FRAME_COLOR, 1, true));
-        jTextField4.setBorder(new javax.swing.border.LineBorder(Constants.MAIN_FRAME_COLOR, 1, true));
-        jTextField5.setBorder(new javax.swing.border.LineBorder(Constants.MAIN_FRAME_COLOR, 1, true));
-        jTextField6.setBorder(new javax.swing.border.LineBorder(Constants.MAIN_FRAME_COLOR, 1, true));
+        jTextField1.setBorder(new javax.swing.border.LineBorder(Constants.CONFIGURATION_COLOR, 1, true));
+        jTextField2.setBorder(new javax.swing.border.LineBorder(Constants.CONFIGURATION_COLOR, 1, true));
+        jTextField3.setBorder(new javax.swing.border.LineBorder(Constants.CONFIGURATION_COLOR, 1, true));
+        jTextField4.setBorder(new javax.swing.border.LineBorder(Constants.CONFIGURATION_COLOR, 1, true));
+        jTextField5.setBorder(new javax.swing.border.LineBorder(Constants.CONFIGURATION_COLOR, 1, true));
+        jTextField6.setBorder(new javax.swing.border.LineBorder(Constants.CONFIGURATION_COLOR, 1, true));
         
     }
     

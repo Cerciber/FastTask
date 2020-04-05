@@ -131,8 +131,8 @@ public abstract class CodeController {
 
                     // Obtener resultados
                     state = READING_CONSOLE;
-                    BufferedReader stdInput = new BufferedReader(new InputStreamReader(process.getInputStream(), "ISO-8859-1"));
-                    BufferedWriter  stdOutput = new BufferedWriter(new OutputStreamWriter(process.getOutputStream(), "ISO-8859-1"));
+                    BufferedReader stdInput = new BufferedReader(new InputStreamReader(process.getInputStream(), "UTF-8"));
+                    BufferedWriter  stdOutput = new BufferedWriter(new OutputStreamWriter(process.getOutputStream(), "UTF-8"));
                     String aux;
                     commandLine.read(stdOutput);
                     while (state == READING_CONSOLE && (aux = stdInput.readLine()) != null) {
@@ -141,7 +141,7 @@ public abstract class CodeController {
 
                     // Obtener error
                     if (state == READING_CONSOLE) {
-                        BufferedReader stdInput2 = new BufferedReader(new InputStreamReader(process.getErrorStream(), "ISO-8859-1"));
+                        BufferedReader stdInput2 = new BufferedReader(new InputStreamReader(process.getErrorStream(), "UTF-8"));
                         String aux2 = stdInput2.readLine();
                         while (aux2 != null) {
                             commandLine.write(aux2 + "\n", CommandLine.ERROR);
