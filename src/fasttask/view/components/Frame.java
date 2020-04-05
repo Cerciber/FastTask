@@ -1,17 +1,12 @@
 package fasttask.view.components;
 
-import fasttask.controller.code.CodeController;
 import fasttask.controller.view.ViewController;
-import fasttask.view.windows.Configuration;
-import fasttask.view.windows.Principal;
-import fasttask.view.windows.RunClass;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowEvent;
-import java.util.Arrays;
 import java.util.Random;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -130,13 +125,13 @@ public final class Frame extends javax.swing.JFrame {
 
     // Al presionar el boton de cerrar ventana
     public void onCloseClick() {
+        frameable.onClose();
         if (frameable.typeClose() == Frameable.CLOSE_PROGRAM) {
-            dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
+            System.exit(0);
         } else {
             setVisible(false);
             dispose();
         }
-        frameable.onCloseClick();
     }
 
     // Al ingresar el mouse en el frame
@@ -203,7 +198,7 @@ public final class Frame extends javax.swing.JFrame {
     public void onMouseDragged(MouseEvent evt) {
         switch (resizeOption) {
             case 0:
-                setLocation(getLocation().x + evt.getX() - x, getLocation().y + evt.getY() - y);
+                    setLocation(getLocation().x + evt.getX() - x, getLocation().y + evt.getY() - y);
                 break;
             case 1:
                 setBounds(getLocation().x + evt.getX() - x, getLocation().y, getSize().width - evt.getX() + x, getSize().height);
@@ -272,15 +267,20 @@ public final class Frame extends javax.swing.JFrame {
             public void windowLostFocus(java.awt.event.WindowEvent evt) {
             }
         });
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/fasttask/data/files/images/cerrar.png"))); // NOI18N
         jLabel1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel1MouseClicked(evt);
-            }
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 jLabel1MousePressed(evt);
+            }
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel1MouseClicked(evt);
             }
         });
 
@@ -430,7 +430,7 @@ public final class Frame extends javax.swing.JFrame {
     }//GEN-LAST:event_panelMouseExited
 
     private void jLabel6MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel6MousePressed
-
+        onConfigurationClick();
     }//GEN-LAST:event_jLabel6MousePressed
 
     private void jLabel2MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseEntered
@@ -460,6 +460,10 @@ public final class Frame extends javax.swing.JFrame {
     private void formWindowGainedFocus(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowGainedFocus
         onGetFocus(evt);
     }//GEN-LAST:event_formWindowGainedFocus
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        onCloseClick();
+    }//GEN-LAST:event_formWindowClosing
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

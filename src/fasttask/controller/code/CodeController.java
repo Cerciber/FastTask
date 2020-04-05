@@ -7,23 +7,28 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 // Clase abstracta para ejecutar funciones desde diferentes lenguajes
 public abstract class CodeController {
 
-    // Constantes
-    public static final boolean RUNNING = true;    // Corriendo
-    public static final boolean STOPED = false;    // Detenido
+    // Constantes de estado
+    public static final int CREATING_EXCECUTABLE = 1;   // Indicador de que se está creando el ejecutable
+    public static final int GETTING_COMMAND = 2;        // Indicador de que se está obteniendo el comando de ejecución
+    public static final int RUNNING_COMMAND = 3;        // Indicador de que se está corriendo el comando
+    public static final int READING_CONSOLE = 4;        // Indicador de que se está leyendo y escribiendo en consola
+    public static final int STOPED = 5;                 // Indicador de que no se esta procesando una ejecución
 
     // Atributos
     String direction;   // Dirección
-    boolean state;      // Estado (RUNNING / STOPED)
+    int state;          // Estado
 
     // Constructor
     public CodeController(String direction) {
         this.direction = direction;
+        this.state = STOPED;
     }
 
     // Metodos abstractos
@@ -35,11 +40,11 @@ public abstract class CodeController {
 
     public abstract String descriptionRE();                         // Expresión regular para obtener descripción del codigo
 
-    public abstract String parametersRE();                          // Expresión regular para obtener parametros
+    public abstract String parametersRE() throws IOException;       // Expresión regular para obtener parametros
 
-    public abstract void creteExecutable(String[] parameters);      // Crear archivo generado para ejecutar
+    public abstract void creteExecutable(String[] parameters) throws UnsupportedEncodingException, IOException;      // Crear archivo generado para ejecutar
 
-    public abstract String runCommand();                            // Comando de consola para ejecutar archivo generado
+    public abstract String runCommand() throws IOException;         // Comando de consola para ejecutar archivo generado
 
     // Obtener nombre del archivo
     public String name() {
@@ -50,6 +55,11 @@ public abstract class CodeController {
     public String extention() {
         return FileAccess.getExtension(direction);
     }
+    
+    // Obtener nombre y extensión del archivo
+    public String nameExtention() {
+        return FileAccess.getNameExtention(direction);
+    }
 
     // Obtener dirección del archivo
     public String direction() {
@@ -57,7 +67,7 @@ public abstract class CodeController {
     }
 
     // Obtener nombre de la clase
-    public String className() {
+    public String className() throws UnsupportedEncodingException, IOException {
         String className = "";
         Pattern pattern = Pattern.compile(classNameRE(), Pattern.DOTALL);
         Matcher matcher = pattern.matcher(FileAccess.loadContent(direction));
@@ -68,7 +78,7 @@ public abstract class CodeController {
     }
 
     // Obtener descripción del codigo
-    public String description() {
+    public String description() throws UnsupportedEncodingException, IOException {
         String description = "";
         Pattern pattern = Pattern.compile(descriptionRE(), Pattern.DOTALL);
         Matcher matcher = pattern.matcher(FileAccess.loadContent(direction));
@@ -83,7 +93,7 @@ public abstract class CodeController {
     }
 
     // Obtener parametros
-    public String[] parameters() {
+    public String[] parameters() throws UnsupportedEncodingException, IOException {
         String[] parameters;
         Pattern pattern = Pattern.compile(parametersRE(), Pattern.DOTALL);
         Matcher matcher = pattern.matcher(FileAccess.loadContent(direction));
@@ -102,33 +112,35 @@ public abstract class CodeController {
 
             @Override
             public void run() {
-                
-                commandLine.onRun();
 
                 try {
-
-                    state = RUNNING;
-
+                    
                     // Crear codigo del ejecutable
+                    state = CREATING_EXCECUTABLE;
                     creteExecutable(parameters);
 
-                    // Ejecutar clase
+                    // Obtener comando
+                    state = GETTING_COMMAND;
                     String command = runCommand();
                     System.out.println(command);
                     ProcessBuilder processBuilder = new ProcessBuilder("cmd.exe", "/C", command);
+                    
+                    // Ejecutar codigo
+                    state = RUNNING_COMMAND;
                     Process process = processBuilder.start();
 
                     // Obtener resultados
+                    state = READING_CONSOLE;
                     BufferedReader stdInput = new BufferedReader(new InputStreamReader(process.getInputStream(), "ISO-8859-1"));
                     BufferedWriter  stdOutput = new BufferedWriter(new OutputStreamWriter(process.getOutputStream(), "ISO-8859-1"));
                     String aux;
                     commandLine.read(stdOutput);
-                    while (state == RUNNING && (aux = stdInput.readLine()) != null) {
+                    while (state == READING_CONSOLE && (aux = stdInput.readLine()) != null) {
                         commandLine.write(aux + "\n", CommandLine.DEFAULT);
                     }
 
                     // Obtener error
-                    if (state == RUNNING) {
+                    if (state == READING_CONSOLE) {
                         BufferedReader stdInput2 = new BufferedReader(new InputStreamReader(process.getErrorStream(), "ISO-8859-1"));
                         String aux2 = stdInput2.readLine();
                         while (aux2 != null) {
@@ -138,7 +150,7 @@ public abstract class CodeController {
                     }
 
                 } catch (IOException e) {
-                    System.out.println(e);
+                    commandLine.onIOException(state);
                 }
                 
                 state = STOPED;
@@ -151,12 +163,12 @@ public abstract class CodeController {
     }
 
     // Detener ejecución direccionando resultados a una consola
-    public void stop(CommandLine commandLine) {
+    public void stop(CommandLine commandLine) throws IOException {
         state = STOPED;
     }
 
     // Obtener estado
-    public boolean getState(){
+    public int getState(){
         return state;
     }
     
@@ -175,6 +187,20 @@ public abstract class CodeController {
                 return new CPlusPlusController(dir);
         }
         return null;
+    }
+    
+    // Verificar si el lenguaje está soportado
+    public static boolean isSupported(String dir) {
+        switch (FileAccess.getExtension(dir)) {
+            case "java":
+            case "py":
+            case "js":
+            case "c":
+            case "cpp":
+                return true;
+                
+        }
+        return false;
     }
 
 }

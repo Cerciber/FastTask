@@ -87,7 +87,7 @@
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Comic Sans MS" size="13" style="1"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Ingresar clase:"/>
+        <Property name="text" type="java.lang.String" value="Ingresar c&#xf3;digo:"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="jTextField1">
@@ -114,7 +114,7 @@
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Comic Sans MS" size="13" style="1"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Filtrar codigos: (Nombre, Lenguaje, Descripci&#xf3;n)"/>
+        <Property name="text" type="java.lang.String" value="Filtrar c&#xf3;digos: (Nombre, Lenguaje, Descripci&#xf3;n)"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="jTextField2">
@@ -191,8 +191,8 @@
         </Property>
       </Properties>
       <Events>
-        <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jLabel3MouseEntered"/>
         <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jLabel3MousePressed"/>
+        <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jLabel3MouseEntered"/>
       </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel4">

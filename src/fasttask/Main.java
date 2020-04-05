@@ -2,7 +2,7 @@
 package fasttask;
 
 import fasttask.data.system.Constants;
-import fasttask.view.components.Frame;
+import fasttask.data.system.Directions;
 import fasttask.view.windows.Principal;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -16,6 +16,9 @@ public class Main {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
         }
+        
+        // Asignar direcciones
+        Directions.setConstants();
         
         // Iniciar ventana
         new Principal();

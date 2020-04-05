@@ -2,44 +2,81 @@
 package fasttask.view.components;
 
 import fasttask.controller.code.CodeController;
-import fasttask.controller.view.ViewController;
+import fasttask.data.system.Constants;
 import fasttask.view.windows.Principal;
 import fasttask.view.windows.RunClass;
 import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Toolkit;
-import java.awt.event.WindowEvent;
+import java.io.IOException;
 import java.util.Arrays;
-import java.util.Random;
-import javax.swing.JFrame;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-public class ListElement extends javax.swing.JPanel {
+public final class ListElement extends javax.swing.JPanel {
 
-    Principal principal;
-    ViewController viewController;
+    // Ventanas
+    Principal principal;            // Panel principal
+
+    // Controladores
+    CodeController codeController;   // Controlador del codigo
     
-    String direction;
-    String name;
-    String description;
-    String languaje;
-    String[] parameters;
-    
-    public ListElement(Principal principal, ViewController viewController, String dir, String name, String description, String languaje, String[] parameters) {
-        initComponents();
-        String params = Arrays.toString(parameters);
-        jLabel1.setText(name + " (" + params.substring(1, params.length() - 1) + ")");
-        jLabel4.setText(languaje);
-        jLabel3.setText(description);
+    public ListElement(Principal principal, String direction) {
+        
         this.principal = principal;
-        this.viewController = viewController;
-        direction = dir;
-        this.name = name;
-        this.description = description;
-        this.languaje = languaje;
-        this.parameters = parameters;
+        this.codeController = CodeController.getController(direction);
+             
+        initComponents();       // Iniciar componentes generados
+        setInformation();       // Asignar información
+        setCustomization();     // Personalizar
         
-        jLabel1.setForeground(new Color(44, 169, 36));
+    }
+    
+    // Personalizar ventana
+    public void setCustomization() {
+    
+        // Personalizar bordes
+        setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, Constants.MAIN_FRAME_COLOR));
         
+        // Personalizar colores texto
+        jLabel4.setForeground(Constants.MAIN_FRAME_COLOR);
+        
+    }
+    
+    // Asignar información
+    public void setInformation() {
+        
+        try {
+            
+            String params = Arrays.toString(codeController.parameters());
+            jLabel1.setText(codeController.name() + " (" + params.substring(1, params.length() - 1) + ")");
+            jLabel4.setText(codeController.languaje());
+            jLabel3.setText(codeController.description());
+            
+        } catch (IOException ex) {
+            
+            Dialog dialog = new Dialog(Dialog.NOTIFICATION_OUTPUT, Constants.MAIN_FRAME_COLOR, principal);
+            dialog.setTitle("Error de lectura de archivo");
+            dialog.setDescription("No se pudo leer la información del siguiente archivo");
+            dialog.setOutputText(codeController.direction());
+            dialog.show();
+            
+        }
+        
+    }
+    
+    // Al entrar el mouse en el elemento
+    public void onMouseEntered() {
+        this.setBackground(Constants.MAIN_FRAME_COLOR);
+    }
+    
+    // Al salir el mouse del elemento
+    public void onMouseExited() {
+        this.setBackground(Color.white);
+    }
+    
+    // Al presionar el elemento
+    public void onMouseClicked() {
+        // Abrir nuevo compilador
+        principal.viewController.addActivedClass(new RunClass(principal, codeController));
     }
 
     @SuppressWarnings("unchecked")
@@ -127,24 +164,15 @@ public class ListElement extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void formMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseEntered
-        
-        this.setBackground(new Color(44, 169, 36));
-        
+        onMouseEntered();
     }//GEN-LAST:event_formMouseEntered
 
     private void formMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseExited
-        
-        this.setBackground(Color.white);
-        
+        onMouseExited();
     }//GEN-LAST:event_formMouseExited
 
     private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
-        
-        // Crear frame de la función seleccionada
-        RunClass runClass = new RunClass(principal, null, viewController, direction, name, description, languaje, parameters);
-
-        viewController.addActivedClass(runClass);
-        
+        onMouseClicked();
     }//GEN-LAST:event_formMouseClicked
 
 

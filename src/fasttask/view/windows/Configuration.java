@@ -4,38 +4,127 @@ package fasttask.view.windows;
 import fasttask.data.system.Directions;
 import fasttask.controller.view.ViewController;
 import fasttask.data.system.Constants;
+import fasttask.view.components.Dialog;
+import fasttask.view.components.Frame;
 import fasttask.view.components.Frameable;
 import java.awt.Color;
 import java.io.File;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JPanel;
 
-public class Configuration extends javax.swing.JPanel implements Frameable {
+public final class Configuration extends javax.swing.JPanel implements Frameable {
 
+    // Ventanas
     Principal principal;
     
+    // Ventanas
+    Frame frame;        // Ventana contenedora
+    
     public Configuration(Principal principal) {
-        initComponents();
+        
         this.principal = principal;
-        jTextField1.setText(Directions.getSaveFolder());
-        jTextField2.setText(Directions.getEditorFile());
-        jTextField3.setText(Directions.getJavaFolder());
-        jTextField4.setText(Directions.getPythonFolder());
-        jTextField5.setText(Directions.getJavaScriptFolder());
-        jTextField6.setText(Directions.getCPlusPlusFolder());
-        ViewController.customizeButton(jLabel3, Color.black);
-        ViewController.customizeButton(jLabel4, Color.black);
-        ViewController.customizeButton(jLabel6, Color.black);
-        ViewController.customizeButton(jLabel5, Color.black);
-        ViewController.customizeButton(jLabel7, Color.black);
-        ViewController.customizeButton(jLabel8, Color.black);
-        ViewController.customizeButton(jLabel10, Color.black);
-        ViewController.customizeButton(jLabel11, Color.black);
-        ViewController.customizeButton(jLabel13, Color.black);
-        ViewController.customizeButton(jLabel15, Color.black);
-        ViewController.customizeButton(jLabel17, Color.black);
-        ViewController.customizeButton(jLabel18, Color.black);
-                      
+        
+        initComponents();       // Iniciar componentes generados
+        setInformation();       // Asignar información
+        setCustomization();     // Personalizar
+        
+        frame = new Frame(this);
+                  
+    }
+    
+    // Personalizar ventana
+    public void setCustomization() {
+        
+        // Personalizar botones
+        ViewController.customizeButton(jLabel3, Constants.CONFIGURATION_COLOR);
+        ViewController.customizeButton(jLabel4, Constants.CONFIGURATION_COLOR);
+        ViewController.customizeButton(jLabel6, Constants.CONFIGURATION_COLOR);
+        ViewController.customizeButton(jLabel5, Constants.CONFIGURATION_COLOR);
+        ViewController.customizeButton(jLabel7, Constants.CONFIGURATION_COLOR);
+        ViewController.customizeButton(jLabel8, Constants.CONFIGURATION_COLOR);
+        ViewController.customizeButton(jLabel10, Constants.CONFIGURATION_COLOR);
+        ViewController.customizeButton(jLabel11, Constants.CONFIGURATION_COLOR);
+        ViewController.customizeButton(jLabel13, Constants.CONFIGURATION_COLOR);
+        ViewController.customizeButton(jLabel15, Constants.CONFIGURATION_COLOR);
+        ViewController.customizeButton(jLabel17, Constants.CONFIGURATION_COLOR);
+        ViewController.customizeButton(jLabel18, Constants.CONFIGURATION_COLOR);
+        
+        // Personalizar bordes
+        jTextField1.setBorder(new javax.swing.border.LineBorder(Constants.MAIN_FRAME_COLOR, 1, true));
+        jTextField2.setBorder(new javax.swing.border.LineBorder(Constants.MAIN_FRAME_COLOR, 1, true));
+        jTextField3.setBorder(new javax.swing.border.LineBorder(Constants.MAIN_FRAME_COLOR, 1, true));
+        jTextField4.setBorder(new javax.swing.border.LineBorder(Constants.MAIN_FRAME_COLOR, 1, true));
+        jTextField5.setBorder(new javax.swing.border.LineBorder(Constants.MAIN_FRAME_COLOR, 1, true));
+        jTextField6.setBorder(new javax.swing.border.LineBorder(Constants.MAIN_FRAME_COLOR, 1, true));
+        
+    }
+    
+    // Asignar información
+    public void setInformation() {
+        
+        try {
+            jTextField1.setText(Directions.getSaveFolder());
+        } catch (IOException ex) {
+            Dialog dialog = new Dialog(Dialog.NOTIFICATION_OUTPUT, Constants.CONFIGURATION_COLOR, principal);
+            dialog.setTitle("Error de acceso");
+            dialog.setDescription("No se pudo acceder al siguiente archivo de configuración");
+            dialog.setOutputText(Directions.SAVED_FILE);
+            dialog.show();
+        }
+        
+        try {
+            jTextField2.setText(Directions.getEditorFile());
+        } catch (IOException ex) {
+            Dialog dialog = new Dialog(Dialog.NOTIFICATION_OUTPUT, Constants.CONFIGURATION_COLOR, principal);
+            dialog.setTitle("Error de acceso");
+            dialog.setDescription("No se pudo acceder al siguiente archivo de configuración");
+            dialog.setOutputText(Directions.EDITOR_FILE);
+            dialog.show();
+        }
+        
+        try {
+            jTextField3.setText(Directions.getJavaFolder());
+        } catch (IOException ex) {
+            Dialog dialog = new Dialog(Dialog.NOTIFICATION_OUTPUT, Constants.CONFIGURATION_COLOR, principal);
+            dialog.setTitle("Error de acceso");
+            dialog.setDescription("No se pudo acceder al siguiente archivo de configuración");
+            dialog.setOutputText(Directions.JAVA_FILE);
+            dialog.show();
+        }
+        
+        try {
+            jTextField4.setText(Directions.getPythonFolder());
+        } catch (IOException ex) {
+            Dialog dialog = new Dialog(Dialog.NOTIFICATION_OUTPUT, Constants.CONFIGURATION_COLOR, principal);
+            dialog.setTitle("Error de acceso");
+            dialog.setDescription("No se pudo acceder al siguiente archivo de configuración");
+            dialog.setOutputText(Directions.PYTHON_FILE);
+            dialog.show();
+        }
+        
+        try {
+            jTextField5.setText(Directions.getJavaScriptFolder());
+        } catch (IOException ex) {
+            Dialog dialog = new Dialog(Dialog.NOTIFICATION_OUTPUT, Constants.CONFIGURATION_COLOR, principal);
+            dialog.setTitle("Error de acceso");
+            dialog.setDescription("No se pudo acceder al siguiente archivo de configuración");
+            dialog.setOutputText(Directions.JAVASCRIPT_FILE);
+            dialog.show();
+        }
+        
+        try {
+            jTextField6.setText(Directions.getCPlusPlusFolder());
+        } catch (IOException ex) {
+            Dialog dialog = new Dialog(Dialog.NOTIFICATION_OUTPUT, Constants.CONFIGURATION_COLOR, principal);
+            dialog.setTitle("Error de acceso");
+            dialog.setDescription("No se pudo acceder al siguiente archivo de configuración");
+            dialog.setOutputText(Directions.C_PLUS_PLUS_FILE);
+            dialog.show();
+        }
+        
     }
     
     @Override
@@ -69,13 +158,211 @@ public class Configuration extends javax.swing.JPanel implements Frameable {
     }
     
     @Override
-    public void onCloseClick() {
-        ViewController.confActived = false;
+    public void onClose() {
+        ViewController.configurationActived = false;
     }
     
     @Override
     public void onGetFocus() {
-        
+        setInformation();
+    }
+    
+    // Al presionar el boton de buscar directorio de clases guardadas
+    public void onSearchSavedFolder(){
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        fileChooser.showOpenDialog(this);
+        if (fileChooser.getSelectedFile() != null) {
+            jTextField1.setText(fileChooser.getSelectedFile().getAbsolutePath());
+            onAppendSavedFolder();
+        }
+    }
+    
+    // Al presionar el boton agregar directorio de clases guardadas
+    public void onAppendSavedFolder(){
+        if(new File(jTextField1.getText()).exists()) {
+            try {
+                Directions.setSaveFolder(jTextField1.getText());
+                principal.setFunctionList(principal.jTextField2.getText());
+            } catch (IOException ex) {
+                Dialog dialog = new Dialog(Dialog.NOTIFICATION_OUTPUT, Constants.CONFIGURATION_COLOR, principal);
+                dialog.setTitle("Error de acceso");
+                dialog.setDescription("No se pudo acceder al siguiente archivo");
+                dialog.setOutputText(jTextField1.getText());
+                dialog.show();
+            }
+        } else {
+            Dialog dialog = new Dialog(Dialog.NOTIFICATION_OUTPUT, Constants.CONFIGURATION_COLOR, principal);
+            dialog.setTitle("Error de acceso");
+            dialog.setDescription("El directorio ingresado no existe");
+            dialog.setOutputText(jTextField1.getText());
+            dialog.show();
+        }
+    }
+    
+    // Al presionar el boton de buscar ejecutable de editor de codigo
+    public void onSearchEditExecutable(){
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        fileChooser.showOpenDialog(this);
+        if (fileChooser.getSelectedFile() != null) {
+            jTextField2.setText(fileChooser.getSelectedFile().getAbsolutePath());
+            onAppendEditExecutable();
+        }
+    }
+    
+    // Al presionar el boton agregar ejecutable de editor de codigo
+    public void onAppendEditExecutable(){
+        if(new File(jTextField2.getText()).exists()) {
+            try {
+                Directions.setEditorFile(jTextField2.getText());
+                principal.setFunctionList(principal.jTextField2.getText());
+            } catch (IOException ex) {
+                Dialog dialog = new Dialog(Dialog.NOTIFICATION_OUTPUT, Constants.CONFIGURATION_COLOR, principal);
+                dialog.setTitle("Error de acceso");
+                dialog.setDescription("No se pudo acceder al siguiente archivo");
+                dialog.setOutputText(jTextField2.getText());
+                dialog.show();
+            }
+        } else {
+            Dialog dialog = new Dialog(Dialog.NOTIFICATION_OUTPUT, Constants.CONFIGURATION_COLOR, principal);
+            dialog.setTitle("Error de acceso");
+            dialog.setDescription("El directorio selecionado no existe");
+            dialog.setOutputText(jTextField2.getText());
+            dialog.show();
+        }
+    }
+    
+    // Al presionar el boton de buscar directorio de Java
+    public void onSearchJavaFolder(){
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        fileChooser.showOpenDialog(this);
+        if (fileChooser.getSelectedFile() != null) {
+            jTextField3.setText(fileChooser.getSelectedFile().getAbsolutePath());
+            onAppendJavaFolder();
+        }
+    }
+    
+    // Al presionar el boton agregar directorio de Java
+    public void onAppendJavaFolder(){
+        if(new File(jTextField3.getText()).exists()) {
+            try {
+                Directions.setJavaFolder(jTextField3.getText());
+                principal.setFunctionList(principal.jTextField2.getText());
+            } catch (IOException ex) {
+                Dialog dialog = new Dialog(Dialog.NOTIFICATION_OUTPUT, Constants.CONFIGURATION_COLOR, principal);
+                dialog.setTitle("Error de acceso");
+                dialog.setDescription("No se pudo acceder al siguiente archivo");
+                dialog.setOutputText(jTextField3.getText());
+                dialog.show();
+            }
+        } else {
+            Dialog dialog = new Dialog(Dialog.NOTIFICATION_OUTPUT, Constants.CONFIGURATION_COLOR, principal);
+            dialog.setTitle("Error de acceso");
+            dialog.setDescription("El directorio selecionado no existe");
+            dialog.setOutputText(jTextField3.getText());
+            dialog.show();
+        }
+    }
+    
+    // Al presionar el boton de buscar directorio de Python
+    public void onSearchPythonFolder(){
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        fileChooser.showOpenDialog(this);
+        if (fileChooser.getSelectedFile() != null) {
+            jTextField4.setText(fileChooser.getSelectedFile().getAbsolutePath());
+            onAppendPythonFolder();
+        }
+    }
+    
+    // Al presionar el boton agregar directorio de Python
+    public void onAppendPythonFolder(){
+        if(new File(jTextField4.getText()).exists()) {
+            try {
+                Directions.setPythonFolder(jTextField4.getText());
+                principal.setFunctionList(principal.jTextField2.getText());
+            } catch (IOException ex) {
+                Dialog dialog = new Dialog(Dialog.NOTIFICATION_OUTPUT, Constants.CONFIGURATION_COLOR, principal);
+                dialog.setTitle("Error de acceso");
+                dialog.setDescription("No se pudo acceder al siguiente archivo");
+                dialog.setOutputText(jTextField4.getText());
+                dialog.show();
+            }
+        } else {
+            Dialog dialog = new Dialog(Dialog.NOTIFICATION_OUTPUT, Constants.CONFIGURATION_COLOR, principal);
+            dialog.setTitle("Error de acceso");
+            dialog.setDescription("El directorio selecionado no existe");
+            dialog.setOutputText(jTextField4.getText());
+            dialog.show();
+        }
+    }
+    
+    // Al presionar el boton de buscar directorio de JavaScript
+    public void onSearchJavaScriptFolder(){
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        fileChooser.showOpenDialog(this);
+        if (fileChooser.getSelectedFile() != null) {
+            jTextField5.setText(fileChooser.getSelectedFile().getAbsolutePath());
+            onAppendJavaScriptFolder();
+        }
+    }
+    
+    // Al presionar el boton agregar directorio de JavaScript
+    public void onAppendJavaScriptFolder(){
+        if(new File(jTextField5.getText()).exists()) {
+            try {
+                Directions.setJavaScriptFolder(jTextField5.getText());
+                principal.setFunctionList(principal.jTextField2.getText());
+            } catch (IOException ex) {
+                Dialog dialog = new Dialog(Dialog.NOTIFICATION_OUTPUT, Constants.CONFIGURATION_COLOR, principal);
+                dialog.setTitle("Error de acceso");
+                dialog.setDescription("No se pudo acceder al siguiente archivo");
+                dialog.setOutputText(jTextField5.getText());
+                dialog.show();
+            }
+        } else {
+            Dialog dialog = new Dialog(Dialog.NOTIFICATION_OUTPUT, Constants.CONFIGURATION_COLOR, principal);
+            dialog.setTitle("Error de acceso");
+            dialog.setDescription("El directorio selecionado no existe");
+            dialog.setOutputText(jTextField5.getText());
+            dialog.show();
+        }
+    }
+    
+    // Al presionar el boton de buscar directorio de C y C++
+    public void onSearchCPlusPlusFolder(){
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        fileChooser.showOpenDialog(this);
+        if (fileChooser.getSelectedFile() != null) {
+            jTextField6.setText(fileChooser.getSelectedFile().getAbsolutePath());
+            onAppendCPlusPlusFolder();
+        }
+    }
+    
+    // Al presionar el boton agregar directorio de C y C++
+    public void onAppendCPlusPlusFolder(){
+        if(new File(jTextField6.getText()).exists()) {
+            try {
+                Directions.setCPlusPlusFolder(jTextField6.getText());
+                principal.setFunctionList(principal.jTextField2.getText());
+            } catch (IOException ex) {
+                Dialog dialog = new Dialog(Dialog.NOTIFICATION_OUTPUT, Constants.CONFIGURATION_COLOR, principal);
+                dialog.setTitle("Error de acceso");
+                dialog.setDescription("No se pudo acceder al siguiente archivo");
+                dialog.setOutputText(jTextField6.getText());
+                dialog.show();
+            }
+        } else {
+            Dialog dialog = new Dialog(Dialog.NOTIFICATION_OUTPUT, Constants.CONFIGURATION_COLOR, principal);
+            dialog.setTitle("Error de acceso");
+            dialog.setDescription("El directorio selecionado no existe");
+            dialog.setOutputText(jTextField6.getText());
+            dialog.show();
+        }
     }
     
     @SuppressWarnings("unchecked")
@@ -407,32 +694,15 @@ public class Configuration extends javax.swing.JPanel implements Frameable {
     }//GEN-LAST:event_jTextField1ActionPerformed
 
     private void jLabel3MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MousePressed
-
-        JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-        fileChooser.showOpenDialog(this);
-        if (fileChooser.getSelectedFile() != null) {
-            jTextField1.setText(fileChooser.getSelectedFile().getAbsolutePath());
-            jLabel4MousePressed(null);
-        }
-        
+        onSearchSavedFolder();
     }//GEN-LAST:event_jLabel3MousePressed
 
     private void jLabel4MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel4MousePressed
-
-        if(new File(jTextField1.getText()).exists()) {
-            Directions.setSaveFolder(jTextField1.getText());
-            principal.setFunctionList(principal.jTextField2.getText());
-        }
-
+        onAppendSavedFolder();
     }//GEN-LAST:event_jLabel4MousePressed
 
     private void jLabel5MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MousePressed
-        
-        if(new File(jTextField2.getText()).exists()) {
-            Directions.setEditorFile(jTextField2.getText());
-        }
-        
+        onAppendEditExecutable();
     }//GEN-LAST:event_jLabel5MousePressed
 
     private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
@@ -440,35 +710,15 @@ public class Configuration extends javax.swing.JPanel implements Frameable {
     }//GEN-LAST:event_jTextField2ActionPerformed
 
     private void jLabel6MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel6MousePressed
-        
-        JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-        fileChooser.showOpenDialog(this);
-        if (fileChooser.getSelectedFile() != null) {
-            jTextField2.setText(fileChooser.getSelectedFile().getAbsolutePath());
-            jLabel4MousePressed(null);
-        }
-        
+        onSearchEditExecutable();
     }//GEN-LAST:event_jLabel6MousePressed
 
     private void jLabel7MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel7MousePressed
-        
-        JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-        fileChooser.showOpenDialog(this);
-        if (fileChooser.getSelectedFile() != null) {
-            jTextField3.setText(fileChooser.getSelectedFile().getAbsolutePath());
-            jLabel4MousePressed(null);
-        }
-        
+        onSearchJavaFolder();
     }//GEN-LAST:event_jLabel7MousePressed
 
     private void jLabel8MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel8MousePressed
-        
-        if(new File(jTextField3.getText()).exists()) {
-            Directions.setJavaFolder(jTextField3.getText());
-        }
-        
+        onAppendJavaFolder();
     }//GEN-LAST:event_jLabel8MousePressed
 
     private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
@@ -476,23 +726,11 @@ public class Configuration extends javax.swing.JPanel implements Frameable {
     }//GEN-LAST:event_jTextField3ActionPerformed
 
     private void jLabel10MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel10MousePressed
-        
-        JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-        fileChooser.showOpenDialog(this);
-        if (fileChooser.getSelectedFile() != null) {
-            jTextField4.setText(fileChooser.getSelectedFile().getAbsolutePath());
-            jLabel4MousePressed(null);
-        }
-        
+        onSearchPythonFolder();
     }//GEN-LAST:event_jLabel10MousePressed
 
     private void jLabel11MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel11MousePressed
-        
-        if(new File(jTextField4.getText()).exists()) {
-            Directions.setPythonFolder(jTextField4.getText());
-        }
-        
+        onAppendPythonFolder();        
     }//GEN-LAST:event_jLabel11MousePressed
 
     private void jTextField4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField4ActionPerformed
@@ -500,11 +738,7 @@ public class Configuration extends javax.swing.JPanel implements Frameable {
     }//GEN-LAST:event_jTextField4ActionPerformed
 
     private void jLabel13MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel13MousePressed
-        
-        if(new File(jTextField5.getText()).exists()) {
-            Directions.setJavaScriptFolder(jTextField5.getText());
-        }
-        
+        onAppendJavaScriptFolder();
     }//GEN-LAST:event_jLabel13MousePressed
 
     private void jTextField5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField5ActionPerformed
@@ -512,15 +746,7 @@ public class Configuration extends javax.swing.JPanel implements Frameable {
     }//GEN-LAST:event_jTextField5ActionPerformed
 
     private void jLabel15MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel15MousePressed
-        
-        JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-        fileChooser.showOpenDialog(this);
-        if (fileChooser.getSelectedFile() != null) {
-            jTextField5.setText(fileChooser.getSelectedFile().getAbsolutePath());
-            jLabel4MousePressed(null);
-        }
-        
+        onSearchJavaScriptFolder();
     }//GEN-LAST:event_jLabel15MousePressed
 
     private void jTextField6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField6ActionPerformed
@@ -528,23 +754,11 @@ public class Configuration extends javax.swing.JPanel implements Frameable {
     }//GEN-LAST:event_jTextField6ActionPerformed
 
     private void jLabel17MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel17MousePressed
-        
-        JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-        fileChooser.showOpenDialog(this);
-        if (fileChooser.getSelectedFile() != null) {
-            jTextField6.setText(fileChooser.getSelectedFile().getAbsolutePath());
-            jLabel8MousePressed(null);
-        }
-    
+        onSearchCPlusPlusFolder();
     }//GEN-LAST:event_jLabel17MousePressed
 
     private void jLabel18MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel18MousePressed
-        
-        if(new File(jTextField6.getText()).exists()) {
-            Directions.setCPlusPlusFolder(jTextField6.getText());
-        }
-        
+        onAppendCPlusPlusFolder();
     }//GEN-LAST:event_jLabel18MousePressed
 
 

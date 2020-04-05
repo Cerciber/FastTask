@@ -7,6 +7,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -46,7 +47,7 @@ public class JavaScriptController extends CodeController {
     }
 
     @Override
-    public void creteExecutable(String[] parameters) {
+    public void creteExecutable(String[] parameters) throws UnsupportedEncodingException, IOException {
 
         // Crear codigo del ejecutable
         String parametersString = Arrays.toString(parameters);
@@ -58,7 +59,7 @@ public class JavaScriptController extends CodeController {
     }
 
     @Override
-    public String runCommand() {
+    public String runCommand() throws IOException {
         return "pushd " + Directions.getJavaScriptFolder() + " "
                 + "&& node \"" + new File(JAVASCRIPT_GENERATED_FILE).getAbsolutePath() + "\" ";
     }

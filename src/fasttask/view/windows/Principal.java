@@ -1,33 +1,36 @@
 package fasttask.view.windows;
 
+import fasttask.controller.code.CodeController;
 import fasttask.data.system.Directions;
 import fasttask.view.components.ListElement;
 import fasttask.controller.view.ViewController;
 import fasttask.data.system.Constants;
+import static fasttask.data.system.Directions.SAVED_FILE;
 import fasttask.data.system.FileAccess;
 import fasttask.view.components.Frame;
 import fasttask.view.components.Frameable;
-import fasttask.view.components.NewClass;
+import fasttask.view.components.Dialog;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.io.File;
-import javax.swing.JDialog;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public final class Principal extends javax.swing.JPanel implements Frameable {
 
-    // Controlador de la interfaz grafica
-    ViewController viewController;  
-    
-    // Ventana contenedora
-    Frame frame;
+    // Ventanas
+    Frame frame;        // Ventana contenedora
+
+    // Controladores
+    public ViewController viewController;      // Controlador de la interfaz grafica
 
     public Principal() {
-        
+
         viewController = new ViewController(this);
-        
+
         initComponents();       // Iniciar componentes generados
         setFunctionList();      // Asignar lista de funciones
         setCustomization();     // Personalizar
@@ -35,38 +38,62 @@ public final class Principal extends javax.swing.JPanel implements Frameable {
         frame = new Frame(this);
 
     }
-    
+
     // Personalizar ventana
     public void setCustomization() {
-        
+
+        // Personalizar botones
         ViewController.customizeButton(jLabel3, Constants.MAIN_FRAME_COLOR);
         ViewController.customizeButton(jLabel4, Constants.MAIN_FRAME_COLOR);
         ViewController.customizeButton(jLabel5, Constants.MAIN_FRAME_COLOR);
         ViewController.customizeButton(jLabel6, Constants.MAIN_FRAME_COLOR);
+
+        // Personalizar bordes
+        jTextField1.setBorder(new javax.swing.border.LineBorder(Constants.MAIN_FRAME_COLOR, 1, true));
+        jTextField2.setBorder(new javax.swing.border.LineBorder(Constants.MAIN_FRAME_COLOR, 1, true));
+
+        // Personalizar tamaño
         setMinimumSize(getPreferredSize());
-        
+
     }
 
-    // Asignar lista de funciones
+    // Asignar lista de funciones con el filtro del campo
     public void setFunctionList() {
         setFunctionList(jTextField2.getText());
     }
 
-    // Asignar lista de funciones con filtro
+    // Asignar lista de funciones con el filtro especificado
     public void setFunctionList(String filter) {
+
+        // Remover lista anterior
+        jPanel2.removeAll();
+
+        // Dar formato de dos comas (nombre, lenguaje, descripción))
         filter = filter.replace(",", ", ");
         if (filter.split(",").length == 1) {
             filter += ", , ";
         } else if (filter.split(",").length == 2) {
             filter += ", ";
         }
-        jPanel2.removeAll();
-        Object[][] list = viewController.getClassList(filter);
-        for (int i = 0; i < list.length; i++) {
-            ListElement listElement = new ListElement(this, viewController, (String) list[i][0], (String) list[i][1], (String) list[i][2], (String) list[i][3], (String[]) list[i][4]);
-            jPanel2.add(listElement);
+
+        // asignar nueva lista
+        String[] directions;
+        try {
+            directions = viewController.getDirectionsList(filter);
+            for (int i = 0; i < directions.length; i++) {
+                jPanel2.add(new ListElement(this, directions[i]));
+            }
+        } catch (IOException | NullPointerException ex) {
+            Dialog dialog = new Dialog(Dialog.NOTIFICATION_OUTPUT, Constants.MAIN_FRAME_COLOR, this);
+            dialog.setTitle("Error de acceso");
+            dialog.setDescription("No se pudo acceder al siguiente archivo de configuración");
+            dialog.setOutputText(Directions.EDITOR_FILE);
+            dialog.show();
         }
+
+        // Asctualizar interfaz
         jPanel2.updateUI();
+
     }
 
     @Override
@@ -96,27 +123,158 @@ public final class Principal extends javax.swing.JPanel implements Frameable {
 
     @Override
     public void onConfuigurationClick() {
-        
+
         // Si la configuración no esta abierta
-        if (!ViewController.confActived) {
-            
+        if (!ViewController.configurationActived) {
+
             // Abrir configuración
-            Configuration configuration = new Configuration(this);
-            Frame frame = new Frame(configuration);
-            ViewController.confActived = true;
-            
+            new Configuration(this);
+            ViewController.configurationActived = true;
+
         }
-        
+
     }
-    
+
     @Override
-    public void onCloseClick() {
-        
+    public void onClose() {
+        // No se necesita
     }
-    
+
     @Override
     public void onGetFocus() {
         setFunctionList();
+    }
+
+    // Al presionar el boton de buscar codigo
+    public void onSearchCode() {
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.showOpenDialog(this);
+        if (fileChooser.getSelectedFile() != null) {
+            jTextField1.setText(fileChooser.getSelectedFile().getAbsolutePath());
+            jLabel5MousePressed(null);
+        }
+    }
+
+    // Al presionar el boton agregar codigo en la dirección escrita
+    public void onAppendCode() {
+        if (new File(jTextField1.getText()).exists()) {
+            try {
+                if (viewController.addClass(jTextField1.getText())) {
+                    setFunctionList(jTextField2.getText().trim());
+                    jTextField1.setText("");
+                } else {
+                    Dialog dialog = new Dialog(Dialog.NOTIFICATION, Constants.CONFIGURATION_COLOR, this);
+                    dialog.setTitle("Error de adición");
+                    dialog.setDescription("El nombre del archivo ya existe");
+                    dialog.show();
+                }
+            } catch (IOException ex) {
+                Dialog dialog = new Dialog(Dialog.NOTIFICATION_OUTPUT, Constants.CONFIGURATION_COLOR, this);
+                dialog.setTitle("Error de acceso");
+                dialog.setDescription("No se pudo acceder al siguiente archivo");
+                dialog.setOutputText(jTextField1.getText());
+                dialog.show();
+            }
+
+        }
+    }
+
+    // Al presionar el boton cerrar todas ventanas de codigo activas
+    public void onCloseCodeAllActivedWindows() {
+        viewController.removeActivedClass();
+    }
+
+    // Al presionar el boton crear nuevo código
+    public void onAddNewCode() {
+        onAddNewCode("");
+    }
+    
+    // Al presionar el boton crear nuevo código
+    public void onAddNewCode(String text) {
+
+        // Abrir ventana para ingresar nueva clase
+        Dialog dialog = new Dialog(Dialog.NEW_CODE, Constants.MAIN_FRAME_COLOR, this);
+        dialog.setTitle("Nuevo codigo");
+        dialog.setDescription("Ingrese el nombre del archivo con extención");
+        dialog.setCheckBoxText("Incluir plantilla");
+        dialog.setInputText(text);
+        dialog.show();
+
+        // Si se acepta la creación 
+        if (dialog.accept()) {
+
+            String direction;
+            try {
+
+                direction = Directions.getSaveFolder() + "\\" + dialog.getInputText();
+
+                // Si el nombre del archivo no existe
+                if (!new File(direction).exists()) {
+
+                    // Si el lenguaje de la extensión está soportado
+                    if (CodeController.isSupported(direction)) {
+
+                        // Si se requiere platilla
+                        if (dialog.getCheckBoxValue()) {
+                            try {
+                                FileAccess.copyFile(Directions.getTemplatesFolder() + "\\template." + FileAccess.getExtension(dialog.getInputText()), direction);
+                                viewController.addActivedClass(new RunClass(this, CodeController.getController(direction)));
+                            } catch (IOException ex) {
+                                Dialog dialog2 = new Dialog(Dialog.NOTIFICATION, Constants.MAIN_FRAME_COLOR, this);
+                                dialog2.setTitle("Error de creación");
+                                dialog2.setDescription("No se pudo copiar la plantilla");
+                                dialog2.show();
+                                onAddNewCode(dialog.getInputText());
+                            }
+                            
+                            // Si no se requiere plantilla
+                        } else {
+                            try {
+                                FileAccess.createFile(direction);
+                                viewController.addActivedClass(new RunClass(this, CodeController.getController(direction)));
+                            } catch (IOException ex) {
+                                Dialog dialog2 = new Dialog(Dialog.NOTIFICATION, Constants.MAIN_FRAME_COLOR, this);
+                                dialog2.setTitle("Error de creación");
+                                dialog2.setDescription("No se pudo crear el archivo");
+                                dialog2.show();
+                                onAddNewCode(dialog.getInputText());
+                            }
+                        }
+                        
+                    } else {
+                        Dialog dialog2 = new Dialog(Dialog.NOTIFICATION, Constants.MAIN_FRAME_COLOR, this);
+                        dialog2.setTitle("Error de creación");
+                        dialog2.setDescription("El lenguaje de la extensión no esta soportado");
+                        dialog2.show();
+                        onAddNewCode(dialog.getInputText());
+                    }
+                } else {
+                    Dialog dialog2 = new Dialog(Dialog.NOTIFICATION, Constants.MAIN_FRAME_COLOR, this);
+                    dialog2.setTitle("Error de creación");
+                    dialog2.setDescription("El nombre del archivo ya existe");
+                    dialog2.show();
+                    onAddNewCode(dialog.getInputText());
+                }
+
+            } catch (IOException ex) {
+                Dialog dialog2 = new Dialog(Dialog.NOTIFICATION_OUTPUT, Constants.MAIN_FRAME_COLOR, this);
+                dialog2.setTitle("Error de acceso");
+                dialog2.setDescription("No se pudo acceder al siguiente archivo");
+                dialog2.setOutputText(SAVED_FILE);
+                dialog2.show();
+                onAddNewCode(dialog.getInputText());
+            }
+
+            // Actualizar lista
+            setFunctionList();
+
+        }
+
+    }
+
+    // Al cambiar el texto del filtro
+    public void onFiltredChanged() {
+        setFunctionList(jTextField2.getText().trim());
     }
 
     @SuppressWarnings("unchecked")
@@ -149,7 +307,7 @@ public final class Principal extends javax.swing.JPanel implements Frameable {
         });
 
         jLabel1.setFont(new java.awt.Font("Comic Sans MS", 1, 13)); // NOI18N
-        jLabel1.setText("Ingresar clase:");
+        jLabel1.setText("Ingresar código:");
 
         jTextField1.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
         jTextField1.setAlignmentX(2.0F);
@@ -162,7 +320,7 @@ public final class Principal extends javax.swing.JPanel implements Frameable {
         });
 
         jLabel2.setFont(new java.awt.Font("Comic Sans MS", 1, 13)); // NOI18N
-        jLabel2.setText("Filtrar codigos: (Nombre, Lenguaje, Descripción)");
+        jLabel2.setText("Filtrar códigos: (Nombre, Lenguaje, Descripción)");
 
         jTextField2.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
         jTextField2.setAlignmentX(2.0F);
@@ -291,9 +449,7 @@ public final class Principal extends javax.swing.JPanel implements Frameable {
     }//GEN-LAST:event_jTextField2KeyPressed
 
     private void jTextField2KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField2KeyReleased
-
-        setFunctionList(jTextField2.getText().trim());
-
+        onFiltredChanged();
     }//GEN-LAST:event_jTextField2KeyReleased
 
     private void jTextField2KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField2KeyTyped
@@ -301,34 +457,15 @@ public final class Principal extends javax.swing.JPanel implements Frameable {
     }//GEN-LAST:event_jTextField2KeyTyped
 
     private void jLabel3MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MousePressed
-
-        JFileChooser fileChooser = new JFileChooser();
-        fileChooser.showOpenDialog(this);
-        if (fileChooser.getSelectedFile() != null) {
-            jTextField1.setText(fileChooser.getSelectedFile().getAbsolutePath());
-            jLabel5MousePressed(null);
-        }
-
+        onSearchCode();
     }//GEN-LAST:event_jLabel3MousePressed
 
     private void jLabel4MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel4MousePressed
-
-        viewController.removeActivedClass();
-
+        onCloseCodeAllActivedWindows();
     }//GEN-LAST:event_jLabel4MousePressed
 
     private void jLabel5MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MousePressed
-
-        if (new File(jTextField1.getText()).exists()) {
-            if (!viewController.addClass(jTextField1.getText())) {
-                JOptionPane.showMessageDialog(this, "El nombre ya existe en la lista");
-            } else {
-                setFunctionList(jTextField2.getText().trim());
-                jTextField1.setText("");
-            }
-
-        }
-
+        onAppendCode();
     }//GEN-LAST:event_jLabel5MousePressed
 
     private void jLabel3MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseEntered
@@ -344,29 +481,7 @@ public final class Principal extends javax.swing.JPanel implements Frameable {
     }//GEN-LAST:event_formFocusGained
 
     private void jLabel6MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel6MousePressed
-
-        JDialog jDialog = new JDialog();
-        NewClass newClass = new NewClass(jDialog);
-        jDialog.setModal(true);
-        jDialog.setUndecorated(true);
-        jDialog.add(newClass);
-        jDialog.pack();
-        jDialog.setLocationRelativeTo(null);
-        jDialog.setVisible(true);
-
-        if (newClass.accept()) {
-
-            if (newClass.template()) {
-
-                FileAccess.copyFile(Directions.getTemplatesFolder() + "\\template." + FileAccess.getExtension(newClass.getName()), Directions.getSaveFolder() + "\\" + newClass.getName());
-
-            } else {
-                FileAccess.createFile(Directions.getSaveFolder() + "\\" + newClass.getName());
-
-            }
-
-        }
-
+        onAddNewCode();
     }//GEN-LAST:event_jLabel6MousePressed
 
 

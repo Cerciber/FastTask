@@ -4,14 +4,38 @@ package fasttask.view.components;
 import java.awt.Color;
 import javax.swing.JTextField;
 
-public class ParameterElement extends javax.swing.JPanel {
+public final class ParameterElement extends javax.swing.JPanel {
 
+    // Propiedades
+    String name; 
+    Color color;
+    
     public ParameterElement(String name, Color color) {
-        initComponents();      
+        
+        this.name = name;
+        this.color = color;
+        
+        initComponents();       // Iniciar componentes generados
+        setCustomization();     // Asignar información
+        setInformation();       // Personalizar
+        
+    }
+    
+    // Personalizar ventana
+    public void setCustomization() {
+        
+        // Personalizar colores texto
         jLabel1.setForeground(color);
-        jLabel1.setText(name);
+        
+        // Personalizar bordes
         jTextField1.setBorder(javax.swing.BorderFactory.createLineBorder(color, 1));
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(color, 1));
+        
+    }
+    
+    // Asignar información
+    public void setInformation() {
+        jLabel1.setText(name);
     }
     
     public String getValue(){

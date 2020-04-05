@@ -1,6 +1,5 @@
 package fasttask.view.windows;
 
-import fasttask.view.windows.Principal;
 import fasttask.view.components.Frame;
 import fasttask.view.components.ParameterElement;
 import fasttask.controller.code.CodeController;
@@ -8,115 +7,165 @@ import fasttask.controller.code.CommandLine;
 import fasttask.controller.view.ViewController;
 import fasttask.data.system.Directions;
 import fasttask.data.system.FileAccess;
+import fasttask.view.components.Dialog;
 import fasttask.view.components.Frameable;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.KeyEvent;
-import java.awt.event.MouseListener;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.util.Arrays;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-public final class RunClass extends javax.swing.JPanel implements Frameable, CommandLine{
+public final class RunClass extends javax.swing.JPanel implements Frameable, CommandLine {
 
-    Principal principal;
-    public CodeController codeController;
-    
-    public Frame frame;
-    
-    String name;
-    String description;
-    String languaje;
-    String[] parameters;
-    Color color;
-    int inputStart;
-    BufferedWriter writer;
-    Thread confButtonThread;
+    // Ventanas
+    Principal principal;    // Panel principal
+    public Frame frame;     // Ventana contenedora
 
-    public RunClass(Principal principal, Frame frame, ViewController viewController, String dir, String name, String description, String languaje, String[] parameters) {
-        
+    // Controladores
+    public CodeController codeController;   // Controlador del codigo
+    BufferedWriter writer;                  // Flujo de escritura hacia el terminal             
+
+    // Propiedades
+    int inputStart;     //Posición en el texto de salida donde se empieza a leer una entrada
+
+    public RunClass(Principal principal, CodeController codeController) {
+
         this.principal = principal;
-        this.codeController = CodeController.getController(dir);
-        
-        initComponents();
-        
-        
-        
-        setInformation();
-        
-        this.name = name;
-        this.description = description;
-        this.languaje = languaje;
-        this.parameters = parameters;
-        
-        color = CodeController.getController(dir).color();
-        jPanel7.setBorder(javax.swing.BorderFactory.createLineBorder(color, 4));
-        jPanel7.setBackground(color);
-        ViewController.customizeButton(jLabel1, color);
-        ViewController.customizeButton(jLabel5, color);
-        ViewController.customizeButton(jLabel8, color);
-        ViewController.customizeButton(jLabel6, color);
-        ViewController.customizeButton(jLabel7, color);
-        jLabel2.setForeground(color);
-        jTextArea2.setBorder(javax.swing.BorderFactory.createLineBorder(color, 1));
-        jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(color, 1));
-        setParametersList();
-        
+        this.codeController = codeController;
+
+        initComponents();           // Iniciar componentes generados
+        setInformation();           // Asignar información
+        setParametersList();        // Asignar lista de parametros
+        setCustomization();         // Personalizar
+
         frame = new Frame(this);
-        
+
     }
-    
+
+    // Personalizar ventana
+    public void setCustomization() {
+
+        // Personalizar botones
+        ViewController.customizeButton(jLabel1, codeController.color());
+        ViewController.customizeButton(jLabel5, codeController.color());
+        ViewController.customizeButton(jLabel8, codeController.color());
+        ViewController.customizeButton(jLabel6, codeController.color());
+        ViewController.customizeButton(jLabel7, codeController.color());
+
+        // Personalizar bordes
+        jPanel7.setBorder(javax.swing.BorderFactory.createLineBorder(codeController.color(), 4));
+        jTextArea2.setBorder(javax.swing.BorderFactory.createLineBorder(codeController.color(), 1));
+        jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(codeController.color(), 1));
+
+        // Personalizar colores de fondo y texto
+        jPanel7.setBackground(codeController.color());
+        jLabel2.setForeground(codeController.color());
+
+    }
+
     // Asignar información
     public void setInformation() {
-        String params = Arrays.toString(parameters);
-        jLabel2.setText(name + " (" + params.substring(1, params.length() - 1) + ")");
-        jLabel4.setText(languaje);
-        jTextArea2.setText(description);
+
+        // Asignar parametros
+        try {
+            String params = Arrays.toString(codeController.parameters());
+            jLabel2.setText(codeController.name() + " (" + params.substring(1, params.length() - 1) + ")");
+        } catch (IOException ex) {
+            Dialog dialog = new Dialog(Dialog.NOTIFICATION, codeController.color(), this);
+            dialog.setTitle("Error de acceso");
+            dialog.setDescription("No se pudieron obtener los parametros del codigo");
+            dialog.show();
+        }
+
+        // Asignar lenguaje
+        jLabel4.setText(codeController.languaje());
+
+        // Asignar descipción
+        try {
+            jTextArea2.setText(codeController.description());
+        } catch (IOException ex) {
+            Dialog dialog = new Dialog(Dialog.NOTIFICATION, codeController.color(), this);
+            dialog.setTitle("Error de acceso");
+            dialog.setDescription("No se pudo obtener la descripción de codigo");
+            dialog.show();
+        }
+        
+        updateUI();
+
     }
 
     // Asignar lista de parametros
     public void setParametersList() {
+
+        // Remover lista anterior
         jPanel4.removeAll();
-        if (parameters.length == 0) {
-            jPanel1.setVisible(false);
-        } else {
-            jPanel1.setVisible(true);
-            for (int i = 0; i < parameters.length - 1; i++) {
 
-                ParameterElement parameterElement = new ParameterElement(parameters[i], color);
-                jPanel4.add(parameterElement);
+        try {
 
-                // Asignar salto de foco a los elementos
-                parameterElement.getField().addKeyListener(new java.awt.event.KeyAdapter() {
+            // Obtener parametros
+            String[] parameters = codeController.parameters();
+
+            // Si no hay parametros
+            if (codeController.parameters().length == 0) {
+
+                // Ocultar panel de parametros
+                jPanel1.setVisible(false);
+
+                // Si hay parametros
+            } else {
+
+                // Mostrar panel de parametros
+                jPanel1.setVisible(true);
+
+                // Para cada parametro no final
+                for (int i = 0; i < parameters.length - 1; i++) {
+
+                    // Añadir parametro
+                    ParameterElement parameterElement = new ParameterElement(parameters[i], codeController.color());
+                    jPanel4.add(parameterElement);
+
+                    // Asignar salto de foco con Enter al parametro
+                    parameterElement.getField().addKeyListener(new java.awt.event.KeyAdapter() {
+                        @Override
+                        public void keyPressed(java.awt.event.KeyEvent evt) {
+                            if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+                                parameterElement.getField().transferFocus();
+                            }
+                        }
+                    });
+
+                }
+
+                // Añadir parametro final
+                ParameterElement ParameterElement = new ParameterElement(parameters[parameters.length - 1], codeController.color());
+                jPanel4.add(ParameterElement);
+
+                // Asignar ejecutar con Enter al ultimo parametro
+                ParameterElement.getField().addKeyListener(new java.awt.event.KeyAdapter() {
                     @Override
-                    public void keyPressed(java.awt.event.KeyEvent evt) {
+                    public void keyReleased(java.awt.event.KeyEvent evt) {
                         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-                            parameterElement.getField().transferFocus();
+                            jLabel1MousePressed(null);
                         }
                     }
                 });
 
+                // Obtener foco
+                jPanel4.getComponent(0).requestFocusInWindow();
             }
 
-            ParameterElement ParameterElement = new ParameterElement(parameters[parameters.length - 1], color);
-            jPanel4.add(ParameterElement);
-
-            // Asignar ejecución al ultimo elemento
-            ParameterElement.getField().addKeyListener(new java.awt.event.KeyAdapter() {
-                @Override
-                public void keyReleased(java.awt.event.KeyEvent evt) {
-                    if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-                        jLabel1MousePressed(null);
-                    }
-                }
-            });
-
+        } catch (IOException ex) {
+            Dialog dialog = new Dialog(Dialog.NOTIFICATION, codeController.color(), this);
+            dialog.setTitle("Error de acceso");
+            dialog.setDescription("No se pudieron obtener los parametros del codigo");
+            dialog.show();
         }
+        
     }
-    
-        @Override
+
+    @Override
     public String title() {
         return codeController.name();
     }
@@ -143,64 +192,191 @@ public final class RunClass extends javax.swing.JPanel implements Frameable, Com
 
     @Override
     public void onConfuigurationClick() {
-        
-        // Si la configuración no esta abierta
-        if (!ViewController.confActived) {
-            
-            // Abrir configuración
-            Configuration configuration = new Configuration(principal);
-            Frame frame = new Frame(configuration);
-            ViewController.confActived = true;
-            
-        }
+        principal.onConfuigurationClick();
     }
-    
+
     @Override
-    public void onCloseClick() {
-        // No se necesita
+    public void onClose() {
+        onStop();
     }
-    
+
     @Override
     public void onGetFocus() {
         setInformation();
+        setParametersList();
     }
-    
+
     @Override
     public void write(String text, boolean type) {
+
+        // Si el tipo de salida es el esperado
         if (type == CommandLine.DEFAULT) {
             jTextArea1.setBackground(new java.awt.Color(240, 255, 240));
             jTextArea1.setForeground(Color.BLACK);
+
+            // Si el tipo de salida es de Error
         } else {
             jTextArea1.setForeground(Color.RED);
             jTextArea1.setBackground(new java.awt.Color(255, 240, 240));
         }
+
+        // Escribir salida 
         jTextArea1.setText(jTextArea1.getText() + text);
+
+        // Asignar nueva posición de entrada
         inputStart = jTextArea1.getText().length();
         jTextArea1.setCaretPosition(inputStart);
+
     }
-    
-    
+
     @Override
     public void read(BufferedWriter writer) {
+
+        // Asignar buffer de escritura para entrada del terminal
         this.writer = writer;
-    }
-    
-    @Override
-    public void onRun() {
-                
-        // Bloquear color run
-        jLabel1.setIcon(ViewController.colorLightImage(jLabel1.getIcon(), color));
-        jLabel1.removeMouseListener(jLabel1.getMouseListeners()[jLabel1.getMouseListeners().length - 1]);
-        
+
     }
 
     @Override
     public void onFinished() {
-        
+
         // Desbloquear color run
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/fasttask/data/files/images/play.png")));
-        ViewController.customizeButton(jLabel1, color);
-        
+        ViewController.customizeButton(jLabel1, codeController.color());
+
+    }
+
+    // Al presionar el boton de correr codigo
+    public void onRun() {
+
+        // Si el codigo no esta corriendo
+        if (codeController.getState() == CodeController.STOPED) {
+
+            // Obtener parametros
+            Component[] component = jPanel4.getComponents();
+            String[] parameters = new String[component.length];
+            for (int i = 0; i < parameters.length; i++) {
+
+                // Si algun parametro esta vacio, cancelar ejecución
+                if (((ParameterElement) component[i]).isEmpty()) {
+                    return;
+                }
+                parameters[i] = ((ParameterElement) component[i]).getValue();
+
+            }
+
+            // Bloquear color run
+            jLabel1.setIcon(ViewController.colorLightImage(jLabel1.getIcon(), codeController.color()));
+            jLabel1.removeMouseListener(jLabel1.getMouseListeners()[jLabel1.getMouseListeners().length - 1]);
+
+            // Limpliar consola
+            onClean();
+
+            // Ejecutar función
+            codeController.run(parameters, this);
+            jTextArea1.requestFocus();
+
+        }
+
+    }
+
+    // Al presionar el boton de detener codigo
+    public void onStop() {
+        try {
+            codeController.stop(this);
+        } catch (IOException ex) {
+            Dialog dialog = new Dialog(Dialog.NOTIFICATION, codeController.color(), this);
+            dialog.setTitle("Error de finalización");
+            dialog.setDescription("No se logró detener la ejecución");
+            dialog.show();
+        }
+    }
+
+    // Al presionar el boton de limpiar consola
+    public void onClean() {
+        jTextArea1.setText("");
+        jTextArea1.setBackground(Color.white);
+    }
+
+    // Al presionar el boton de editar codigo
+    public void onEdit() {
+
+        // Abirir archivo con el editor prefereido guardado
+        try {
+            String editorFile = Directions.getEditorFile();
+            String command = "pushd " + FileAccess.getFolder(editorFile) + " "
+                    + "&& " + FileAccess.getName(editorFile) + " \"" + codeController.direction() + "\"";
+            System.out.println(command);
+            ProcessBuilder processBuilder = new ProcessBuilder("cmd.exe", "/C", command);
+            try {
+                processBuilder.start();
+            } catch (IOException ex) {
+                Dialog dialog = new Dialog(Dialog.NOTIFICATION, codeController.color(), this);
+                dialog.setTitle("Error de apertura");
+                dialog.setDescription("No se pudo abrir el codigo con el programa especificado");
+                dialog.show();
+            }
+        } catch (IOException ex) {
+            Dialog dialog = new Dialog(Dialog.NOTIFICATION_OUTPUT, codeController.color(), this);
+            dialog.setTitle("Error de acceso");
+            dialog.setDescription("No se pudo acceder al siguiente archivo de configuración");
+            dialog.setOutputText(Directions.EDITOR_FILE);
+            dialog.show();
+        }
+
+    }
+
+    // Al presionar el boton de borrar codigo
+    public void onDelete() {
+
+        // Mostrar dialogo
+        Dialog dialog = new Dialog(Dialog.NOTIFICATION, codeController.color(), this);
+        dialog.setTitle("Borrar código");
+        dialog.setDescription("¿Quieres borrar el código \"" + codeController.nameExtention() + "\"?");
+        dialog.show();
+
+        if (dialog.accept()) {
+
+            try {
+                principal.viewController.removeClass(codeController.direction());
+                principal.viewController.removeActivedClass(this);
+            } catch (IOException ex) {
+                dialog = new Dialog(Dialog.NOTIFICATION_OUTPUT, codeController.color(), this);
+                dialog.setTitle("Error de eliminación");
+                dialog.setDescription("No se pudo eliminar el siguiente arhivo");
+                dialog.setOutputText(codeController.direction());
+                dialog.show();
+            }
+
+        }
+    }
+
+    // Al presionar el boton de Enter en la consola
+    public void onInsertedEntrance(KeyEvent evt) {
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            
+            try {
+                System.out.println("text: " + jTextArea1.getText().substring(inputStart));
+                writer.write(jTextArea1.getText().substring(inputStart) + "\n");
+                writer.flush();
+            } catch (IOException ex) {
+                Dialog dialog = new Dialog(Dialog.NOTIFICATION, codeController.color(), this);
+                dialog.setTitle("Error de lectura");
+                dialog.setDescription("No se pudo leer la informacíón ingresada en la consola");
+                dialog.show();
+            }
+            
+        }
+    }
+
+    @Override
+    public void onIOException(int state) {
+
+        Dialog dialog = new Dialog(Dialog.NOTIFICATION, codeController.color(), principal);
+        dialog.setTitle("Error de acceso");
+        dialog.setDescription("No se pudo acceder al terminar");
+        dialog.show();
+
     }
 
     @SuppressWarnings("unchecked")
@@ -255,7 +431,7 @@ public final class RunClass extends javax.swing.JPanel implements Frameable, Com
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
@@ -282,7 +458,7 @@ public final class RunClass extends javax.swing.JPanel implements Frameable, Com
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 85, Short.MAX_VALUE)
         );
 
         jPanel6.setOpaque(false);
@@ -497,59 +673,19 @@ public final class RunClass extends javax.swing.JPanel implements Frameable, Com
     }//GEN-LAST:event_jPanel5formMouseExited
 
     private void jLabel1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MousePressed
-        
-        if (codeController.getState() == CodeController.STOPED) {
-            
-            jTextArea1.setText("");
-            Component[] component = jPanel4.getComponents();
-            String[] parameters = new String[component.length];
-
-            // Obtener parametros
-            for (int i = 0; i < parameters.length; i++) {
-                if (((ParameterElement) component[i]).isEmpty()) {
-                    return;
-                }
-                parameters[i] = ((ParameterElement) component[i]).getValue();
-            }
-
-            // Ejecutar función
-            codeController.run(parameters, this);      
-            jTextArea1.requestFocus();
-            
-        }
-
+        onRun();
     }//GEN-LAST:event_jLabel1MousePressed
 
     private void jLabel6KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jLabel6KeyPressed
 
-
     }//GEN-LAST:event_jLabel6KeyPressed
 
     private void jLabel7MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel7MousePressed
-
-        int dialogResult = JOptionPane.showConfirmDialog(this, "¿Quieres borrar la clase " + name + "?", "Warning", JOptionPane.YES_OPTION);
-        if (dialogResult == JOptionPane.YES_OPTION) {
-
-            principal.viewController.removeClass(codeController.direction());
-            principal.viewController.removeActivedClass(this);
-
-        }
-
+        onDelete();
     }//GEN-LAST:event_jLabel7MousePressed
 
     private void jLabel6MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel6MousePressed
-
-        // Abirir archivo con sublime text 3
-        try {
-            String editorFile = Directions.getEditorFile();
-            String command = "pushd " + FileAccess.getFolder(editorFile) + " "
-                    + "&& " + FileAccess.getName(editorFile) + " \"" + codeController.direction() + "\"";
-            System.out.println(command);
-            ProcessBuilder processBuilder = new ProcessBuilder("cmd.exe", "/C", command);
-            processBuilder.start();
-        } catch (IOException ex) {
-        }
-
+        onEdit();
     }//GEN-LAST:event_jLabel6MousePressed
 
     private void jPanel7formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel7formMouseClicked
@@ -565,34 +701,19 @@ public final class RunClass extends javax.swing.JPanel implements Frameable, Com
     }//GEN-LAST:event_jPanel7formMouseExited
 
     private void jLabel5MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MousePressed
-        if (codeController != null) {
-            codeController.stop(this);
-        }
-        
+        onStop();
     }//GEN-LAST:event_jLabel5MousePressed
 
     private void jLabel8MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel8MousePressed
-       
-        jTextArea1.setText("");
-        jTextArea1.setBackground(Color.white);
-        
+        onClean();
     }//GEN-LAST:event_jLabel8MousePressed
 
     private void jTextArea1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextArea1KeyPressed
-        
-        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            try {
-                System.out.println("text: " + jTextArea1.getText().substring(inputStart));
-                writer.write(jTextArea1.getText().substring(inputStart) + "\n");
-                writer.flush();
-            } catch (IOException | NullPointerException ex) {
-            }
-        }
-        
+        onInsertedEntrance(evt);
     }//GEN-LAST:event_jTextArea1KeyPressed
 
     private void formAncestorRemoved(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_formAncestorRemoved
-        jLabel5MousePressed(null);
+
     }//GEN-LAST:event_formAncestorRemoved
 
 

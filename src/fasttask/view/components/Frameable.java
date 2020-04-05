@@ -25,7 +25,7 @@ public interface Frameable {
     
     // Eventos
     public void onConfuigurationClick();    // Evento al presionar el boton de configuración
-    public void onCloseClick();             // Evento al cerrar la ventana
+    public void onClose();                  // Evento al cerrar la ventana
     public void onGetFocus();               // Evento al obtener el foco de la ventana
     
 }

@@ -1,4 +1,3 @@
-
 package fasttask.controller.code;
 
 import fasttask.data.system.Directions;
@@ -6,10 +5,11 @@ import fasttask.data.system.FileAccess;
 import java.awt.Color;
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
 
-public class CPlusPlusController extends CodeController{
-    
+public class CPlusPlusController extends CodeController {
+
     static final String C_PLUS_PLUS_GENERATED_FILE = Directions.getGeneratedFolder() + "/CPlusPlusGenerated/CPlusPlusGenerated.cpp";
     static final String C_PLUS_PLUS_GENERATED_DIRECTORY = Directions.getGeneratedFolder() + "/CPlusPlusGenerated";
 
@@ -43,7 +43,7 @@ public class CPlusPlusController extends CodeController{
     }
 
     @Override
-    public void creteExecutable(String[] parameters) {
+    public void creteExecutable(String[] parameters) throws UnsupportedEncodingException, IOException {
 
         // Crear codigo del ejecutable
         String parametersString = Arrays.toString(parameters);
@@ -57,21 +57,18 @@ public class CPlusPlusController extends CodeController{
     }
 
     @Override
-    public String runCommand() {
+    public String runCommand() throws IOException {
         String name = FileAccess.getName(C_PLUS_PLUS_GENERATED_FILE);
         return "pushd \"" + new File(C_PLUS_PLUS_GENERATED_DIRECTORY).getAbsolutePath() + "\" "
                 + "&& \"" + Directions.getCPlusPlusFolder() + "\\gcc\" " + FileAccess.getNameExtention(C_PLUS_PLUS_GENERATED_FILE) + " -g -o " + name + "  -lstdc++ "
                 + "&& " + name;
     }
-    
+
     @Override
-    public void stop(CommandLine commandLine) {
-        try {
-            super.stop(commandLine);
-            System.out.println("taskkill /F /IM " + FileAccess.getName(C_PLUS_PLUS_GENERATED_FILE) + ".exe");
-            new ProcessBuilder("cmd.exe", "/C", "taskkill /F /IM " + FileAccess.getName(C_PLUS_PLUS_GENERATED_FILE) + ".exe").start();
-        } catch (IOException ex) {
-        }
+    public void stop(CommandLine commandLine) throws IOException {
+        super.stop(commandLine);
+        System.out.println("taskkill /F /IM " + FileAccess.getName(C_PLUS_PLUS_GENERATED_FILE) + ".exe");
+        new ProcessBuilder("cmd.exe", "/C", "taskkill /F /IM " + FileAccess.getName(C_PLUS_PLUS_GENERATED_FILE) + ".exe").start();
     }
-    
+
 }

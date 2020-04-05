@@ -6,9 +6,8 @@ import fasttask.data.system.FileAccess;
 import java.awt.Color;
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class CController extends CodeController {
     
@@ -40,12 +39,12 @@ public class CController extends CodeController {
     }
 
     @Override
-    public String parametersRE() {
+    public String parametersRE() throws UnsupportedEncodingException, IOException {
         return ".*?void[ ]*?" + className() +  "[ ]*?[(](.*?)[)]";
     }
 
     @Override
-    public void creteExecutable(String[] parameters) {
+    public void creteExecutable(String[] parameters) throws UnsupportedEncodingException, IOException {
 
         // Crear codigo del ejecutable
         String parametersString = Arrays.toString(parameters);
@@ -59,7 +58,7 @@ public class CController extends CodeController {
     }
 
     @Override
-    public String runCommand() {
+    public String runCommand() throws IOException {
         String name = FileAccess.getName(C_GENERATED_FILE);
         return "pushd \"" + new File(C_GENERATED_DIRECTORY).getAbsolutePath() + "\" "
                 + "&& \"" + Directions.getCPlusPlusFolder() + "\\g++\" " + FileAccess.getNameExtention(C_GENERATED_FILE) + " -o " + name + " "
@@ -67,12 +66,9 @@ public class CController extends CodeController {
     }
     
     @Override
-    public void stop(CommandLine commandLine) {
-        try {
-            super.stop(commandLine);
-            new ProcessBuilder("cmd.exe", "/C", "taskkill /F /IM " + FileAccess.getName(C_GENERATED_FILE) + ".exe").start();
-        } catch (IOException ex) {
-        }
+    public void stop(CommandLine commandLine) throws IOException {
+        super.stop(commandLine);
+        new ProcessBuilder("cmd.exe", "/C", "taskkill /F /IM " + FileAccess.getName(C_GENERATED_FILE) + ".exe").start();
     }
     
 }

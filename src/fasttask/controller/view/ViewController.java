@@ -10,8 +10,10 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.awt.image.WritableRaster;
 import java.io.File;
-import java.io.FilenameFilter;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -21,7 +23,7 @@ public class ViewController {
     public FileAccess fileController;
     Principal principal;
     public ArrayList<RunClass> activedClasses;
-    public static boolean confActived = false;
+    public static boolean configurationActived = false;
 
     public ViewController(Principal principal) {
 
@@ -31,55 +33,46 @@ public class ViewController {
 
     }
 
-    // Obtener lista de clases (Devuelve el nombre, la descripción, el lenguaje y el nombre de los parametros)
-    // Retorna una lista dode cada elemento es:
-    // - Nombre (Nombre del archivo)
-    // - Descripción (Comentarios anteriores a la función) 
-    // - Lenguaje (Extención del archivo)
-    // - Nombres de las entradas (Nombres de los parametros de la función)
-    public Object[][] getClassList(String filter) {
+    // Obtener lista de codigos (Devuelve la lista de direcciones)
+    public String[] getDirectionsList(String filter) throws IOException {
 
-        File[] files = new File(Directions.getSaveFolder()).listFiles(new FilenameFilter() {  // Listar archivos que cumplan el filtro
-            @Override
-            public boolean accept(File dir, String name) {
-                CodeController codeController = CodeController.getController(dir + "\\" + name);
-                String[] filterParts = filter.split(",", 3);
-                if (codeController.name().toLowerCase().contains(filterParts[0].trim().toLowerCase())
+        // Obtener lista de Files que cumplen el filtro
+        File[] files = new File(Directions.getSaveFolder()).listFiles((File dir, String name) -> {
+            CodeController codeController = CodeController.getController(dir + "\\" + name);
+            String[] filterParts = filter.split(",", 3);
+            try {
+                if (codeController != null && codeController.name().toLowerCase().contains(filterParts[0].trim().toLowerCase())
                         && (codeController.languaje().toLowerCase().startsWith(filterParts[1].trim().toLowerCase()) || codeController.extention().toLowerCase().startsWith(filterParts[1].trim().toLowerCase()))
                         && codeController.description().toLowerCase().contains(filterParts[2].trim().toLowerCase())) {
                     return true;
                 }
-                return false;
+            } catch (IOException ex) {
             }
-        });  
-        ArrayList<Object[]> objects = new ArrayList<>();         // Crear objectos de retorno para cada archivo
-
-        // Para cada archivo
+            return false;
+        });
+        
+        if (files == null) {
+            files = new File[0];
+        }
+        
+        // Obtener lista de cadenas de direcciones
+        String[] directions = new String[files.length];         
         for (int i = 0; i < files.length; i++) {
-
+            directions[i] = files[i].getAbsolutePath();
             CodeController codeController = CodeController.getController(files[i].getAbsolutePath()); 
-            
-            if (codeController != null) {        
-                objects.add(new Object[]{
-                    codeController.direction(),
-                    codeController.name(),
-                    codeController.description(),
-                    codeController.languaje(),
-                    codeController.parameters()});
-            }    
-
         }
 
-        return objects.toArray(new Object[][]{});
+        return directions;
+        
     }
 
     // Añadir clase a la lista
-    public boolean addClass(String dir) {
+    public boolean addClass(String dir) throws IOException {
         return FileAccess.copyFile(dir, Directions.getSaveFolder() + "\\" + FileAccess.getName(dir) + "." + FileAccess.getExtension(dir));
     }
 
     // Eliminar clase de la lista
-    public void removeClass(String dir) {
+    public void removeClass(String dir) throws IOException {
         fileController.deleteFile(dir);
     }
     

@@ -4,6 +4,8 @@ import fasttask.data.system.Directions;
 import fasttask.data.system.FileAccess;
 import java.awt.Color;
 import java.io.File;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
 
 public class JavaController extends CodeController {
@@ -41,7 +43,7 @@ public class JavaController extends CodeController {
     }
 
     @Override
-    public void creteExecutable(String[] parameters) {
+    public void creteExecutable(String[] parameters) throws UnsupportedEncodingException, IOException {
 
         // Crear codigo del ejecutable
         String parametersString = Arrays.toString(parameters);
@@ -55,7 +57,7 @@ public class JavaController extends CodeController {
     }
 
     @Override
-    public String runCommand() {
+    public String runCommand() throws IOException {
         return "pushd " + Directions.getJavaFolder() + " "
                 + "&& javac \"" + new File(JAVA_GENERATED_FILE).getAbsolutePath() + "\" "
                 + "&& pushd \"" + new File(JAVA_GENERATED_DIRECTORY).getAbsolutePath() + "\""
