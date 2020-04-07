@@ -8,8 +8,6 @@ import fasttask.view.windows.RunClass;
 import java.awt.Color;
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public final class ListElement extends javax.swing.JPanel {
 
@@ -53,10 +51,9 @@ public final class ListElement extends javax.swing.JPanel {
             
         } catch (IOException ex) {
             
-            Dialog dialog = new Dialog(Dialog.NOTIFICATION_OUTPUT, Constants.MAIN_FRAME_COLOR, principal);
-            dialog.setTitle("Error de lectura de archivo");
-            dialog.setDescription("No se pudo leer la información del siguiente archivo");
-            dialog.setOutputText(codeController.direction());
+            Dialog dialog = new Dialog(Dialog.NOTIFICATION, Constants.MAIN_FRAME_COLOR, principal);
+            dialog.setTitle(Constants.ACCESS_ERROR);
+            dialog.setDescription(Constants.INFORMATION_NOT_FOUND);
             dialog.show();
             
         }

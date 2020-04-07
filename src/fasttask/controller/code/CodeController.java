@@ -1,5 +1,6 @@
 package fasttask.controller.code;
 
+import fasttask.data.system.Directions;
 import fasttask.data.system.FileAccess;
 import java.awt.Color;
 import java.io.BufferedReader;
@@ -45,6 +46,8 @@ public abstract class CodeController {
     public abstract void creteExecutable(String[] parameters) throws UnsupportedEncodingException, IOException;      // Crear archivo generado para ejecutar
 
     public abstract String runCommand() throws IOException;         // Comando de consola para ejecutar archivo generado
+    
+    public abstract boolean isConfigurated() throws IOException;    // Verificar si la dirección del compilador ya está configurada
 
     // Obtener nombre del archivo
     public String name() {
@@ -55,7 +58,7 @@ public abstract class CodeController {
     public String extention() {
         return FileAccess.getExtension(direction);
     }
-    
+
     // Obtener nombre y extensión del archivo
     public String nameExtention() {
         return FileAccess.getNameExtention(direction);
@@ -114,7 +117,7 @@ public abstract class CodeController {
             public void run() {
 
                 try {
-                    
+
                     // Crear codigo del ejecutable
                     state = CREATING_EXCECUTABLE;
                     creteExecutable(parameters);
@@ -124,7 +127,7 @@ public abstract class CodeController {
                     String command = runCommand();
                     System.out.println(command);
                     ProcessBuilder processBuilder = new ProcessBuilder("cmd.exe", "/C", command);
-                    
+
                     // Ejecutar codigo
                     state = RUNNING_COMMAND;
                     Process process = processBuilder.start();
@@ -132,7 +135,7 @@ public abstract class CodeController {
                     // Obtener resultados
                     state = READING_CONSOLE;
                     BufferedReader stdInput = new BufferedReader(new InputStreamReader(process.getInputStream(), "UTF-8"));
-                    BufferedWriter  stdOutput = new BufferedWriter(new OutputStreamWriter(process.getOutputStream(), "UTF-8"));
+                    BufferedWriter stdOutput = new BufferedWriter(new OutputStreamWriter(process.getOutputStream(), "UTF-8"));
                     String aux;
                     commandLine.read(stdOutput);
                     while (state == READING_CONSOLE && (aux = stdInput.readLine()) != null) {
@@ -152,7 +155,7 @@ public abstract class CodeController {
                 } catch (IOException e) {
                     commandLine.onIOException(state);
                 }
-                
+
                 state = STOPED;
                 commandLine.onFinished();
 
@@ -168,10 +171,10 @@ public abstract class CodeController {
     }
 
     // Obtener estado
-    public int getState(){
+    public int getState() {
         return state;
     }
-    
+
     // Obtener controlador del lenguaje del archivo
     public static CodeController getController(String dir) {
         switch (FileAccess.getExtension(dir)) {
@@ -187,20 +190,6 @@ public abstract class CodeController {
                 return new CPlusPlusController(dir);
         }
         return null;
-    }
-    
-    // Verificar si el lenguaje está soportado
-    public static boolean isSupported(String dir) {
-        switch (FileAccess.getExtension(dir)) {
-            case "java":
-            case "py":
-            case "js":
-            case "c":
-            case "cpp":
-                return true;
-                
-        }
-        return false;
     }
 
 }

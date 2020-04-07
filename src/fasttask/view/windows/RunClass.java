@@ -5,6 +5,7 @@ import fasttask.view.components.ParameterElement;
 import fasttask.controller.code.CodeController;
 import fasttask.controller.code.CommandLine;
 import fasttask.controller.view.ViewController;
+import fasttask.data.system.Constants;
 import fasttask.data.system.Directions;
 import fasttask.data.system.FileAccess;
 import fasttask.view.components.Dialog;
@@ -13,8 +14,8 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.KeyEvent;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
 import javax.swing.JPanel;
 
 public final class RunClass extends javax.swing.JPanel implements Frameable, CommandLine {
@@ -61,23 +62,12 @@ public final class RunClass extends javax.swing.JPanel implements Frameable, Com
 
         // Personalizar colores de fondo y texto
         jPanel7.setBackground(codeController.color());
-        jLabel2.setForeground(codeController.color());
+        jLabel4.setForeground(codeController.color());
 
     }
 
     // Asignar información
     public void setInformation() {
-
-        // Asignar parametros
-        try {
-            String params = Arrays.toString(codeController.parameters());
-            jLabel2.setText(codeController.name() + " (" + params.substring(1, params.length() - 1) + ")");
-        } catch (IOException ex) {
-            Dialog dialog = new Dialog(Dialog.NOTIFICATION, codeController.color(), this);
-            dialog.setTitle("Error de acceso");
-            dialog.setDescription("No se pudieron obtener los parametros del codigo");
-            dialog.show();
-        }
 
         // Asignar lenguaje
         jLabel4.setText(codeController.languaje());
@@ -87,11 +77,11 @@ public final class RunClass extends javax.swing.JPanel implements Frameable, Com
             jTextArea2.setText(codeController.description());
         } catch (IOException ex) {
             Dialog dialog = new Dialog(Dialog.NOTIFICATION, codeController.color(), this);
-            dialog.setTitle("Error de acceso");
-            dialog.setDescription("No se pudo obtener la descripción de codigo");
+            dialog.setTitle(Constants.ACCESS_ERROR);
+            dialog.setDescription(Constants.DESCRIPTION_NOT_FOUND);
             dialog.show();
         }
-        
+
         updateUI();
 
     }
@@ -158,11 +148,11 @@ public final class RunClass extends javax.swing.JPanel implements Frameable, Com
 
         } catch (IOException ex) {
             Dialog dialog = new Dialog(Dialog.NOTIFICATION, codeController.color(), this);
-            dialog.setTitle("Error de acceso");
-            dialog.setDescription("No se pudieron obtener los parametros del codigo");
+            dialog.setTitle(Constants.ACCESS_ERROR);
+            dialog.setDescription(Constants.PARAMETERS_NOT_FOUND);
             dialog.show();
         }
-        
+
     }
 
     @Override
@@ -252,6 +242,23 @@ public final class RunClass extends javax.swing.JPanel implements Frameable, Com
         // Si el codigo no esta corriendo
         if (codeController.getState() == CodeController.STOPED) {
 
+            try {
+                // Si el compilador no está configurado
+                if (!codeController.isConfigurated()) {
+                    Dialog dialog = new Dialog(Dialog.NOTIFICATION, codeController.color(), this);
+                    dialog.setTitle(Constants.ACCESS_ERROR);
+                    dialog.setDescription(Constants.COMPILER_NOT_FOUND);
+                    dialog.show();
+                    return;
+                }
+            } catch (IOException ex) {
+                Dialog dialog = new Dialog(Dialog.NOTIFICATION, codeController.color(), this);
+                dialog.setTitle(Constants.ACCESS_ERROR);
+                dialog.setDescription(Constants.CONFIG_FILE_NO_FOUND);
+                dialog.show();
+                return;
+            }
+
             // Obtener parametros
             Component[] component = jPanel4.getComponents();
             String[] parameters = new String[component.length];
@@ -286,8 +293,8 @@ public final class RunClass extends javax.swing.JPanel implements Frameable, Com
             codeController.stop(this);
         } catch (IOException ex) {
             Dialog dialog = new Dialog(Dialog.NOTIFICATION, codeController.color(), this);
-            dialog.setTitle("Error de finalización");
-            dialog.setDescription("No se logró detener la ejecución");
+            dialog.setTitle(Constants.CHANGE_ERROR);
+            dialog.setDescription(Constants.STOP_EJECUTION_NOT_FOUND);
             dialog.show();
         }
     }
@@ -300,10 +307,20 @@ public final class RunClass extends javax.swing.JPanel implements Frameable, Com
 
     // Al presionar el boton de editar codigo
     public void onEdit() {
-
+        
         // Abirir archivo con el editor prefereido guardado
         try {
             String editorFile = Directions.getEditorFile();
+            
+            // Si el compilador no es accesible
+            if (!new File(editorFile).exists()) {
+                Dialog dialog = new Dialog(Dialog.NOTIFICATION, codeController.color(), this);
+                dialog.setTitle(Constants.ACCESS_ERROR);
+                dialog.setDescription(Constants.EDITOR_NOT_FOUND);
+                dialog.show();
+                return;
+            }
+            
             String command = "pushd " + FileAccess.getFolder(editorFile) + " "
                     + "&& " + FileAccess.getName(editorFile) + " \"" + codeController.direction() + "\"";
             System.out.println(command);
@@ -312,15 +329,14 @@ public final class RunClass extends javax.swing.JPanel implements Frameable, Com
                 processBuilder.start();
             } catch (IOException ex) {
                 Dialog dialog = new Dialog(Dialog.NOTIFICATION, codeController.color(), this);
-                dialog.setTitle("Error de apertura");
-                dialog.setDescription("No se pudo abrir el codigo con el programa especificado");
+                dialog.setTitle(Constants.ACCESS_ERROR);
+                dialog.setDescription(Constants.COMPILER_NOT_FOUND);
                 dialog.show();
             }
         } catch (IOException ex) {
-            Dialog dialog = new Dialog(Dialog.NOTIFICATION_OUTPUT, codeController.color(), this);
-            dialog.setTitle("Error de acceso");
-            dialog.setDescription("No se pudo acceder al siguiente archivo de configuración");
-            dialog.setOutputText(Directions.EDITOR_FILE);
+            Dialog dialog = new Dialog(Dialog.NOTIFICATION, codeController.color(), this);
+            dialog.setTitle(Constants.ACCESS_ERROR);
+            dialog.setDescription(Constants.CONFIG_FILE_NO_FOUND);
             dialog.show();
         }
 
@@ -341,10 +357,9 @@ public final class RunClass extends javax.swing.JPanel implements Frameable, Com
                 principal.viewController.removeClass(codeController.direction());
                 principal.viewController.removeActivedClass(this);
             } catch (IOException ex) {
-                dialog = new Dialog(Dialog.NOTIFICATION_OUTPUT, codeController.color(), this);
-                dialog.setTitle("Error de eliminación");
-                dialog.setDescription("No se pudo eliminar el siguiente arhivo");
-                dialog.setOutputText(codeController.direction());
+                dialog = new Dialog(Dialog.NOTIFICATION, codeController.color(), this);
+                dialog.setTitle(Constants.CHANGE_ERROR);
+                dialog.setDescription(Constants.CONFIG_FILE_NO_FOUND);
                 dialog.show();
             }
 
@@ -354,18 +369,18 @@ public final class RunClass extends javax.swing.JPanel implements Frameable, Com
     // Al presionar el boton de Enter en la consola
     public void onInsertedEntrance(KeyEvent evt) {
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            
+
             try {
                 System.out.println("text: " + jTextArea1.getText().substring(inputStart));
                 writer.write(jTextArea1.getText().substring(inputStart) + "\n");
                 writer.flush();
             } catch (IOException ex) {
                 Dialog dialog = new Dialog(Dialog.NOTIFICATION, codeController.color(), this);
-                dialog.setTitle("Error de lectura");
-                dialog.setDescription("No se pudo leer la informacíón ingresada en la consola");
+                dialog.setTitle(Constants.ACCESS_ERROR);
+                dialog.setDescription(Constants.READ_CONSOLE_NOT_FOUND);
                 dialog.show();
             }
-            
+
         }
     }
 
@@ -373,8 +388,8 @@ public final class RunClass extends javax.swing.JPanel implements Frameable, Com
     public void onIOException(int state) {
 
         Dialog dialog = new Dialog(Dialog.NOTIFICATION, codeController.color(), principal);
-        dialog.setTitle("Error de acceso");
-        dialog.setDescription("No se pudo acceder al terminar");
+        dialog.setTitle(Constants.ACCESS_ERROR);
+        dialog.setDescription(Constants.CONSOLE_NOT_FOUND);
         dialog.show();
 
     }
@@ -397,7 +412,6 @@ public final class RunClass extends javax.swing.JPanel implements Frameable, Com
         jLabel8 = new javax.swing.JLabel();
         jPanel7 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTextArea2 = new javax.swing.JTextArea();
@@ -458,7 +472,7 @@ public final class RunClass extends javax.swing.JPanel implements Frameable, Com
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 85, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 107, Short.MAX_VALUE)
         );
 
         jPanel6.setOpaque(false);
@@ -571,13 +585,8 @@ public final class RunClass extends javax.swing.JPanel implements Frameable, Com
             }
         });
 
-        jLabel2.setBackground(new java.awt.Color(246, 246, 246));
-        jLabel2.setFont(new java.awt.Font("Comic Sans MS", 1, 12)); // NOI18N
-        jLabel2.setText("N ()");
-        jLabel2.setOpaque(true);
-
         jLabel4.setBackground(new java.awt.Color(246, 246, 246));
-        jLabel4.setFont(new java.awt.Font("Comic Sans MS", 1, 12)); // NOI18N
+        jLabel4.setFont(new java.awt.Font("Comic Sans MS", 1, 14)); // NOI18N
         jLabel4.setText("L");
         jLabel4.setOpaque(true);
 
@@ -598,17 +607,14 @@ public final class RunClass extends javax.swing.JPanel implements Frameable, Com
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
                 .addGap(5, 5, 5)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jScrollPane2)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(5, 5, 5))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addGap(5, 5, 5)
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 52, Short.MAX_VALUE)
@@ -719,7 +725,6 @@ public final class RunClass extends javax.swing.JPanel implements Frameable, Com
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
-    public javax.swing.JLabel jLabel2;
     public javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;

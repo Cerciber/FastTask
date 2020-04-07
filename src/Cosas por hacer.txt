@@ -7,6 +7,8 @@ Adiciones
 - Agregar control de restricciones personalizadas (Compilador no configurado)
 - Visualizar todos los archivos en la busqueda de directorios
 - Cambiar todos los pressed por clicked
-- Crear clase en base a una plantilla
+- Añadir toottip text
+- Añadir personalizar colores
 - Incluir proyectos completos
 - Configurar para que corra de acuerdo a la prioridad - > buscar main -> si no hay main y hay varios archivo error -> primera clase - primer constructor -> primer metodo -> expresión
+- Crear instalador con opciones de instalación de compiladores

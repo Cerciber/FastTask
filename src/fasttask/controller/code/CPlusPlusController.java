@@ -70,5 +70,10 @@ public class CPlusPlusController extends CodeController {
         System.out.println("taskkill /F /IM " + FileAccess.getName(C_PLUS_PLUS_GENERATED_FILE) + ".exe");
         new ProcessBuilder("cmd.exe", "/C", "taskkill /F /IM " + FileAccess.getName(C_PLUS_PLUS_GENERATED_FILE) + ".exe").start();
     }
+    
+    @Override
+    public boolean isConfigurated() throws IOException {
+        return new File(Directions.getCPlusPlusFolder() + "\\gcc.exe").exists();
+    }
 
 }

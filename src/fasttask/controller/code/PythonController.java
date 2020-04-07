@@ -62,5 +62,10 @@ public class PythonController extends CodeController {
     public String runCommand() throws IOException {
         return Directions.getPythonFolder() + "\\python.exe \"" + new File(PYTHON_GENERATED_FILE).getAbsoluteFile().toString() + "\"";
     }
+    
+    @Override
+    public boolean isConfigurated() throws IOException {
+        return new File(Directions.getPythonFolder() + "\\python.exe").exists();
+    }
 
 }

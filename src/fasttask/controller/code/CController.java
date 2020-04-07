@@ -61,7 +61,7 @@ public class CController extends CodeController {
     public String runCommand() throws IOException {
         String name = FileAccess.getName(C_GENERATED_FILE);
         return "pushd \"" + new File(C_GENERATED_DIRECTORY).getAbsolutePath() + "\" "
-                + "&& \"" + Directions.getCPlusPlusFolder() + "\\g++\" " + FileAccess.getNameExtention(C_GENERATED_FILE) + " -o " + name + " "
+                + "&& \"" + Directions.getCPlusPlusFolder() + "\\gcc\" " + FileAccess.getNameExtention(C_GENERATED_FILE) + " -o " + name + " "
                 + "&& " + name;
     }
     
@@ -69,6 +69,11 @@ public class CController extends CodeController {
     public void stop(CommandLine commandLine) throws IOException {
         super.stop(commandLine);
         new ProcessBuilder("cmd.exe", "/C", "taskkill /F /IM " + FileAccess.getName(C_GENERATED_FILE) + ".exe").start();
+    }
+
+    @Override
+    public boolean isConfigurated() throws IOException {
+        return new File(Directions.getCPlusPlusFolder() + "\\gcc.exe").exists();
     }
     
 }

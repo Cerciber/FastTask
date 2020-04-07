@@ -1,9 +1,7 @@
 package fasttask.view.components;
 
 import fasttask.controller.view.ViewController;
-import fasttask.data.system.Constants;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import javax.swing.JComponent;
@@ -69,6 +67,7 @@ public final class Dialog extends javax.swing.JPanel {
                 jTextField1.setVisible(false);
                 jCheckBox1.setVisible(false);
                 jScrollPane1.setVisible(false);
+                jLabel3.setVisible(false);
                 break;
             case NEW_CODE:
                 jScrollPane1.setVisible(false);
@@ -96,6 +95,7 @@ public final class Dialog extends javax.swing.JPanel {
     public void show(){
         setPreferedSize();
         setLocation();
+        jDialog.pack();
         jDialog.setVisible(true);   
         
     }
@@ -299,10 +299,11 @@ public final class Dialog extends javax.swing.JPanel {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel3))
+                        .addComponent(jLabel3)
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jCheckBox1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 62, Short.MAX_VALUE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 118, Short.MAX_VALUE)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addContainerGap())
         );
@@ -339,14 +340,6 @@ public final class Dialog extends javax.swing.JPanel {
         onAccept();
     }//GEN-LAST:event_jLabel5MousePressed
 
-    private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
-
-    }//GEN-LAST:event_jLabel3MouseClicked
-
-    private void jLabel3MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MousePressed
-        onCancel();
-    }//GEN-LAST:event_jLabel3MousePressed
-
     private void formMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMousePressed
         onMousePressed(evt);
     }//GEN-LAST:event_formMousePressed
@@ -362,6 +355,14 @@ public final class Dialog extends javax.swing.JPanel {
     private void jTextField1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyPressed
         onKeyPressed(evt);
     }//GEN-LAST:event_jTextField1KeyPressed
+
+    private void jLabel3MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MousePressed
+        onCancel();
+    }//GEN-LAST:event_jLabel3MousePressed
+
+    private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
+
+    }//GEN-LAST:event_jLabel3MouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

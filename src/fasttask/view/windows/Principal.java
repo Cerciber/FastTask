@@ -5,7 +5,6 @@ import fasttask.data.system.Directions;
 import fasttask.view.components.ListElement;
 import fasttask.controller.view.ViewController;
 import fasttask.data.system.Constants;
-import static fasttask.data.system.Directions.SAVED_FILE;
 import fasttask.data.system.FileAccess;
 import fasttask.view.components.Frame;
 import fasttask.view.components.Frameable;
@@ -16,7 +15,6 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public final class Principal extends javax.swing.JPanel implements Frameable {
@@ -31,11 +29,13 @@ public final class Principal extends javax.swing.JPanel implements Frameable {
 
         viewController = new ViewController(this);
 
-        initComponents();       // Iniciar componentes generados
-        setFunctionList();      // Asignar lista de funciones
-        setCustomization();     // Personalizar
+        initComponents();               // Iniciar componentes generados
+        setFunctionList();              // Asignar lista de funciones
+        setCustomization();             // Personalizar
 
         frame = new Frame(this);
+        
+        savedFileNotFoundMessage();     // Mensaje único de que la carpeta de codigos no esta configurada
 
     }
 
@@ -84,16 +84,35 @@ public final class Principal extends javax.swing.JPanel implements Frameable {
                 jPanel2.add(new ListElement(this, directions[i]));
             }
         } catch (IOException | NullPointerException ex) {
-            Dialog dialog = new Dialog(Dialog.NOTIFICATION_OUTPUT, Constants.MAIN_FRAME_COLOR, this);
-            dialog.setTitle("Error de acceso");
-            dialog.setDescription("No se pudo acceder al siguiente archivo de configuración");
-            dialog.setOutputText(Directions.EDITOR_FILE);
+            Dialog dialog = new Dialog(Dialog.NOTIFICATION, Constants.CONFIGURATION_COLOR, this);
+            dialog.setTitle(Constants.ACCESS_ERROR);
+            dialog.setDescription(Constants.CONFIG_FILE_NO_FOUND);
             dialog.show();
+            System.exit(-1);
+
         }
 
         // Asctualizar interfaz
         jPanel2.updateUI();
 
+    }
+    
+    // Mensaje único de que la carpeta de codigos no esta configurada
+    public void savedFileNotFoundMessage() {
+        try {
+            if (!new File(Directions.getSaveFolder()).exists()) {
+                Dialog dialog = new Dialog(Dialog.NOTIFICATION, Constants.CONFIGURATION_COLOR, this);
+                dialog.setTitle(Constants.ACCESS_ERROR);
+                dialog.setDescription(Constants.SAVED_FILE_NOT_FOUND);
+                dialog.show();
+            }
+        } catch (IOException ex) {
+            Dialog dialog = new Dialog(Dialog.NOTIFICATION, Constants.CONFIGURATION_COLOR, this);
+            dialog.setTitle(Constants.ACCESS_ERROR);
+            dialog.setDescription(Constants.CONFIG_FILE_NO_FOUND);
+            dialog.show();
+            System.exit(-1);
+        }
     }
 
     @Override
@@ -159,20 +178,25 @@ public final class Principal extends javax.swing.JPanel implements Frameable {
     public void onAppendCode() {
         if (new File(jTextField1.getText()).exists()) {
             try {
-                if (viewController.addClass(jTextField1.getText())) {
-                    setFunctionList(jTextField2.getText().trim());
-                    jTextField1.setText("");
-                } else {
+
+                // Si el nombre del archivo ya existe
+                if (new File(jTextField1.getText()).exists()) {
                     Dialog dialog = new Dialog(Dialog.NOTIFICATION, Constants.CONFIGURATION_COLOR, this);
-                    dialog.setTitle("Error de adición");
-                    dialog.setDescription("El nombre del archivo ya existe");
+                    dialog.setTitle(Constants.CREATION_ERROR);
+                    dialog.setDescription(Constants.NAME_ALREADY_EXIST);
                     dialog.show();
+                    jTextField1.setText("");
+                    return;
                 }
+
+                viewController.addClass(jTextField1.getText());
+                setFunctionList(jTextField2.getText().trim());
+                jTextField1.setText("");
+
             } catch (IOException ex) {
-                Dialog dialog = new Dialog(Dialog.NOTIFICATION_OUTPUT, Constants.CONFIGURATION_COLOR, this);
-                dialog.setTitle("Error de acceso");
-                dialog.setDescription("No se pudo acceder al siguiente archivo");
-                dialog.setOutputText(jTextField1.getText());
+                Dialog dialog = new Dialog(Dialog.NOTIFICATION, Constants.CONFIGURATION_COLOR, this);
+                dialog.setTitle(Constants.CHANGE_ERROR);
+                dialog.setDescription(Constants.DELETE_FILE_NOT_FOUND);
                 dialog.show();
             }
 
@@ -188,9 +212,9 @@ public final class Principal extends javax.swing.JPanel implements Frameable {
     public void onAddNewCode() {
         onAddNewCode("");
     }
-    
+
     // Al presionar el boton crear nuevo código
-    public void onAddNewCode(String text) {
+    private void onAddNewCode(String text) {
 
         // Abrir ventana para ingresar nueva clase
         Dialog dialog = new Dialog(Dialog.NEW_CODE, Constants.MAIN_FRAME_COLOR, this);
@@ -200,75 +224,75 @@ public final class Principal extends javax.swing.JPanel implements Frameable {
         dialog.setInputText(text);
         dialog.show();
 
-        // Si se acepta la creación 
-        if (dialog.accept()) {
+        // Si no se acepta la creación 
+        if (!dialog.accept()) {
+            return;
+        }
 
-            String direction;
-            try {
+        String direction;
+        try {
 
-                direction = Directions.getSaveFolder() + "\\" + dialog.getInputText();
+            direction = Directions.getSaveFolder() + "\\" + dialog.getInputText();
 
-                // Si el nombre del archivo no existe
-                if (!new File(direction).exists()) {
-
-                    // Si el lenguaje de la extensión está soportado
-                    if (CodeController.isSupported(direction)) {
-
-                        // Si se requiere platilla
-                        if (dialog.getCheckBoxValue()) {
-                            try {
-                                FileAccess.copyFile(Directions.getTemplatesFolder() + "\\template." + FileAccess.getExtension(dialog.getInputText()), direction);
-                                viewController.addActivedClass(new RunClass(this, CodeController.getController(direction)));
-                            } catch (IOException ex) {
-                                Dialog dialog2 = new Dialog(Dialog.NOTIFICATION, Constants.MAIN_FRAME_COLOR, this);
-                                dialog2.setTitle("Error de creación");
-                                dialog2.setDescription("No se pudo copiar la plantilla");
-                                dialog2.show();
-                                onAddNewCode(dialog.getInputText());
-                            }
-                            
-                            // Si no se requiere plantilla
-                        } else {
-                            try {
-                                FileAccess.createFile(direction);
-                                viewController.addActivedClass(new RunClass(this, CodeController.getController(direction)));
-                            } catch (IOException ex) {
-                                Dialog dialog2 = new Dialog(Dialog.NOTIFICATION, Constants.MAIN_FRAME_COLOR, this);
-                                dialog2.setTitle("Error de creación");
-                                dialog2.setDescription("No se pudo crear el archivo");
-                                dialog2.show();
-                                onAddNewCode(dialog.getInputText());
-                            }
-                        }
-                        
-                    } else {
-                        Dialog dialog2 = new Dialog(Dialog.NOTIFICATION, Constants.MAIN_FRAME_COLOR, this);
-                        dialog2.setTitle("Error de creación");
-                        dialog2.setDescription("El lenguaje de la extensión no esta soportado");
-                        dialog2.show();
-                        onAddNewCode(dialog.getInputText());
-                    }
-                } else {
-                    Dialog dialog2 = new Dialog(Dialog.NOTIFICATION, Constants.MAIN_FRAME_COLOR, this);
-                    dialog2.setTitle("Error de creación");
-                    dialog2.setDescription("El nombre del archivo ya existe");
-                    dialog2.show();
-                    onAddNewCode(dialog.getInputText());
-                }
-
-            } catch (IOException ex) {
-                Dialog dialog2 = new Dialog(Dialog.NOTIFICATION_OUTPUT, Constants.MAIN_FRAME_COLOR, this);
-                dialog2.setTitle("Error de acceso");
-                dialog2.setDescription("No se pudo acceder al siguiente archivo");
-                dialog2.setOutputText(SAVED_FILE);
+            // Si el nombre del archivo ya existe
+            if (new File(direction).exists()) {
+                Dialog dialog2 = new Dialog(Dialog.NOTIFICATION, Constants.CONFIGURATION_COLOR, this);
+                dialog2.setTitle(Constants.CREATION_ERROR);
+                dialog2.setDescription(Constants.NAME_ALREADY_EXIST);
                 dialog2.show();
                 onAddNewCode(dialog.getInputText());
+                return;
             }
 
-            // Actualizar lista
-            setFunctionList();
+            // Si el lenguaje de la extensión no está soportado
+            if (CodeController.getController(direction) == null) {
+                Dialog dialog2 = new Dialog(Dialog.NOTIFICATION, Constants.CONFIGURATION_COLOR, this);
+                dialog2.setTitle(Constants.CREATION_ERROR);
+                dialog2.setDescription(Constants.LANGUAJE_NOT_SUPPORTED);
+                dialog2.show();
+                onAddNewCode(dialog.getInputText());
+                return;
+            }
 
+            // Si se requiere platilla
+            if (dialog.getCheckBoxValue()) {
+                try {
+                    FileAccess.copyFile(Directions.getTemplatesFolder() + "\\template." + FileAccess.getExtension(dialog.getInputText()), direction);
+                    viewController.addActivedClass(new RunClass(this, CodeController.getController(direction)));
+                } catch (IOException ex) {
+                    Dialog dialog2 = new Dialog(Dialog.NOTIFICATION, Constants.CONFIGURATION_COLOR, this);
+                    dialog2.setTitle(Constants.CREATION_ERROR);
+                    dialog2.setDescription(Constants.TEMPLATE_COPY_NOT_FOUND);
+                    dialog2.show();
+                    onAddNewCode(dialog.getInputText());
+                    return;
+                }
+
+                // Si no se requiere plantilla
+            } else {
+                try {
+                    FileAccess.createFile(direction);
+                    viewController.addActivedClass(new RunClass(this, CodeController.getController(direction)));
+                } catch (IOException ex) {
+                    Dialog dialog2 = new Dialog(Dialog.NOTIFICATION, Constants.CONFIGURATION_COLOR, this);
+                    dialog2.setTitle(Constants.CREATION_ERROR);
+                    dialog2.setDescription(Constants.CREATE_FILE_NOT_FOUND);
+                    dialog2.show();
+                    onAddNewCode(dialog.getInputText());
+                    return;
+                }
+            }
+
+        } catch (IOException ex) {
+            Dialog dialog2 = new Dialog(Dialog.NOTIFICATION, Constants.CONFIGURATION_COLOR, this);
+            dialog2.setTitle(Constants.ACCESS_ERROR);
+            dialog2.setDescription(Constants.CONFIG_FILE_NO_FOUND);
+            dialog2.show();
+            onAddNewCode(dialog.getInputText());
         }
+
+        // Actualizar lista
+        setFunctionList();
 
     }
 
@@ -306,8 +330,10 @@ public final class Principal extends javax.swing.JPanel implements Frameable {
             }
         });
 
+        jLabel1.setBackground(new java.awt.Color(246, 246, 246));
         jLabel1.setFont(new java.awt.Font("Comic Sans MS", 1, 13)); // NOI18N
         jLabel1.setText("Ingresar código:");
+        jLabel1.setOpaque(true);
 
         jTextField1.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
         jTextField1.setAlignmentX(2.0F);
@@ -319,8 +345,10 @@ public final class Principal extends javax.swing.JPanel implements Frameable {
             }
         });
 
+        jLabel2.setBackground(new java.awt.Color(246, 246, 246));
         jLabel2.setFont(new java.awt.Font("Comic Sans MS", 1, 13)); // NOI18N
         jLabel2.setText("Filtrar códigos: (Nombre, Lenguaje, Descripción)");
+        jLabel2.setOpaque(true);
 
         jTextField2.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
         jTextField2.setAlignmentX(2.0F);
@@ -357,11 +385,11 @@ public final class Principal extends javax.swing.JPanel implements Frameable {
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/fasttask/data/files/images/buscar.png"))); // NOI18N
         jLabel3.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                jLabel3MouseEntered(evt);
-            }
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 jLabel3MousePressed(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                jLabel3MouseEntered(evt);
             }
         });
 
@@ -393,34 +421,35 @@ public final class Principal extends javax.swing.JPanel implements Frameable {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jTextField1)
-                        .addGap(6, 6, 6)
-                        .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jLabel2)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jTextField2))
-                .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(5, 5, 5)
-                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(5, 5, 5))
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(5, 5, 5)
+                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(5, 5, 5))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 309, Short.MAX_VALUE)
+                                .addGap(6, 6, 6)
+                                .addComponent(jLabel3)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jTextField2)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addContainerGap())))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(5, 5, 5)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel1))
-                    .addComponent(jLabel6))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)

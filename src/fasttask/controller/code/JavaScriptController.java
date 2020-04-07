@@ -63,5 +63,10 @@ public class JavaScriptController extends CodeController {
         return "pushd " + Directions.getJavaScriptFolder() + " "
                 + "&& node \"" + new File(JAVASCRIPT_GENERATED_FILE).getAbsolutePath() + "\" ";
     }
+    
+    @Override
+    public boolean isConfigurated() throws IOException {
+        return new File(Directions.getJavaScriptFolder() + "\\node.exe").exists();
+    }
 
 }
