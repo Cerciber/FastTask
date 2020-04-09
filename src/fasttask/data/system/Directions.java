@@ -14,6 +14,7 @@ public class Directions {
     public static String JAVA_FILE;
     public static String JAVASCRIPT_FILE;
     public static String C_PLUS_PLUS_FILE;
+    public static String MATLAB_FILE;
 
     // Asignar constantes de direcciones de acuerdo a si el programa de ejecuta desde el proyecto o desde la distribución
     public static void setConstants() {
@@ -37,6 +38,7 @@ public class Directions {
         JAVA_FILE = base + "\\configuration\\directions\\Java.txt";
         JAVASCRIPT_FILE = base + "\\configuration\\directions\\JavaScript.txt";
         C_PLUS_PLUS_FILE = base + "\\configuration\\directions\\CPlusPlus.txt";
+        MATLAB_FILE = base + "\\configuration\\directions\\MatLab.txt";
 
     }
 
@@ -92,8 +94,16 @@ public class Directions {
         return FileAccess.loadContent(C_PLUS_PLUS_FILE).trim();
     }
 
-    public static void setCPlusPlusFolder(String cPlusPlusScriptFolder) throws IOException {
-        FileAccess.savedContent(C_PLUS_PLUS_FILE, cPlusPlusScriptFolder);
+    public static void setCPlusPlusFolder(String cPlusPlusFolder) throws IOException {
+        FileAccess.savedContent(C_PLUS_PLUS_FILE, cPlusPlusFolder);
+    }
+    
+    public static String getMatLabFolder() throws UnsupportedEncodingException, IOException {
+        return FileAccess.loadContent(MATLAB_FILE).trim();
+    }
+
+    public static void setMatLabFolder(String matLabFolder) throws IOException {
+        FileAccess.savedContent(MATLAB_FILE, matLabFolder);
     }
 
 }

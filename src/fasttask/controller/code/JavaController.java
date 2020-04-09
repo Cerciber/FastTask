@@ -66,7 +66,7 @@ public class JavaController extends CodeController {
     
     @Override
     public boolean isConfigurated() throws IOException {
-        return new File(Directions.getJavaFolder() + "\\javac.exe").exists() && new File(Directions.getCPlusPlusFolder() + "\\java.exe").exists();
+        return new File(Directions.getJavaFolder() + "\\javac.exe").exists() && new File(Directions.getJavaFolder() + "\\java.exe").exists();
     }
 
 }

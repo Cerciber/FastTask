@@ -74,6 +74,14 @@
                   </Group>
                   <Component id="jLabel22" pref="399" max="32767" attributes="0"/>
                   <Component id="jLabel21" alignment="0" max="32767" attributes="0"/>
+                  <Component id="jLabel23" max="32767" attributes="0"/>
+                  <Group type="102" attributes="0">
+                      <Component id="jTextField7" max="32767" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Component id="jLabel24" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jLabel25" min="-2" pref="27" max="-2" attributes="0"/>
+                  </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -138,7 +146,15 @@
                   <Component id="jLabel17" alignment="0" max="32767" attributes="0"/>
                   <Component id="jTextField6" alignment="1" max="32767" attributes="0"/>
               </Group>
-              <EmptySpace pref="132" max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="jLabel23" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                  <Component id="jLabel25" alignment="0" max="32767" attributes="0"/>
+                  <Component id="jLabel24" alignment="0" max="32767" attributes="0"/>
+                  <Component id="jTextField7" alignment="1" max="32767" attributes="0"/>
+              </Group>
+              <EmptySpace pref="72" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -485,6 +501,55 @@
         <Property name="text" type="java.lang.String" value="(Verifique que contengan los ejecutables entre parentesis)"/>
         <Property name="opaque" type="boolean" value="true"/>
       </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLabel23">
+      <Properties>
+        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="f6" green="f6" red="f6" type="rgb"/>
+        </Property>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Comic Sans MS" size="13" style="0"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="MatLab: (MATLAB\u005cR...\u005cbin\u005cmatlab.exe)" containsInvalidXMLChars="true"/>
+        <Property name="opaque" type="boolean" value="true"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="jTextField7">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Comic Sans MS" size="12" style="0"/>
+        </Property>
+        <Property name="alignmentX" type="float" value="2.0"/>
+        <Property name="alignmentY" type="float" value="2.0"/>
+        <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+          <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
+            <LineBorder roundedCorners="true"/>
+          </Border>
+        </Property>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTextField7ActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLabel24">
+      <Properties>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+          <Image iconType="3" name="/fasttask/data/files/images/buscar.png"/>
+        </Property>
+      </Properties>
+      <Events>
+        <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jLabel24MousePressed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLabel25">
+      <Properties>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+          <Image iconType="3" name="/fasttask/data/files/images/check.png"/>
+        </Property>
+      </Properties>
+      <Events>
+        <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jLabel25MousePressed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

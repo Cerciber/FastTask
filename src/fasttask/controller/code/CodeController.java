@@ -130,7 +130,8 @@ public abstract class CodeController {
 
                     // Ejecutar codigo
                     state = RUNNING_COMMAND;
-                    Process process = processBuilder.start();
+                    //Process process = processBuilder.start();
+                    Process process = Runtime.getRuntime().exec(new String[]{"cmd.exe", "/C", command}); 
 
                     // Obtener resultados
                     state = READING_CONSOLE;
@@ -153,6 +154,7 @@ public abstract class CodeController {
                     }
 
                 } catch (IOException e) {
+                    System.err.print(e);
                     commandLine.onIOException(state);
                 }
 
@@ -188,6 +190,8 @@ public abstract class CodeController {
                 return new CController(dir);
             case "cpp":
                 return new CPlusPlusController(dir);
+            case "m":
+                return new MatLabController(dir);
         }
         return null;
     }

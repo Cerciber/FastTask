@@ -8,6 +8,7 @@ import java.awt.Toolkit;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowEvent;
 import java.util.Random;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -52,7 +53,8 @@ public final class Frame extends javax.swing.JFrame {
         ((JPanel) getContentPane()).setOpaque(true);
 
         // Asignar Icono y nombre
-        setIconImage(new javax.swing.ImageIcon(getClass().getResource("/fasttask/data/files/images/ajustes.png")).getImage().getScaledInstance(70, 70, 0));
+        ImageIcon icon = ViewController.colorImage(new javax.swing.ImageIcon(getClass().getResource("/fasttask/data/files/images/ajustes.png")), frameable.color());
+        setIconImage(icon.getImage().getScaledInstance(30, 30, 0));
         setName(frameable.title());
         setTitle(frameable.title());
         jLabel2.setText(frameable.title());

@@ -4,6 +4,7 @@ import fasttask.data.system.Directions;
 import fasttask.controller.view.ViewController;
 import fasttask.data.system.Constants;
 import fasttask.view.components.Dialog;
+import fasttask.view.components.FileChooser;
 import fasttask.view.components.Frame;
 import fasttask.view.components.Frameable;
 import java.awt.Color;
@@ -48,6 +49,8 @@ public final class Configuration extends javax.swing.JPanel implements Frameable
         ViewController.customizeButton(jLabel15, Constants.CONFIGURATION_COLOR);
         ViewController.customizeButton(jLabel17, Constants.CONFIGURATION_COLOR);
         ViewController.customizeButton(jLabel18, Constants.CONFIGURATION_COLOR);
+        ViewController.customizeButton(jLabel24, Constants.CONFIGURATION_COLOR);
+        ViewController.customizeButton(jLabel25, Constants.CONFIGURATION_COLOR);
 
         // Personalizar bordes
         jTextField1.setBorder(new javax.swing.border.LineBorder(Constants.CONFIGURATION_COLOR, 1, true));
@@ -56,6 +59,7 @@ public final class Configuration extends javax.swing.JPanel implements Frameable
         jTextField4.setBorder(new javax.swing.border.LineBorder(Constants.CONFIGURATION_COLOR, 1, true));
         jTextField5.setBorder(new javax.swing.border.LineBorder(Constants.CONFIGURATION_COLOR, 1, true));
         jTextField6.setBorder(new javax.swing.border.LineBorder(Constants.CONFIGURATION_COLOR, 1, true));
+        jTextField7.setBorder(new javax.swing.border.LineBorder(Constants.CONFIGURATION_COLOR, 1, true));
 
     }
 
@@ -69,6 +73,7 @@ public final class Configuration extends javax.swing.JPanel implements Frameable
             jTextField4.setText(Directions.getPythonFolder());
             jTextField5.setText(Directions.getJavaScriptFolder());
             jTextField6.setText(Directions.getCPlusPlusFolder());
+            jTextField7.setText(Directions.getMatLabFolder());
         } catch (IOException ex) {
             Dialog dialog = new Dialog(Dialog.NOTIFICATION, Constants.CONFIGURATION_COLOR, principal);
             dialog.setTitle(Constants.ACCESS_ERROR);
@@ -120,10 +125,10 @@ public final class Configuration extends javax.swing.JPanel implements Frameable
 
     // Al presionar el boton de buscar directorio de clases guardadas
     public void onSearchSavedFolder() {
-        JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-        fileChooser.showOpenDialog(this);
-        if (fileChooser.getSelectedFile() != null) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+        int result = fileChooser.showOpenDialog(this);
+        if (result == JFileChooser.APPROVE_OPTION) {
             jTextField1.setText(fileChooser.getSelectedFile().getAbsolutePath());
             onAppendSavedFolder();
         }
@@ -153,8 +158,8 @@ public final class Configuration extends javax.swing.JPanel implements Frameable
     public void onSearchEditExecutable() {
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-        fileChooser.showOpenDialog(this);
-        if (fileChooser.getSelectedFile() != null) {
+        int result = fileChooser.showOpenDialog(this);
+        if (result == JFileChooser.APPROVE_OPTION) {
             jTextField2.setText(fileChooser.getSelectedFile().getAbsolutePath());
             onAppendEditExecutable();
         }
@@ -182,10 +187,10 @@ public final class Configuration extends javax.swing.JPanel implements Frameable
 
     // Al presionar el boton de buscar directorio de Java
     public void onSearchJavaFolder() {
-        JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-        fileChooser.showOpenDialog(this);
-        if (fileChooser.getSelectedFile() != null) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+        int result = fileChooser.showOpenDialog(this);
+        if (result == JFileChooser.APPROVE_OPTION) {
             jTextField3.setText(fileChooser.getSelectedFile().getAbsolutePath());
             onAppendJavaFolder();
         }
@@ -213,10 +218,10 @@ public final class Configuration extends javax.swing.JPanel implements Frameable
 
     // Al presionar el boton de buscar directorio de Python
     public void onSearchPythonFolder() {
-        JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-        fileChooser.showOpenDialog(this);
-        if (fileChooser.getSelectedFile() != null) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+        int result = fileChooser.showOpenDialog(this);
+        if (result == JFileChooser.APPROVE_OPTION) {
             jTextField4.setText(fileChooser.getSelectedFile().getAbsolutePath());
             onAppendPythonFolder();
         }
@@ -244,10 +249,10 @@ public final class Configuration extends javax.swing.JPanel implements Frameable
 
     // Al presionar el boton de buscar directorio de JavaScript
     public void onSearchJavaScriptFolder() {
-        JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-        fileChooser.showOpenDialog(this);
-        if (fileChooser.getSelectedFile() != null) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+        int result = fileChooser.showOpenDialog(this);
+        if (result == JFileChooser.APPROVE_OPTION) {
             jTextField5.setText(fileChooser.getSelectedFile().getAbsolutePath());
             onAppendJavaScriptFolder();
         }
@@ -275,10 +280,10 @@ public final class Configuration extends javax.swing.JPanel implements Frameable
 
     // Al presionar el boton de buscar directorio de C y C++
     public void onSearchCPlusPlusFolder() {
-        JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-        fileChooser.showOpenDialog(this);
-        if (fileChooser.getSelectedFile() != null) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+        int result = fileChooser.showOpenDialog(this);
+        if (result == JFileChooser.APPROVE_OPTION) {
             jTextField6.setText(fileChooser.getSelectedFile().getAbsolutePath());
             onAppendCPlusPlusFolder();
         }
@@ -289,6 +294,37 @@ public final class Configuration extends javax.swing.JPanel implements Frameable
         if (new File(jTextField6.getText()).exists()) {
             try {
                 Directions.setCPlusPlusFolder(jTextField6.getText());
+                principal.setFunctionList(principal.jTextField2.getText());
+            } catch (IOException ex) {
+                Dialog dialog = new Dialog(Dialog.NOTIFICATION, Constants.CONFIGURATION_COLOR, this);
+                dialog.setTitle(Constants.ACCESS_ERROR);
+                dialog.setDescription(Constants.CONFIG_FILE_NO_FOUND);
+                dialog.show();
+            }
+        } else {
+            Dialog dialog = new Dialog(Dialog.NOTIFICATION, Constants.CONFIGURATION_COLOR, this);
+            dialog.setTitle(Constants.CHANGE_ERROR);
+            dialog.setDescription(Constants.DIRECTION_NO_FOUND);
+            dialog.show();
+        }
+    }
+    
+    // Al presionar el boton de buscar directorio de C y C++
+    public void onSearchMatLabFolder() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+        int result = fileChooser.showOpenDialog(this);
+        if (result == JFileChooser.APPROVE_OPTION) {
+            jTextField7.setText(fileChooser.getSelectedFile().getAbsolutePath());
+            onAppendMatLabFolder();
+        }
+    }
+
+    // Al presionar el boton agregar directorio de C y C++
+    public void onAppendMatLabFolder() {
+        if (new File(jTextField7.getText()).exists()) {
+            try {
+                Directions.setMatLabFolder(jTextField7.getText());
                 principal.setFunctionList(principal.jTextField2.getText());
             } catch (IOException ex) {
                 Dialog dialog = new Dialog(Dialog.NOTIFICATION, Constants.CONFIGURATION_COLOR, this);
@@ -336,6 +372,10 @@ public final class Configuration extends javax.swing.JPanel implements Frameable
         jLabel20 = new javax.swing.JLabel();
         jLabel21 = new javax.swing.JLabel();
         jLabel22 = new javax.swing.JLabel();
+        jLabel23 = new javax.swing.JLabel();
+        jTextField7 = new javax.swing.JTextField();
+        jLabel24 = new javax.swing.JLabel();
+        jLabel25 = new javax.swing.JLabel();
 
         setOpaque(false);
 
@@ -533,6 +573,35 @@ public final class Configuration extends javax.swing.JPanel implements Frameable
         jLabel22.setText("(Verifique que contengan los ejecutables entre parentesis)");
         jLabel22.setOpaque(true);
 
+        jLabel23.setBackground(new java.awt.Color(246, 246, 246));
+        jLabel23.setFont(new java.awt.Font("Comic Sans MS", 0, 13)); // NOI18N
+        jLabel23.setText("MatLab: (MATLAB\\R...\\bin\\matlab.exe)");
+        jLabel23.setOpaque(true);
+
+        jTextField7.setFont(new java.awt.Font("Comic Sans MS", 0, 12)); // NOI18N
+        jTextField7.setAlignmentX(2.0F);
+        jTextField7.setAlignmentY(2.0F);
+        jTextField7.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
+        jTextField7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField7ActionPerformed(evt);
+            }
+        });
+
+        jLabel24.setIcon(new javax.swing.ImageIcon(getClass().getResource("/fasttask/data/files/images/buscar.png"))); // NOI18N
+        jLabel24.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jLabel24MousePressed(evt);
+            }
+        });
+
+        jLabel25.setIcon(new javax.swing.ImageIcon(getClass().getResource("/fasttask/data/files/images/check.png"))); // NOI18N
+        jLabel25.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jLabel25MousePressed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -585,7 +654,14 @@ public final class Configuration extends javax.swing.JPanel implements Frameable
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jLabel22, javax.swing.GroupLayout.DEFAULT_SIZE, 399, Short.MAX_VALUE)
-                    .addComponent(jLabel21, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jLabel21, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel23, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jTextField7)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel24)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel25, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -641,7 +717,14 @@ public final class Configuration extends javax.swing.JPanel implements Frameable
                     .addComponent(jLabel18, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel17, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jTextField6, javax.swing.GroupLayout.Alignment.TRAILING))
-                .addContainerGap(132, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel23)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel25, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel24, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jTextField7, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addContainerGap(72, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -717,6 +800,18 @@ public final class Configuration extends javax.swing.JPanel implements Frameable
         onAppendCPlusPlusFolder();
     }//GEN-LAST:event_jLabel18MousePressed
 
+    private void jTextField7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField7ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField7ActionPerformed
+
+    private void jLabel24MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel24MousePressed
+        onSearchMatLabFolder();
+    }//GEN-LAST:event_jLabel24MousePressed
+
+    private void jLabel25MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel25MousePressed
+        onAppendMatLabFolder();
+    }//GEN-LAST:event_jLabel25MousePressed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
@@ -734,6 +829,9 @@ public final class Configuration extends javax.swing.JPanel implements Frameable
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
+    private javax.swing.JLabel jLabel23;
+    private javax.swing.JLabel jLabel24;
+    private javax.swing.JLabel jLabel25;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -747,6 +845,7 @@ public final class Configuration extends javax.swing.JPanel implements Frameable
     private javax.swing.JTextField jTextField4;
     private javax.swing.JTextField jTextField5;
     private javax.swing.JTextField jTextField6;
+    private javax.swing.JTextField jTextField7;
     // End of variables declaration//GEN-END:variables
 
 }
