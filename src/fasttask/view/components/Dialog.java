@@ -50,6 +50,10 @@ public final class Dialog extends javax.swing.JPanel {
         ViewController.customizeButton(jLabel3, new javax.swing.ImageIcon(getClass().getResource(Constants.CLOSE_ICON)), color);
         ViewController.customizeButton(jLabel5, new javax.swing.ImageIcon(getClass().getResource(Constants.CHECK_ICON)), color);
         
+        // Asignar textos de ayuda
+        jLabel3.setToolTipText("Cancelar");
+        jLabel5.setToolTipText("Aceptar");
+        
         // Personalizar bordes
         setBorder(javax.swing.BorderFactory.createLineBorder(color, 4));
         jTextField1.setBorder(new javax.swing.border.LineBorder(color, 1, true));

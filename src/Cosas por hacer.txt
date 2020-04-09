@@ -6,7 +6,6 @@ Correcciones
 Adiciones
 - Cambiar todos los pressed por clicked
 - Añadir toottip text
-- Añadir personalizar colores
 - Incluir proyectos completos
 - Configurar para que corra de acuerdo a la prioridad -> buscar main -> si no hay main y hay varios archivo error -> primera clase - primer constructor -> primer metodo -> expresión
 - Crear instalador con opciones de instalación de compiladores

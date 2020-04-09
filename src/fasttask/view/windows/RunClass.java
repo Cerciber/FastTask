@@ -55,6 +55,13 @@ public final class RunClass extends javax.swing.JPanel implements Frameable, Com
         ViewController.customizeButton(jLabel6, new javax.swing.ImageIcon(getClass().getResource(Constants.EDIT_ICON)), codeController.color());
         ViewController.customizeButton(jLabel7, new javax.swing.ImageIcon(getClass().getResource(Constants.DELETE_ICON)), codeController.color());
 
+        // Asignar textos de ayuda
+        jLabel1.setToolTipText("Correr");
+        jLabel5.setToolTipText("Detener");
+        jLabel8.setToolTipText("Limpiar");
+        jLabel6.setToolTipText("Editar");
+        jLabel7.setToolTipText("Eliminar");
+        
         // Personalizar bordes
         jPanel7.setBorder(javax.swing.BorderFactory.createLineBorder(codeController.color(), 4));
         jTextArea2.setBorder(javax.swing.BorderFactory.createLineBorder(codeController.color(), 1));
@@ -454,13 +461,15 @@ public final class RunClass extends javax.swing.JPanel implements Frameable, Com
         );
 
         jPanel2.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
+        jPanel2.setMinimumSize(new java.awt.Dimension(0, 38));
 
         jScrollPane1.setBorder(null);
 
         jTextArea1.setBackground(new java.awt.Color(251, 255, 251));
-        jTextArea1.setColumns(1);
+        jTextArea1.setColumns(2);
         jTextArea1.setRows(1);
         jTextArea1.setTabSize(1);
+        jTextArea1.setMinimumSize(new java.awt.Dimension(4, 44));
         jTextArea1.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 jTextArea1KeyPressed(evt);
@@ -476,7 +485,7 @@ public final class RunClass extends javax.swing.JPanel implements Frameable, Com
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 107, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 45, Short.MAX_VALUE)
         );
 
         jPanel6.setOpaque(false);

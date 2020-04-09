@@ -65,6 +65,29 @@ public final class Configuration extends javax.swing.JPanel implements Frameable
         ViewController.customizeButton(jLabel30, new javax.swing.ImageIcon(getClass().getResource(Constants.COLOR_ICON)), FileAccess.getColor(Directions.getColorsFolder() + "\\MatLab.txt"));
         ViewController.customizeButton(jLabel31, new javax.swing.ImageIcon(getClass().getResource(Constants.COLOR_ICON)), FileAccess.getColor(Directions.getColorsFolder() + "\\General.txt"));
         
+        // Asignar textos de ayuda
+        jLabel3.setToolTipText("Buscar directorio");
+        jLabel4.setToolTipText("Guardar directorio");
+        jLabel6.setToolTipText("Buscar ejecutable");
+        jLabel5.setToolTipText("Guardar ejecutable");
+        jLabel7.setToolTipText("Buscar directorio");
+        jLabel8.setToolTipText("Guardar directorio");
+        jLabel10.setToolTipText("Buscar directorio");
+        jLabel11.setToolTipText("Guardar directorio");
+        jLabel13.setToolTipText("Guardar directorio");
+        jLabel15.setToolTipText("Buscar directorio");
+        jLabel17.setToolTipText("Buscar directorio");
+        jLabel18.setToolTipText("Guardar directorio");
+        jLabel24.setToolTipText("Buscar directorio");
+        jLabel25.setToolTipText("Guardar directorio");
+        jLabel26.setToolTipText("Cambiar color");
+        jLabel27.setToolTipText("Cambiar color");
+        jLabel28.setToolTipText("Cambiar color");
+        jLabel29.setToolTipText("Cambiar color");
+        jLabel33.setToolTipText("Cambiar color");
+        jLabel30.setToolTipText("Cambiar color");
+        jLabel31.setToolTipText("Cambiar color");
+        
         // Personalizar bordes
         jTextField1.setBorder(new javax.swing.border.LineBorder(Constants.mainFrameColor(), 1, true));
         jTextField2.setBorder(new javax.swing.border.LineBorder(Constants.mainFrameColor(), 1, true));

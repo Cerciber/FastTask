@@ -67,6 +67,12 @@ public final class Frame extends javax.swing.JFrame {
         ViewController.customizeButton(jLabel5, new javax.swing.ImageIcon(getClass().getResource(Constants.MINIMIZE_ICON)), frameable.color());
         ViewController.customizeButton(jLabel6, new javax.swing.ImageIcon(getClass().getResource(Constants.CONFIGURATION_ICON)), frameable.color());
 
+        // Asignar textos de ayuda
+        jLabel1.setToolTipText("Cerrar");
+        jLabel4.setToolTipText("Maximizar");
+        jLabel5.setToolTipText("Minimizar");
+        jLabel6.setToolTipText("Configuración");
+        
         // Personaliar bordes
         panel.setBorder(javax.swing.BorderFactory.createLineBorder(frameable.color(), 4));
         jLabel2.setBackground(frameable.color());

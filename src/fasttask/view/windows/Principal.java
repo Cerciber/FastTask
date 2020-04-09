@@ -48,6 +48,12 @@ public final class Principal extends javax.swing.JPanel implements Frameable {
         ViewController.customizeButton(jLabel5, new javax.swing.ImageIcon(getClass().getResource(Constants.CHECK_ICON)), Constants.mainFrameColor());
         ViewController.customizeButton(jLabel6, new javax.swing.ImageIcon(getClass().getResource(Constants.ADD_ICON)), Constants.mainFrameColor());
 
+        // Asignar textos de ayuda
+        jLabel3.setToolTipText("Buscar codigo");
+        jLabel4.setToolTipText("Cerrar todos los codigos abiertos");
+        jLabel5.setToolTipText("Guardar codigo");
+        jLabel6.setToolTipText("Crear codigo");
+        
         // Personalizar bordes
         jTextField1.setBorder(new javax.swing.border.LineBorder(Constants.mainFrameColor(), 1, true));
         jTextField2.setBorder(new javax.swing.border.LineBorder(Constants.mainFrameColor(), 1, true));
