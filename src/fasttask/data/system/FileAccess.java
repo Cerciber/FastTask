@@ -1,5 +1,6 @@
 package fasttask.data.system;
 
+import java.awt.Color;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -9,6 +10,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class FileAccess {
 
@@ -82,6 +85,21 @@ public class FileAccess {
     public static String getFolder(String dir) {
         File file = new File(dir);
         return file.getParent();
+    }
+    
+    // Obtener color dentro de un archivo
+    public static Color getColor(String dir) {
+        try {
+            String[] s = FileAccess.loadContent(dir).split(",");
+            return new Color(Integer.valueOf(s[0].trim()), Integer.valueOf(s[1].trim()), Integer.valueOf(s[2].trim()));
+        } catch (IOException ex) {
+            return new Color(0, 0, 0);
+        }
+    }
+    
+    // Obtener nombre con extensión de un archivo
+    public static void saveColor(String dir, Color color) throws IOException {
+        savedContent(dir, color.getRed() + ", " + color.getGreen() + ", " + color.getBlue());
     }
 
     // Crear archivo

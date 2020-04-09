@@ -25,7 +25,7 @@ public class CController extends CodeController {
 
     @Override
     public Color color() {
-        return new Color(0, 150, 150);
+        return FileAccess.getColor(Directions.getColorsFolder() + "\\C.txt");
     }
 
     @Override

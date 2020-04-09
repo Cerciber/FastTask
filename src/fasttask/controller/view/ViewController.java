@@ -7,6 +7,7 @@ import fasttask.view.windows.Principal;
 import fasttask.view.windows.RunClass;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.awt.image.WritableRaster;
 import java.io.File;
@@ -50,20 +51,20 @@ public class ViewController {
             }
             return false;
         });
-        
+
         if (files == null) {
             files = new File[0];
         }
-        
+
         // Obtener lista de cadenas de direcciones
-        String[] directions = new String[files.length];         
+        String[] directions = new String[files.length];
         for (int i = 0; i < files.length; i++) {
             directions[i] = files[i].getAbsolutePath();
-            CodeController codeController = CodeController.getController(files[i].getAbsolutePath()); 
+            CodeController codeController = CodeController.getController(files[i].getAbsolutePath());
         }
 
         return directions;
-        
+
     }
 
     // Añadir clase a la lista
@@ -75,54 +76,66 @@ public class ViewController {
     public void removeClass(String dir) throws IOException {
         fileController.deleteFile(dir);
     }
-    
+
     // Agregar ventana de ejecución activa
-    public void addActivedClass(RunClass runClass){
-       activedClasses.add(runClass);
+    public void addActivedClass(RunClass runClass) {
+        activedClasses.add(runClass);
     }
-    
+
     // Remover clases activas que contengan la dirección
-    public void removeActivedClass(RunClass runClass){
-        
-       // Remover clases activas con la misma ruta
+    public void removeActivedClass(RunClass runClass) {
+
+        // Remover clases activas con la misma ruta
         for (int i = activedClasses.size() - 1; i >= 0; i--) {
             if (activedClasses.get(i).codeController.direction().equals(runClass.codeController.direction())) {
                 activedClasses.get(i).frame.close();
                 activedClasses.remove(activedClasses.get(i));
             }
         }
-       
-       // Actualizar lista
-       principal.setFunctionList();
-       
+
+        // Actualizar lista
+        principal.setFunctionList();
+
     }
-    
+
     // Remover clases activas
-    public void removeActivedClass(){
-        
-       // Remover clases activas con la misma ruta
+    public void removeActivedClass() {
+
+        // Remover clases activas con la misma ruta
         for (int i = activedClasses.size() - 1; i >= 0; i--) {
             activedClasses.get(i).frame.setVisible(false);
             activedClasses.get(i).frame.dispose();
         }
         activedClasses.clear();
-       
-       // Actualizar lista
-       principal.setFunctionList();
-       
+
+        // Actualizar lista
+        principal.setFunctionList();
+
     }
     
+    // Remover clases activas del lenguaje especificado
+    public void updateActivedClass(String languaje) {
+
+        // Remover clases activas con la misma ruta
+        for (int i = activedClasses.size() - 1; i >= 0; i--) {
+            if (activedClasses.get(i).codeController.languaje().equals(languaje)) {
+                activedClasses.get(i).frame.onGetFocus();
+            }
+        }
+        
+    }
+
     // Cambiar color de un icono
     public static Icon colorImage(Icon image1, Color color) {
-        
+
         BufferedImage image = new BufferedImage(
-            image1.getIconWidth(),
-            image1.getIconHeight(),
-            BufferedImage.TYPE_4BYTE_ABGR);
+                image1.getIconWidth(),
+                image1.getIconHeight(),
+                BufferedImage.TYPE_4BYTE_ABGR);
         Graphics g = image.createGraphics();
-        image1.paintIcon(null, g, 0,0);
+        image1.paintIcon(null, g, 0, 0);
         g.dispose();
-        
+
         int width = image.getWidth();
         int height = image.getHeight();
         WritableRaster raster = image.getRaster();
@@ -137,21 +150,21 @@ public class ViewController {
                 raster.setPixel(x, y, pixels);
             }
         }
-        
+
         return new ImageIcon(image);
     }
-    
+
     // Cambiar color de un icono
     public static ImageIcon colorImage(ImageIcon image1, Color color) {
-        
+
         BufferedImage image = new BufferedImage(
-            image1.getIconWidth(),
-            image1.getIconHeight(),
-            BufferedImage.TYPE_4BYTE_ABGR);
+                image1.getIconWidth(),
+                image1.getIconHeight(),
+                BufferedImage.TYPE_4BYTE_ABGR);
         Graphics g = image.createGraphics();
-        image1.paintIcon(null, g, 0,0);
+        image1.paintIcon(null, g, 0, 0);
         g.dispose();
-        
+
         int width = image.getWidth();
         int height = image.getHeight();
         WritableRaster raster = image.getRaster();
@@ -166,20 +179,20 @@ public class ViewController {
                 raster.setPixel(x, y, pixels);
             }
         }
-        
+
         return new ImageIcon(image);
     }
-    
+
     public static Icon colorLightImage(Icon image1, Color color) {
 
         BufferedImage image = new BufferedImage(
-            image1.getIconWidth(),
-            image1.getIconHeight(),
-            BufferedImage.TYPE_4BYTE_ABGR);
+                image1.getIconWidth(),
+                image1.getIconHeight(),
+                BufferedImage.TYPE_4BYTE_ABGR);
         Graphics g = image.createGraphics();
-        image1.paintIcon(null, g, 0,0);
+        image1.paintIcon(null, g, 0, 0);
         g.dispose();
-        
+
         int width = image.getWidth();
         int height = image.getHeight();
         WritableRaster raster = image.getRaster();
@@ -194,29 +207,30 @@ public class ViewController {
                 raster.setPixel(x, y, pixels);
             }
         }
-        
+
         return new ImageIcon(image);
 
     }
-    
-    public static void customizeButton(JLabel label, Color color){
-        
-        Icon icon1 = colorImage(label.getIcon(), color);
-        Icon icon2 = colorLightImage(label.getIcon(), color);
-        
+
+    public static void customizeButton(JLabel label, Icon icon, Color color) {
+
+        Icon icon1 = colorImage(icon, color);
+        Icon icon2 = colorLightImage(icon, color);
+
         label.setIcon(icon1);
-        
+
         label.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 label.setIcon(icon2);
             }
+
             @Override
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 label.setIcon(icon1);
             }
         });
-        
+
     }
-    
+
 }

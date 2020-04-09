@@ -26,7 +26,7 @@ public class MatLabController extends CodeController {
 
     @Override
     public Color color() {
-        return new Color(0, 0, 150);
+        return FileAccess.getColor(Directions.getColorsFolder() + "\\MatLab.txt");
     }
 
     @Override

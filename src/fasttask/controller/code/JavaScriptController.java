@@ -28,7 +28,7 @@ public class JavaScriptController extends CodeController {
 
     @Override
     public Color color() {
-        return new Color(226, 113, 0);
+        return FileAccess.getColor(Directions.getColorsFolder() + "\\JavaScript.txt");
     }
 
     @Override

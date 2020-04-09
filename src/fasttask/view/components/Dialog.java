@@ -1,6 +1,7 @@
 package fasttask.view.components;
 
 import fasttask.controller.view.ViewController;
+import fasttask.data.system.Constants;
 import java.awt.Color;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
@@ -46,8 +47,8 @@ public final class Dialog extends javax.swing.JPanel {
     public void setCustomization() {
 
         // Personalizar botones
-        ViewController.customizeButton(jLabel3, color);
-        ViewController.customizeButton(jLabel5, color);
+        ViewController.customizeButton(jLabel3, new javax.swing.ImageIcon(getClass().getResource(Constants.CLOSE_ICON)), color);
+        ViewController.customizeButton(jLabel5, new javax.swing.ImageIcon(getClass().getResource(Constants.CHECK_ICON)), color);
         
         // Personalizar bordes
         setBorder(javax.swing.BorderFactory.createLineBorder(color, 4));

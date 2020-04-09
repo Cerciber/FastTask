@@ -49,11 +49,11 @@ public final class RunClass extends javax.swing.JPanel implements Frameable, Com
     public void setCustomization() {
 
         // Personalizar botones
-        ViewController.customizeButton(jLabel1, codeController.color());
-        ViewController.customizeButton(jLabel5, codeController.color());
-        ViewController.customizeButton(jLabel8, codeController.color());
-        ViewController.customizeButton(jLabel6, codeController.color());
-        ViewController.customizeButton(jLabel7, codeController.color());
+        ViewController.customizeButton(jLabel1, new javax.swing.ImageIcon(getClass().getResource(Constants.PLAY_ICON)), codeController.color());
+        ViewController.customizeButton(jLabel5, new javax.swing.ImageIcon(getClass().getResource(Constants.STOP_ICON)), codeController.color());
+        ViewController.customizeButton(jLabel8, new javax.swing.ImageIcon(getClass().getResource(Constants.CLEAN_ICON)), codeController.color());
+        ViewController.customizeButton(jLabel6, new javax.swing.ImageIcon(getClass().getResource(Constants.EDIT_ICON)), codeController.color());
+        ViewController.customizeButton(jLabel7, new javax.swing.ImageIcon(getClass().getResource(Constants.DELETE_ICON)), codeController.color());
 
         // Personalizar bordes
         jPanel7.setBorder(javax.swing.BorderFactory.createLineBorder(codeController.color(), 4));
@@ -64,6 +64,10 @@ public final class RunClass extends javax.swing.JPanel implements Frameable, Com
         jPanel7.setBackground(codeController.color());
         jLabel4.setForeground(codeController.color());
 
+        if (frame != null) {
+            frame.setCustomization();
+        }
+        
     }
 
     // Asignar información
@@ -194,6 +198,7 @@ public final class RunClass extends javax.swing.JPanel implements Frameable, Com
     public void onGetFocus() {
         setInformation();
         setParametersList();
+        setCustomization();
     }
 
     @Override
@@ -231,8 +236,7 @@ public final class RunClass extends javax.swing.JPanel implements Frameable, Com
     public void onFinished() {
 
         // Desbloquear color run
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/fasttask/data/files/images/play.png")));
-        ViewController.customizeButton(jLabel1, codeController.color());
+        ViewController.customizeButton(jLabel1, new javax.swing.ImageIcon(getClass().getResource(Constants.PLAY_ICON)), codeController.color());
 
     }
 

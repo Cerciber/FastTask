@@ -3,14 +3,10 @@ package fasttask.controller.code;
 import fasttask.data.system.Directions;
 import fasttask.data.system.FileAccess;
 import java.awt.Color;
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class PythonController extends CodeController {
 
@@ -28,7 +24,7 @@ public class PythonController extends CodeController {
     
     @Override
     public Color color() {
-        return new Color(120, 0, 140);
+        return FileAccess.getColor(Directions.getColorsFolder() + "\\Python.txt");
     }
 
     @Override

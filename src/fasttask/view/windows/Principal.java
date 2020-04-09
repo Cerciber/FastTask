@@ -43,17 +43,21 @@ public final class Principal extends javax.swing.JPanel implements Frameable {
     public void setCustomization() {
 
         // Personalizar botones
-        ViewController.customizeButton(jLabel3, Constants.MAIN_FRAME_COLOR);
-        ViewController.customizeButton(jLabel4, Constants.MAIN_FRAME_COLOR);
-        ViewController.customizeButton(jLabel5, Constants.MAIN_FRAME_COLOR);
-        ViewController.customizeButton(jLabel6, Constants.MAIN_FRAME_COLOR);
+        ViewController.customizeButton(jLabel3, new javax.swing.ImageIcon(getClass().getResource(Constants.SEARCH_ICON)), Constants.mainFrameColor());
+        ViewController.customizeButton(jLabel4, new javax.swing.ImageIcon(getClass().getResource(Constants.CLOSE_ALL_ICON)), Constants.mainFrameColor());
+        ViewController.customizeButton(jLabel5, new javax.swing.ImageIcon(getClass().getResource(Constants.CHECK_ICON)), Constants.mainFrameColor());
+        ViewController.customizeButton(jLabel6, new javax.swing.ImageIcon(getClass().getResource(Constants.ADD_ICON)), Constants.mainFrameColor());
 
         // Personalizar bordes
-        jTextField1.setBorder(new javax.swing.border.LineBorder(Constants.MAIN_FRAME_COLOR, 1, true));
-        jTextField2.setBorder(new javax.swing.border.LineBorder(Constants.MAIN_FRAME_COLOR, 1, true));
+        jTextField1.setBorder(new javax.swing.border.LineBorder(Constants.mainFrameColor(), 1, true));
+        jTextField2.setBorder(new javax.swing.border.LineBorder(Constants.mainFrameColor(), 1, true));
 
         // Personalizar tamaño
         setMinimumSize(getPreferredSize());
+        
+        if (frame != null) {
+            frame.setCustomization();
+        }
 
     }
 
@@ -84,7 +88,7 @@ public final class Principal extends javax.swing.JPanel implements Frameable {
                 jPanel2.add(new ListElement(this, directions[i]));
             }
         } catch (IOException | NullPointerException ex) {
-            Dialog dialog = new Dialog(Dialog.NOTIFICATION, Constants.CONFIGURATION_COLOR, this);
+            Dialog dialog = new Dialog(Dialog.NOTIFICATION, Constants.mainFrameColor(), this);
             dialog.setTitle(Constants.ACCESS_ERROR);
             dialog.setDescription(Constants.CONFIG_FILE_NO_FOUND);
             dialog.show();
@@ -101,13 +105,13 @@ public final class Principal extends javax.swing.JPanel implements Frameable {
     public void savedFileNotFoundMessage() {
         try {
             if (!new File(Directions.getSaveFolder()).exists()) {
-                Dialog dialog = new Dialog(Dialog.NOTIFICATION, Constants.CONFIGURATION_COLOR, this);
+                Dialog dialog = new Dialog(Dialog.NOTIFICATION, Constants.mainFrameColor(), this);
                 dialog.setTitle(Constants.ACCESS_ERROR);
                 dialog.setDescription(Constants.SAVED_FILE_NOT_FOUND);
                 dialog.show();
             }
         } catch (IOException ex) {
-            Dialog dialog = new Dialog(Dialog.NOTIFICATION, Constants.CONFIGURATION_COLOR, this);
+            Dialog dialog = new Dialog(Dialog.NOTIFICATION, Constants.mainFrameColor(), this);
             dialog.setTitle(Constants.ACCESS_ERROR);
             dialog.setDescription(Constants.CONFIG_FILE_NO_FOUND);
             dialog.show();
@@ -122,7 +126,7 @@ public final class Principal extends javax.swing.JPanel implements Frameable {
 
     @Override
     public Color color() {
-        return Constants.MAIN_FRAME_COLOR;
+        return Constants.mainFrameColor();
     }
 
     @Override
@@ -162,6 +166,7 @@ public final class Principal extends javax.swing.JPanel implements Frameable {
     @Override
     public void onGetFocus() {
         setFunctionList();
+        setCustomization();
     }
 
     // Al presionar el boton de buscar codigo
@@ -181,7 +186,7 @@ public final class Principal extends javax.swing.JPanel implements Frameable {
 
                 // Si el nombre del archivo ya existe
                 if (new File(jTextField1.getText()).exists()) {
-                    Dialog dialog = new Dialog(Dialog.NOTIFICATION, Constants.CONFIGURATION_COLOR, this);
+                    Dialog dialog = new Dialog(Dialog.NOTIFICATION, Constants.mainFrameColor(), this);
                     dialog.setTitle(Constants.CREATION_ERROR);
                     dialog.setDescription(Constants.NAME_ALREADY_EXIST);
                     dialog.show();
@@ -194,7 +199,7 @@ public final class Principal extends javax.swing.JPanel implements Frameable {
                 jTextField1.setText("");
 
             } catch (IOException ex) {
-                Dialog dialog = new Dialog(Dialog.NOTIFICATION, Constants.CONFIGURATION_COLOR, this);
+                Dialog dialog = new Dialog(Dialog.NOTIFICATION, Constants.mainFrameColor(), this);
                 dialog.setTitle(Constants.CHANGE_ERROR);
                 dialog.setDescription(Constants.DELETE_FILE_NOT_FOUND);
                 dialog.show();
@@ -217,7 +222,7 @@ public final class Principal extends javax.swing.JPanel implements Frameable {
     private void onAddNewCode(String text) {
 
         // Abrir ventana para ingresar nueva clase
-        Dialog dialog = new Dialog(Dialog.NEW_CODE, Constants.MAIN_FRAME_COLOR, this);
+        Dialog dialog = new Dialog(Dialog.NEW_CODE, Constants.mainFrameColor(), this);
         dialog.setTitle("Nuevo codigo");
         dialog.setDescription("Ingrese el nombre del archivo con extención");
         dialog.setCheckBoxText("Incluir plantilla");
@@ -236,7 +241,7 @@ public final class Principal extends javax.swing.JPanel implements Frameable {
 
             // Si el nombre del archivo ya existe
             if (new File(direction).exists()) {
-                Dialog dialog2 = new Dialog(Dialog.NOTIFICATION, Constants.CONFIGURATION_COLOR, this);
+                Dialog dialog2 = new Dialog(Dialog.NOTIFICATION, Constants.mainFrameColor(), this);
                 dialog2.setTitle(Constants.CREATION_ERROR);
                 dialog2.setDescription(Constants.NAME_ALREADY_EXIST);
                 dialog2.show();
@@ -246,7 +251,7 @@ public final class Principal extends javax.swing.JPanel implements Frameable {
 
             // Si el lenguaje de la extensión no está soportado
             if (CodeController.getController(direction) == null) {
-                Dialog dialog2 = new Dialog(Dialog.NOTIFICATION, Constants.CONFIGURATION_COLOR, this);
+                Dialog dialog2 = new Dialog(Dialog.NOTIFICATION, Constants.mainFrameColor(), this);
                 dialog2.setTitle(Constants.CREATION_ERROR);
                 dialog2.setDescription(Constants.LANGUAJE_NOT_SUPPORTED);
                 dialog2.show();
@@ -260,7 +265,7 @@ public final class Principal extends javax.swing.JPanel implements Frameable {
                     FileAccess.copyFile(Directions.getTemplatesFolder() + "\\template." + FileAccess.getExtension(dialog.getInputText()), direction);
                     viewController.addActivedClass(new RunClass(this, CodeController.getController(direction)));
                 } catch (IOException ex) {
-                    Dialog dialog2 = new Dialog(Dialog.NOTIFICATION, Constants.CONFIGURATION_COLOR, this);
+                    Dialog dialog2 = new Dialog(Dialog.NOTIFICATION, Constants.mainFrameColor(), this);
                     dialog2.setTitle(Constants.CREATION_ERROR);
                     dialog2.setDescription(Constants.TEMPLATE_COPY_NOT_FOUND);
                     dialog2.show();
@@ -274,7 +279,7 @@ public final class Principal extends javax.swing.JPanel implements Frameable {
                     FileAccess.createFile(direction);
                     viewController.addActivedClass(new RunClass(this, CodeController.getController(direction)));
                 } catch (IOException ex) {
-                    Dialog dialog2 = new Dialog(Dialog.NOTIFICATION, Constants.CONFIGURATION_COLOR, this);
+                    Dialog dialog2 = new Dialog(Dialog.NOTIFICATION, Constants.mainFrameColor(), this);
                     dialog2.setTitle(Constants.CREATION_ERROR);
                     dialog2.setDescription(Constants.CREATE_FILE_NOT_FOUND);
                     dialog2.show();
@@ -284,7 +289,7 @@ public final class Principal extends javax.swing.JPanel implements Frameable {
             }
 
         } catch (IOException ex) {
-            Dialog dialog2 = new Dialog(Dialog.NOTIFICATION, Constants.CONFIGURATION_COLOR, this);
+            Dialog dialog2 = new Dialog(Dialog.NOTIFICATION, Constants.mainFrameColor(), this);
             dialog2.setTitle(Constants.ACCESS_ERROR);
             dialog2.setDescription(Constants.CONFIG_FILE_NO_FOUND);
             dialog2.show();

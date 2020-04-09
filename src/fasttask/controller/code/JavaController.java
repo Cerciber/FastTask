@@ -24,7 +24,7 @@ public class JavaController extends CodeController {
 
     @Override
     public Color color() {
-        return new Color(210, 15, 15);
+        return FileAccess.getColor(Directions.getColorsFolder() + "\\Java.txt");
     }
 
     @Override

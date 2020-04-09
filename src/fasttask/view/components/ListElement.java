@@ -32,10 +32,10 @@ public final class ListElement extends javax.swing.JPanel {
     public void setCustomization() {
     
         // Personalizar bordes
-        setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, Constants.MAIN_FRAME_COLOR));
+        setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, Constants.mainFrameColor()));
         
         // Personalizar colores texto
-        jLabel4.setForeground(Constants.MAIN_FRAME_COLOR);
+        jLabel4.setForeground(Constants.mainFrameColor());
         
     }
     
@@ -51,7 +51,7 @@ public final class ListElement extends javax.swing.JPanel {
             
         } catch (IOException ex) {
             
-            Dialog dialog = new Dialog(Dialog.NOTIFICATION, Constants.MAIN_FRAME_COLOR, principal);
+            Dialog dialog = new Dialog(Dialog.NOTIFICATION, Constants.mainFrameColor(), principal);
             dialog.setTitle(Constants.ACCESS_ERROR);
             dialog.setDescription(Constants.INFORMATION_NOT_FOUND);
             dialog.show();
@@ -62,7 +62,7 @@ public final class ListElement extends javax.swing.JPanel {
     
     // Al entrar el mouse en el elemento
     public void onMouseEntered() {
-        this.setBackground(Constants.MAIN_FRAME_COLOR);
+        this.setBackground(Constants.mainFrameColor());
     }
     
     // Al salir el mouse del elemento

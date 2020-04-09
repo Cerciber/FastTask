@@ -1,6 +1,8 @@
 package fasttask.view.components;
 
+import com.sun.corba.se.impl.orbutil.closure.Constant;
 import fasttask.controller.view.ViewController;
+import fasttask.data.system.Constants;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
@@ -53,17 +55,17 @@ public final class Frame extends javax.swing.JFrame {
         ((JPanel) getContentPane()).setOpaque(true);
 
         // Asignar Icono y nombre
-        ImageIcon icon = ViewController.colorImage(new javax.swing.ImageIcon(getClass().getResource("/fasttask/data/files/images/ajustes.png")), frameable.color());
+        ImageIcon icon = ViewController.colorImage(new javax.swing.ImageIcon(getClass().getResource(Constants.CONFIGURATION_ICON)), frameable.color());
         setIconImage(icon.getImage().getScaledInstance(30, 30, 0));
         setName(frameable.title());
         setTitle(frameable.title());
         jLabel2.setText(frameable.title());
 
         // Personalizar botones
-        ViewController.customizeButton(jLabel1, frameable.color());
-        ViewController.customizeButton(jLabel4, frameable.color());
-        ViewController.customizeButton(jLabel5, frameable.color());
-        ViewController.customizeButton(jLabel6, frameable.color());
+        ViewController.customizeButton(jLabel1, new javax.swing.ImageIcon(getClass().getResource(Constants.CLOSE_ICON)), frameable.color());
+        ViewController.customizeButton(jLabel4, new javax.swing.ImageIcon(getClass().getResource(Constants.MAXIMIZE_ICON)), frameable.color());
+        ViewController.customizeButton(jLabel5, new javax.swing.ImageIcon(getClass().getResource(Constants.MINIMIZE_ICON)), frameable.color());
+        ViewController.customizeButton(jLabel6, new javax.swing.ImageIcon(getClass().getResource(Constants.CONFIGURATION_ICON)), frameable.color());
 
         // Personaliar bordes
         panel.setBorder(javax.swing.BorderFactory.createLineBorder(frameable.color(), 4));
@@ -71,7 +73,7 @@ public final class Frame extends javax.swing.JFrame {
         jLabel2.setBorder(javax.swing.BorderFactory.createMatteBorder(4, 4, 0, 4, frameable.color()));
 
         // Personalizar tamaño
-        setPreferredSize(new Dimension(getPreferredSize().width, getPreferredSize().height + 15));
+        setPreferredSize(new Dimension(getPreferredSize().width, getPreferredSize().height));
         setMinimumSize(getPreferredSize());
         setSize(getPreferredSize());
 
@@ -234,7 +236,7 @@ public final class Frame extends javax.swing.JFrame {
     }
 
     // Al obtener foco el frame
-    public void onGetFocus(WindowEvent evt) {
+    public void onGetFocus() {
         frameable.onGetFocus();
     }
     
@@ -460,7 +462,7 @@ public final class Frame extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowStateChanged
 
     private void formWindowGainedFocus(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowGainedFocus
-        onGetFocus(evt);
+        onGetFocus();
     }//GEN-LAST:event_formWindowGainedFocus
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing

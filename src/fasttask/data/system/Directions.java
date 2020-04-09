@@ -10,6 +10,7 @@ public class Directions {
     public static String SAVED_FILE;
     public static String GENERATED_FOLDER;
     public static String TEMPLTES_FOLDER;
+    public static String COLORS_FOLDER;
     public static String PYTHON_FILE;
     public static String JAVA_FILE;
     public static String JAVASCRIPT_FILE;
@@ -34,6 +35,7 @@ public class Directions {
         SAVED_FILE = base + "\\configuration\\directions\\Saved.txt";
         GENERATED_FOLDER = base + "\\configuration\\generated";
         TEMPLTES_FOLDER = base + "\\configuration\\templates";
+        COLORS_FOLDER = base + "\\configuration\\colors";
         PYTHON_FILE = base + "\\configuration\\directions\\Python.txt";
         JAVA_FILE = base + "\\configuration\\directions\\Java.txt";
         JAVASCRIPT_FILE = base + "\\configuration\\directions\\JavaScript.txt";
@@ -64,6 +66,10 @@ public class Directions {
 
     public static String getTemplatesFolder() {
         return TEMPLTES_FOLDER;
+    }
+    
+    public static String getColorsFolder() {
+        return COLORS_FOLDER;
     }
 
     public static String getPythonFolder() throws UnsupportedEncodingException, IOException {

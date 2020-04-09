@@ -24,7 +24,7 @@ public class CPlusPlusController extends CodeController {
 
     @Override
     public Color color() {
-        return new Color(0, 0, 255);
+        return FileAccess.getColor(Directions.getColorsFolder() + "\\CPlusPlus.txt");
     }
 
     @Override

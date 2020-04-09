@@ -3,6 +3,7 @@ package fasttask.view.windows;
 import fasttask.data.system.Directions;
 import fasttask.controller.view.ViewController;
 import fasttask.data.system.Constants;
+import fasttask.data.system.FileAccess;
 import fasttask.view.components.Dialog;
 import fasttask.view.components.FileChooser;
 import fasttask.view.components.Frame;
@@ -10,6 +11,9 @@ import fasttask.view.components.Frameable;
 import java.awt.Color;
 import java.io.File;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JColorChooser;
 import javax.swing.JFileChooser;
 import javax.swing.JPanel;
 
@@ -35,38 +39,53 @@ public final class Configuration extends javax.swing.JPanel implements Frameable
 
     // Personalizar ventana
     public void setCustomization() {
-
+        
         // Personalizar botones
-        ViewController.customizeButton(jLabel3, Constants.CONFIGURATION_COLOR);
-        ViewController.customizeButton(jLabel4, Constants.CONFIGURATION_COLOR);
-        ViewController.customizeButton(jLabel6, Constants.CONFIGURATION_COLOR);
-        ViewController.customizeButton(jLabel5, Constants.CONFIGURATION_COLOR);
-        ViewController.customizeButton(jLabel7, Constants.CONFIGURATION_COLOR);
-        ViewController.customizeButton(jLabel8, Constants.CONFIGURATION_COLOR);
-        ViewController.customizeButton(jLabel10, Constants.CONFIGURATION_COLOR);
-        ViewController.customizeButton(jLabel11, Constants.CONFIGURATION_COLOR);
-        ViewController.customizeButton(jLabel13, Constants.CONFIGURATION_COLOR);
-        ViewController.customizeButton(jLabel15, Constants.CONFIGURATION_COLOR);
-        ViewController.customizeButton(jLabel17, Constants.CONFIGURATION_COLOR);
-        ViewController.customizeButton(jLabel18, Constants.CONFIGURATION_COLOR);
-        ViewController.customizeButton(jLabel24, Constants.CONFIGURATION_COLOR);
-        ViewController.customizeButton(jLabel25, Constants.CONFIGURATION_COLOR);
+        ViewController.customizeButton(jLabel3, new javax.swing.ImageIcon(getClass().getResource(Constants.SEARCH_ICON)), Constants.mainFrameColor());
+        ViewController.customizeButton(jLabel4, new javax.swing.ImageIcon(getClass().getResource(Constants.CHECK_ICON)), Constants.mainFrameColor());
+        ViewController.customizeButton(jLabel6, new javax.swing.ImageIcon(getClass().getResource(Constants.SEARCH_ICON)), Constants.mainFrameColor());
+        ViewController.customizeButton(jLabel5, new javax.swing.ImageIcon(getClass().getResource(Constants.CHECK_ICON)), Constants.mainFrameColor());
+        ViewController.customizeButton(jLabel7, new javax.swing.ImageIcon(getClass().getResource(Constants.SEARCH_ICON)), Constants.mainFrameColor());
+        ViewController.customizeButton(jLabel8, new javax.swing.ImageIcon(getClass().getResource(Constants.CHECK_ICON)), Constants.mainFrameColor());
+        ViewController.customizeButton(jLabel10, new javax.swing.ImageIcon(getClass().getResource(Constants.SEARCH_ICON)), Constants.mainFrameColor());
+        ViewController.customizeButton(jLabel11, new javax.swing.ImageIcon(getClass().getResource(Constants.CHECK_ICON)), Constants.mainFrameColor());
+        ViewController.customizeButton(jLabel13, new javax.swing.ImageIcon(getClass().getResource(Constants.CHECK_ICON)), Constants.mainFrameColor());
+        ViewController.customizeButton(jLabel15, new javax.swing.ImageIcon(getClass().getResource(Constants.SEARCH_ICON)), Constants.mainFrameColor());
+        ViewController.customizeButton(jLabel17, new javax.swing.ImageIcon(getClass().getResource(Constants.SEARCH_ICON)), Constants.mainFrameColor());
+        ViewController.customizeButton(jLabel18, new javax.swing.ImageIcon(getClass().getResource(Constants.CHECK_ICON)), Constants.mainFrameColor());
+        ViewController.customizeButton(jLabel24, new javax.swing.ImageIcon(getClass().getResource(Constants.SEARCH_ICON)), Constants.mainFrameColor());
+        ViewController.customizeButton(jLabel25, new javax.swing.ImageIcon(getClass().getResource(Constants.CHECK_ICON)), Constants.mainFrameColor());
 
+        // Colores de los lenguajes
+        ViewController.customizeButton(jLabel26, new javax.swing.ImageIcon(getClass().getResource(Constants.COLOR_ICON)), FileAccess.getColor(Directions.getColorsFolder() + "\\Java.txt"));
+        ViewController.customizeButton(jLabel27, new javax.swing.ImageIcon(getClass().getResource(Constants.COLOR_ICON)), FileAccess.getColor(Directions.getColorsFolder() + "\\Python.txt"));
+        ViewController.customizeButton(jLabel28, new javax.swing.ImageIcon(getClass().getResource(Constants.COLOR_ICON)), FileAccess.getColor(Directions.getColorsFolder() + "\\JavaScript.txt"));
+        ViewController.customizeButton(jLabel29, new javax.swing.ImageIcon(getClass().getResource(Constants.COLOR_ICON)), FileAccess.getColor(Directions.getColorsFolder() + "\\C.txt"));
+        ViewController.customizeButton(jLabel33, new javax.swing.ImageIcon(getClass().getResource(Constants.COLOR_ICON)), FileAccess.getColor(Directions.getColorsFolder() + "\\CPlusPlus.txt"));
+        ViewController.customizeButton(jLabel30, new javax.swing.ImageIcon(getClass().getResource(Constants.COLOR_ICON)), FileAccess.getColor(Directions.getColorsFolder() + "\\MatLab.txt"));
+        ViewController.customizeButton(jLabel31, new javax.swing.ImageIcon(getClass().getResource(Constants.COLOR_ICON)), FileAccess.getColor(Directions.getColorsFolder() + "\\General.txt"));
+        
         // Personalizar bordes
-        jTextField1.setBorder(new javax.swing.border.LineBorder(Constants.CONFIGURATION_COLOR, 1, true));
-        jTextField2.setBorder(new javax.swing.border.LineBorder(Constants.CONFIGURATION_COLOR, 1, true));
-        jTextField3.setBorder(new javax.swing.border.LineBorder(Constants.CONFIGURATION_COLOR, 1, true));
-        jTextField4.setBorder(new javax.swing.border.LineBorder(Constants.CONFIGURATION_COLOR, 1, true));
-        jTextField5.setBorder(new javax.swing.border.LineBorder(Constants.CONFIGURATION_COLOR, 1, true));
-        jTextField6.setBorder(new javax.swing.border.LineBorder(Constants.CONFIGURATION_COLOR, 1, true));
-        jTextField7.setBorder(new javax.swing.border.LineBorder(Constants.CONFIGURATION_COLOR, 1, true));
-
+        jTextField1.setBorder(new javax.swing.border.LineBorder(Constants.mainFrameColor(), 1, true));
+        jTextField2.setBorder(new javax.swing.border.LineBorder(Constants.mainFrameColor(), 1, true));
+        jTextField3.setBorder(new javax.swing.border.LineBorder(Constants.mainFrameColor(), 1, true));
+        jTextField4.setBorder(new javax.swing.border.LineBorder(Constants.mainFrameColor(), 1, true));
+        jTextField5.setBorder(new javax.swing.border.LineBorder(Constants.mainFrameColor(), 1, true));
+        jTextField6.setBorder(new javax.swing.border.LineBorder(Constants.mainFrameColor(), 1, true));
+        jTextField7.setBorder(new javax.swing.border.LineBorder(Constants.mainFrameColor(), 1, true));
+        
+        if (frame != null) {
+            frame.setCustomization();
+        }
+        
     }
 
     // Asignar información
     public void setInformation() {
 
         try {
+
+            // Direcciones
             jTextField1.setText(Directions.getSaveFolder());
             jTextField2.setText(Directions.getEditorFile());
             jTextField3.setText(Directions.getJavaFolder());
@@ -74,8 +93,9 @@ public final class Configuration extends javax.swing.JPanel implements Frameable
             jTextField5.setText(Directions.getJavaScriptFolder());
             jTextField6.setText(Directions.getCPlusPlusFolder());
             jTextField7.setText(Directions.getMatLabFolder());
+
         } catch (IOException ex) {
-            Dialog dialog = new Dialog(Dialog.NOTIFICATION, Constants.CONFIGURATION_COLOR, principal);
+            Dialog dialog = new Dialog(Dialog.NOTIFICATION, Constants.mainFrameColor(), principal);
             dialog.setTitle(Constants.ACCESS_ERROR);
             dialog.setDescription(Constants.CONFIG_FILE_NO_FOUND);
             dialog.show();
@@ -90,7 +110,7 @@ public final class Configuration extends javax.swing.JPanel implements Frameable
 
     @Override
     public Color color() {
-        return Constants.CONFIGURATION_COLOR;
+        return Constants.mainFrameColor();
     }
 
     @Override
@@ -121,8 +141,26 @@ public final class Configuration extends javax.swing.JPanel implements Frameable
     @Override
     public void onGetFocus() {
         setInformation();
+        setCustomization();
     }
 
+    // Al presionar el boton de cambiar color general
+    public void onChangeGeneralColor() {
+        Color color = JColorChooser.showDialog(this, "Seleccione un Color", FileAccess.getColor(Directions.getColorsFolder() + "\\General.txt"));
+        if (color != null) {
+            try {
+                FileAccess.saveColor(Directions.getColorsFolder() + "\\General.txt", color);
+                setCustomization();
+                principal.onGetFocus();
+            } catch (IOException ex) {
+                Dialog dialog = new Dialog(Dialog.NOTIFICATION, Constants.mainFrameColor(), this);
+                dialog.setTitle(Constants.ACCESS_ERROR);
+                dialog.setDescription(Constants.CONFIG_FILE_NO_FOUND);
+                dialog.show();
+            }
+        }
+    }
+    
     // Al presionar el boton de buscar directorio de clases guardadas
     public void onSearchSavedFolder() {
         FileChooser fileChooser = new FileChooser();
@@ -139,15 +177,15 @@ public final class Configuration extends javax.swing.JPanel implements Frameable
         if (new File(jTextField1.getText()).exists()) {
             try {
                 Directions.setSaveFolder(jTextField1.getText());
-                principal.setFunctionList(principal.jTextField2.getText());
+                principal.onGetFocus();
             } catch (IOException ex) {
-                Dialog dialog = new Dialog(Dialog.NOTIFICATION, Constants.CONFIGURATION_COLOR, this);
+                Dialog dialog = new Dialog(Dialog.NOTIFICATION, Constants.mainFrameColor(), this);
                 dialog.setTitle(Constants.ACCESS_ERROR);
                 dialog.setDescription(Constants.CONFIG_FILE_NO_FOUND);
                 dialog.show();
             }
         } else {
-            Dialog dialog = new Dialog(Dialog.NOTIFICATION, Constants.CONFIGURATION_COLOR, this);
+            Dialog dialog = new Dialog(Dialog.NOTIFICATION, Constants.mainFrameColor(), this);
             dialog.setTitle(Constants.CHANGE_ERROR);
             dialog.setDescription(Constants.DIRECTION_NO_FOUND);
             dialog.show();
@@ -172,13 +210,13 @@ public final class Configuration extends javax.swing.JPanel implements Frameable
                 Directions.setEditorFile(jTextField2.getText());
                 principal.setFunctionList(principal.jTextField2.getText());
             } catch (IOException ex) {
-                Dialog dialog = new Dialog(Dialog.NOTIFICATION, Constants.CONFIGURATION_COLOR, this);
+                Dialog dialog = new Dialog(Dialog.NOTIFICATION, Constants.mainFrameColor(), this);
                 dialog.setTitle(Constants.ACCESS_ERROR);
                 dialog.setDescription(Constants.CONFIG_FILE_NO_FOUND);
                 dialog.show();
             }
         } else {
-            Dialog dialog = new Dialog(Dialog.NOTIFICATION, Constants.CONFIGURATION_COLOR, this);
+            Dialog dialog = new Dialog(Dialog.NOTIFICATION, Constants.mainFrameColor(), this);
             dialog.setTitle(Constants.CHANGE_ERROR);
             dialog.setDescription(Constants.FILE_NO_FOUND);
             dialog.show();
@@ -203,19 +241,37 @@ public final class Configuration extends javax.swing.JPanel implements Frameable
                 Directions.setJavaFolder(jTextField3.getText());
                 principal.setFunctionList(principal.jTextField2.getText());
             } catch (IOException ex) {
-                Dialog dialog = new Dialog(Dialog.NOTIFICATION, Constants.CONFIGURATION_COLOR, this);
+                Dialog dialog = new Dialog(Dialog.NOTIFICATION, Constants.mainFrameColor(), this);
                 dialog.setTitle(Constants.ACCESS_ERROR);
                 dialog.setDescription(Constants.CONFIG_FILE_NO_FOUND);
                 dialog.show();
             }
         } else {
-            Dialog dialog = new Dialog(Dialog.NOTIFICATION, Constants.CONFIGURATION_COLOR, this);
+            Dialog dialog = new Dialog(Dialog.NOTIFICATION, Constants.mainFrameColor(), this);
             dialog.setTitle(Constants.CHANGE_ERROR);
             dialog.setDescription(Constants.DIRECTION_NO_FOUND);
             dialog.show();
         }
     }
 
+    // Al presionar el boton de cambiar color de Java
+    public void onChangeJavaColor() {
+        Color color = JColorChooser.showDialog(this, "Seleccione un Color", FileAccess.getColor(Directions.getColorsFolder() + "\\Java.txt"));
+        if (color != null) {
+            try {
+                FileAccess.saveColor(Directions.getColorsFolder() + "\\Java.txt", color);
+                setCustomization();
+                principal.onGetFocus();
+                principal.viewController.updateActivedClass("Java");
+            } catch (IOException ex) {
+                Dialog dialog = new Dialog(Dialog.NOTIFICATION, Constants.mainFrameColor(), this);
+                dialog.setTitle(Constants.ACCESS_ERROR);
+                dialog.setDescription(Constants.CONFIG_FILE_NO_FOUND);
+                dialog.show();
+            }
+        }
+    }
+    
     // Al presionar el boton de buscar directorio de Python
     public void onSearchPythonFolder() {
         FileChooser fileChooser = new FileChooser();
@@ -234,19 +290,37 @@ public final class Configuration extends javax.swing.JPanel implements Frameable
                 Directions.setPythonFolder(jTextField4.getText());
                 principal.setFunctionList(principal.jTextField2.getText());
             } catch (IOException ex) {
-                Dialog dialog = new Dialog(Dialog.NOTIFICATION, Constants.CONFIGURATION_COLOR, this);
+                Dialog dialog = new Dialog(Dialog.NOTIFICATION, Constants.mainFrameColor(), this);
                 dialog.setTitle(Constants.ACCESS_ERROR);
                 dialog.setDescription(Constants.CONFIG_FILE_NO_FOUND);
                 dialog.show();
             }
         } else {
-            Dialog dialog = new Dialog(Dialog.NOTIFICATION, Constants.CONFIGURATION_COLOR, this);
+            Dialog dialog = new Dialog(Dialog.NOTIFICATION, Constants.mainFrameColor(), this);
             dialog.setTitle(Constants.CHANGE_ERROR);
             dialog.setDescription(Constants.DIRECTION_NO_FOUND);
             dialog.show();
         }
     }
 
+    // Al presionar el boton de cambiar color de Python
+    public void onChangePythonColor() {
+        Color color = JColorChooser.showDialog(this, "Seleccione un Color", FileAccess.getColor(Directions.getColorsFolder() + "\\Python.txt"));
+        if (color != null) {
+            try {
+                FileAccess.saveColor(Directions.getColorsFolder() + "\\Python.txt", color);
+                setCustomization();
+                principal.onGetFocus();
+                principal.viewController.updateActivedClass("Python");
+            } catch (IOException ex) {
+                Dialog dialog = new Dialog(Dialog.NOTIFICATION, Constants.mainFrameColor(), this);
+                dialog.setTitle(Constants.ACCESS_ERROR);
+                dialog.setDescription(Constants.CONFIG_FILE_NO_FOUND);
+                dialog.show();
+            }
+        }
+    }
+    
     // Al presionar el boton de buscar directorio de JavaScript
     public void onSearchJavaScriptFolder() {
         FileChooser fileChooser = new FileChooser();
@@ -265,19 +339,37 @@ public final class Configuration extends javax.swing.JPanel implements Frameable
                 Directions.setJavaScriptFolder(jTextField5.getText());
                 principal.setFunctionList(principal.jTextField2.getText());
             } catch (IOException ex) {
-                Dialog dialog = new Dialog(Dialog.NOTIFICATION, Constants.CONFIGURATION_COLOR, this);
+                Dialog dialog = new Dialog(Dialog.NOTIFICATION, Constants.mainFrameColor(), this);
                 dialog.setTitle(Constants.ACCESS_ERROR);
                 dialog.setDescription(Constants.CONFIG_FILE_NO_FOUND);
                 dialog.show();
             }
         } else {
-            Dialog dialog = new Dialog(Dialog.NOTIFICATION, Constants.CONFIGURATION_COLOR, this);
+            Dialog dialog = new Dialog(Dialog.NOTIFICATION, Constants.mainFrameColor(), this);
             dialog.setTitle(Constants.CHANGE_ERROR);
             dialog.setDescription(Constants.DIRECTION_NO_FOUND);
             dialog.show();
         }
     }
 
+    // Al presionar el boton de cambiar color de JavaScript
+    public void onChangeJavaScriptColor() {
+        Color color = JColorChooser.showDialog(this, "Seleccione un Color", FileAccess.getColor(Directions.getColorsFolder() + "\\JavaScript.txt"));
+        if (color != null) {
+            try {
+                FileAccess.saveColor(Directions.getColorsFolder() + "\\JavaScript.txt", color);
+                setCustomization();
+                principal.onGetFocus();
+                principal.viewController.updateActivedClass("JavaScript");
+            } catch (IOException ex) {
+                Dialog dialog = new Dialog(Dialog.NOTIFICATION, Constants.mainFrameColor(), this);
+                dialog.setTitle(Constants.ACCESS_ERROR);
+                dialog.setDescription(Constants.CONFIG_FILE_NO_FOUND);
+                dialog.show();
+            }
+        }
+    }
+    
     // Al presionar el boton de buscar directorio de C y C++
     public void onSearchCPlusPlusFolder() {
         FileChooser fileChooser = new FileChooser();
@@ -296,16 +388,52 @@ public final class Configuration extends javax.swing.JPanel implements Frameable
                 Directions.setCPlusPlusFolder(jTextField6.getText());
                 principal.setFunctionList(principal.jTextField2.getText());
             } catch (IOException ex) {
-                Dialog dialog = new Dialog(Dialog.NOTIFICATION, Constants.CONFIGURATION_COLOR, this);
+                Dialog dialog = new Dialog(Dialog.NOTIFICATION, Constants.mainFrameColor(), this);
                 dialog.setTitle(Constants.ACCESS_ERROR);
                 dialog.setDescription(Constants.CONFIG_FILE_NO_FOUND);
                 dialog.show();
             }
         } else {
-            Dialog dialog = new Dialog(Dialog.NOTIFICATION, Constants.CONFIGURATION_COLOR, this);
+            Dialog dialog = new Dialog(Dialog.NOTIFICATION, Constants.mainFrameColor(), this);
             dialog.setTitle(Constants.CHANGE_ERROR);
             dialog.setDescription(Constants.DIRECTION_NO_FOUND);
             dialog.show();
+        }
+    }
+
+    // Al presionar el boton de cambiar color de C
+    public void onChangeCColor() {
+        Color color = JColorChooser.showDialog(this, "Seleccione un Color", FileAccess.getColor(Directions.getColorsFolder() + "\\C.txt"));
+        if (color != null) {
+            try {
+                FileAccess.saveColor(Directions.getColorsFolder() + "\\C.txt", color);
+                setCustomization();
+                principal.onGetFocus();
+                principal.viewController.updateActivedClass("C");
+            } catch (IOException ex) {
+                Dialog dialog = new Dialog(Dialog.NOTIFICATION, Constants.mainFrameColor(), this);
+                dialog.setTitle(Constants.ACCESS_ERROR);
+                dialog.setDescription(Constants.CONFIG_FILE_NO_FOUND);
+                dialog.show();
+            }
+        }
+    }
+    
+    // Al presionar el boton de cambiar color de C++
+    public void onChangeCPlusPlusColor() {
+        Color color = JColorChooser.showDialog(this, "Seleccione un Color", FileAccess.getColor(Directions.getColorsFolder() + "\\CPlusPlus.txt"));
+        if (color != null) {
+            try {
+                FileAccess.saveColor(Directions.getColorsFolder() + "\\CPlusPlus.txt", color);
+                setCustomization();
+                principal.onGetFocus();
+                principal.viewController.updateActivedClass("CPlusPlus");
+            } catch (IOException ex) {
+                Dialog dialog = new Dialog(Dialog.NOTIFICATION, Constants.mainFrameColor(), this);
+                dialog.setTitle(Constants.ACCESS_ERROR);
+                dialog.setDescription(Constants.CONFIG_FILE_NO_FOUND);
+                dialog.show();
+            }
         }
     }
     
@@ -327,16 +455,34 @@ public final class Configuration extends javax.swing.JPanel implements Frameable
                 Directions.setMatLabFolder(jTextField7.getText());
                 principal.setFunctionList(principal.jTextField2.getText());
             } catch (IOException ex) {
-                Dialog dialog = new Dialog(Dialog.NOTIFICATION, Constants.CONFIGURATION_COLOR, this);
+                Dialog dialog = new Dialog(Dialog.NOTIFICATION, Constants.mainFrameColor(), this);
                 dialog.setTitle(Constants.ACCESS_ERROR);
                 dialog.setDescription(Constants.CONFIG_FILE_NO_FOUND);
                 dialog.show();
             }
         } else {
-            Dialog dialog = new Dialog(Dialog.NOTIFICATION, Constants.CONFIGURATION_COLOR, this);
+            Dialog dialog = new Dialog(Dialog.NOTIFICATION, Constants.mainFrameColor(), this);
             dialog.setTitle(Constants.CHANGE_ERROR);
             dialog.setDescription(Constants.DIRECTION_NO_FOUND);
             dialog.show();
+        }
+    }
+    
+    // Al presionar el boton de cambiar color de MatLab
+    public void onChangeMatLabColor() {
+        Color color = JColorChooser.showDialog(this, "Seleccione un Color", FileAccess.getColor(Directions.getColorsFolder() + "\\MatLab.txt"));
+        if (color != null) {
+            try {
+                FileAccess.saveColor(Directions.getColorsFolder() + "\\MatLab.txt", color);
+                setCustomization();
+                principal.onGetFocus();
+                principal.viewController.updateActivedClass("MatLab");
+            } catch (IOException ex) {
+                Dialog dialog = new Dialog(Dialog.NOTIFICATION, Constants.mainFrameColor(), this);
+                dialog.setTitle(Constants.ACCESS_ERROR);
+                dialog.setDescription(Constants.CONFIG_FILE_NO_FOUND);
+                dialog.show();
+            }
         }
     }
 
@@ -376,6 +522,14 @@ public final class Configuration extends javax.swing.JPanel implements Frameable
         jTextField7 = new javax.swing.JTextField();
         jLabel24 = new javax.swing.JLabel();
         jLabel25 = new javax.swing.JLabel();
+        jLabel26 = new javax.swing.JLabel();
+        jLabel27 = new javax.swing.JLabel();
+        jLabel28 = new javax.swing.JLabel();
+        jLabel29 = new javax.swing.JLabel();
+        jLabel30 = new javax.swing.JLabel();
+        jLabel31 = new javax.swing.JLabel();
+        jLabel32 = new javax.swing.JLabel();
+        jLabel33 = new javax.swing.JLabel();
 
         setOpaque(false);
 
@@ -463,7 +617,7 @@ public final class Configuration extends javax.swing.JPanel implements Frameable
 
         jLabel9.setBackground(new java.awt.Color(246, 246, 246));
         jLabel9.setFont(new java.awt.Font("Comic Sans MS", 1, 13)); // NOI18N
-        jLabel9.setText("Directorios de sus compiladores");
+        jLabel9.setText("Colores y directorios de sus compiladores");
         jLabel9.setOpaque(true);
 
         jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/fasttask/data/files/images/buscar.png"))); // NOI18N
@@ -602,6 +756,81 @@ public final class Configuration extends javax.swing.JPanel implements Frameable
             }
         });
 
+        jLabel26.setIcon(new javax.swing.ImageIcon(getClass().getResource("/fasttask/data/files/images/color.png"))); // NOI18N
+        jLabel26.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel26MouseClicked(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jLabel26MousePressed(evt);
+            }
+        });
+
+        jLabel27.setIcon(new javax.swing.ImageIcon(getClass().getResource("/fasttask/data/files/images/color.png"))); // NOI18N
+        jLabel27.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel27MouseClicked(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jLabel27MousePressed(evt);
+            }
+        });
+
+        jLabel28.setIcon(new javax.swing.ImageIcon(getClass().getResource("/fasttask/data/files/images/color.png"))); // NOI18N
+        jLabel28.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel28MouseClicked(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jLabel28MousePressed(evt);
+            }
+        });
+
+        jLabel29.setIcon(new javax.swing.ImageIcon(getClass().getResource("/fasttask/data/files/images/color.png"))); // NOI18N
+        jLabel29.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel29MouseClicked(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jLabel29MousePressed(evt);
+            }
+        });
+
+        jLabel30.setIcon(new javax.swing.ImageIcon(getClass().getResource("/fasttask/data/files/images/color.png"))); // NOI18N
+        jLabel30.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel30MouseClicked(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jLabel30MousePressed(evt);
+            }
+        });
+
+        jLabel31.setIcon(new javax.swing.ImageIcon(getClass().getResource("/fasttask/data/files/images/color.png"))); // NOI18N
+        jLabel31.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel31MouseClicked(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jLabel31MousePressed(evt);
+            }
+        });
+
+        jLabel32.setBackground(new java.awt.Color(246, 246, 246));
+        jLabel32.setFont(new java.awt.Font("Comic Sans MS", 0, 13)); // NOI18N
+        jLabel32.setText("Color de la aplicación");
+        jLabel32.setOpaque(true);
+
+        jLabel33.setIcon(new javax.swing.ImageIcon(getClass().getResource("/fasttask/data/files/images/color.png"))); // NOI18N
+        jLabel33.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel33MouseClicked(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jLabel33MousePressed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -630,38 +859,54 @@ public final class Configuration extends javax.swing.JPanel implements Frameable
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel26, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jTextField3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel7)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel27, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jTextField4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel10)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel28, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jTextField5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel15)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel29, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel33, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jTextField6)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel17)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jLabel22, javax.swing.GroupLayout.DEFAULT_SIZE, 399, Short.MAX_VALUE)
+                    .addComponent(jLabel22, javax.swing.GroupLayout.DEFAULT_SIZE, 442, Short.MAX_VALUE)
                     .addComponent(jLabel21, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel23, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel30, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jTextField7)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel24)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel25, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jLabel25, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jLabel31, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel32, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -688,43 +933,53 @@ public final class Configuration extends javax.swing.JPanel implements Frameable
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel9)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel32, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel31))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel22)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel21)
+                .addComponent(jLabel21, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel8)
+                    .addComponent(jLabel7)
+                    .addComponent(jTextField3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel26))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel12)
+                .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel11)
+                    .addComponent(jLabel10)
+                    .addComponent(jTextField4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel27))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel14)
+                .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jTextField5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel13)
+                    .addComponent(jLabel15)
+                    .addComponent(jTextField5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel28))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel16)
+                .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel18, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel17, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jTextField6, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel18)
+                    .addComponent(jLabel17)
+                    .addComponent(jTextField6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel29, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel33, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel23)
+                .addComponent(jLabel23, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel25, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel24, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jTextField7, javax.swing.GroupLayout.Alignment.TRAILING))
-                .addContainerGap(72, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel25)
+                    .addComponent(jLabel24)
+                    .addComponent(jTextField7, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel30))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -812,6 +1067,62 @@ public final class Configuration extends javax.swing.JPanel implements Frameable
         onAppendMatLabFolder();
     }//GEN-LAST:event_jLabel25MousePressed
 
+    private void jLabel26MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel26MousePressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jLabel26MousePressed
+
+    private void jLabel27MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel27MousePressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jLabel27MousePressed
+
+    private void jLabel28MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel28MousePressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jLabel28MousePressed
+
+    private void jLabel29MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel29MousePressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jLabel29MousePressed
+
+    private void jLabel30MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel30MousePressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jLabel30MousePressed
+
+    private void jLabel31MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel31MousePressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jLabel31MousePressed
+
+    private void jLabel33MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel33MousePressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jLabel33MousePressed
+
+    private void jLabel31MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel31MouseClicked
+        onChangeGeneralColor();
+    }//GEN-LAST:event_jLabel31MouseClicked
+
+    private void jLabel26MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel26MouseClicked
+        onChangeJavaColor();
+    }//GEN-LAST:event_jLabel26MouseClicked
+
+    private void jLabel27MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel27MouseClicked
+        onChangePythonColor();
+    }//GEN-LAST:event_jLabel27MouseClicked
+
+    private void jLabel28MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel28MouseClicked
+        onChangeJavaScriptColor();
+    }//GEN-LAST:event_jLabel28MouseClicked
+
+    private void jLabel29MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel29MouseClicked
+        onChangeCColor();
+    }//GEN-LAST:event_jLabel29MouseClicked
+
+    private void jLabel33MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel33MouseClicked
+        onChangeCPlusPlusColor();
+    }//GEN-LAST:event_jLabel33MouseClicked
+
+    private void jLabel30MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel30MouseClicked
+        onChangeMatLabColor();
+    }//GEN-LAST:event_jLabel30MouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
@@ -832,7 +1143,15 @@ public final class Configuration extends javax.swing.JPanel implements Frameable
     private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel25;
+    private javax.swing.JLabel jLabel26;
+    private javax.swing.JLabel jLabel27;
+    private javax.swing.JLabel jLabel28;
+    private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel30;
+    private javax.swing.JLabel jLabel31;
+    private javax.swing.JLabel jLabel32;
+    private javax.swing.JLabel jLabel33;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
