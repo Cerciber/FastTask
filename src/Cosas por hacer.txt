@@ -1,10 +1,9 @@
 
 Correcciones
 - Corregir escribir con sleep en python y c puro
-- Corregir lectura con c puro
+- Corregir lectura con c puro y mathlab
 
 Adiciones
-- Cambiar todos los pressed por clicked
 - Incluir proyectos completos
 - Configurar para que corra de acuerdo a la prioridad -> buscar main -> si no hay main y hay varios archivo error -> primera clase - primer constructor -> primer metodo -> expresión
 - Crear instalador con opciones de instalación de compiladores
